@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Blog Posts {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Blog Posts</span>
+      <h3 class="page-title">Introducir Datos</h3>
+    </div>
+  </div>
+  <div class="card card-big mb-3">
+    <div class="card-body">
+      <form method="POST" id="post-form">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-4">
+            <label>Fecha</label>
+            <input type="date" class="form-control" id="date" placeholder="Fecha">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-4">
+            <label>Categoria I</label>
+            <input type="number" class="form-control" id="cat_i" placeholder="No. Vehiculos">
+          </div>
+          <div class="col-4">
+            <label>Categoria IEB</label>
+            <input type="number" class="form-control" id="cat_ieb" placeholder="No. Vehiculos">
+          </div>
+          <div class="col-4">
+            <label>Categoria II</label>
+            <input type="number" class="form-control" id="cat_ii" placeholder="No. Vehiculos">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-4">
+            <label>Categoria III</label>
+            <input type="number" class="form-control" id="cat_iii" placeholder="No. Vehiculos">
+          </div>
+          
+          <div class="col-4">
+            <label>Categoria IV</label>
+            <input type="number" class="form-control" id="cat_iv" placeholder="No. Vehiculos">
+          </div>
+          <div class="col-4">
+            <label>Categoria V</label>
+            <input type="number" class="form-control" id="cat_v" placeholder="No. Vehiculos">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-4">
+            <label>Eje EG</label>
+            <input type="number" class="form-control" id="eje_eg" placeholder="No. Vehiculos">
+          </div>
+          <div class="col-4">
+            <label>Eje EA</label>
+            <input type="number" class="form-control" id="eje_ea" placeholder="No. Vehiculos">
+          </div>
+          <div class="col-4">
+            <label>Eje ER</label>
+            <input type="number" class="form-control" id="eje_er" placeholder="No. Vehiculos">
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>  
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,169 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="main-content-container container-fluid px-4">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+          <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <span class="text-uppercase page-subtitle">Overview</span>
+            <h3 class="page-title">Reporte</h3>
+          </div>
+        </div>
+        <!-- End Page Header -->
+        <div class="card card-big mb-3">
+          <div class="card-body">
+            <form method="POST" id="post-form">
+              {% csrf_token %}
+              <div class="form-row">
+                <div class="col">
+                  <label>Estacion de Peaje</label>
+                  <input type="text" class="form-control" id="e-peaje" placeholder="Ej: San Juan del Cesar">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <label>Ruta</label>
+                  <input type="text" class="form-control" id="ruta" placeholder="Ej: 4901 La Paz-Buenavista">
+                </div>
+                <div class="col">
+                  <label>Sector</label>
+                  <input type="text" class="form-control" id="sector" placeholder="Ej: San Juan del Cesar-Distraccion">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <label>Localizacion</label>
+                  <input type="text" class="form-control" id="localizacion" placeholder="Ej: PR64 +100">
+                </div>
+                <div class="col">
+                  <label>Departamento</label>
+                  <input type="text" class="form-control" id="departamento" placeholder="Ej: La Guajira">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <label>Contratista</label>
+                  <input type="text" class="form-control" id="contratista" placeholder="Ej: Consorcio Peaje">
+                </div>
+                <div class="col">
+                  <label>Contrato de Operacion</label>
+                  <input type="text" class="form-control" id="num-contrato" placeholder="Ej: 1025 de 2019">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col">
+                  <label>Fecha Inicial</label>
+                  <input type="date" class="form-control" id="startdate" placeholder="Fecha Inicial">
+                </div>
+                <div class="col">
+                  <label>Fecha Final</label>
+                  <input type="date" class="form-control" id="enddate" placeholder="Fecha Final">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Novedades</label>
+                <textarea class="form-control" id="novedades" placeholder="Durante los dias 24 feb y 5 marzo se presento paro de el gremio de transportadores que afecto el transito de vehiculos por el peaje"></textarea>
+              </div>
+               <button type="Submit" class="btn btn-primary">Submit</button>
+            </form>
+
+          </div>
+        </div>
+
+        <div class="card card-big mb-3">
+          <div class="card-body">
+            <h4 id="rep-e-peaje">Estacion de peaje:</h4>
+            <h4 id="rep-ruta">Ruta:</h4>
+            <h4 id="rep-sector">Sector:</h4>
+            <h4 id="rep-localizacion">Localizacion:</h4>
+            <h4 id="rep-departamento">Departamento:</h4>
+            <h4 id="rep-num-contrato">Contrato No.</h4>
+            <h4 id="rep-contratista">Operador: Empresa</h4>
+            <h4 id="rep-periodo">Periodo: Fecha Inicial/Fecha Final</h4>
+            <h4 id="rep-novedades">En este espacio estara la descripcion</h4>
+            
+            <h5 style="text-align: center;">Total Vehicular</h5>
+              
+            <div class="row">
+              <div class="col">
+                <canvas height="50" width="80" id="total-veh-barchart"></canvas>
+              </div>
+              <div class="col">
+                <canvas  id="total-veh-piechart"></canvas>
+              </div>
+            </div>
+
+            
+            <h5 style="text-align: center;">Total Recaudo</h5>
+            
+            <div class="row">
+              <div class="col">
+                <canvas height="50" width="80" id="total-rec-barchart"></canvas>
+              </div>
+              <div class="col">
+                <canvas id="total-rec-piechart"></canvas>
+              </div>
+            </div>
+
+            
+            <h5 style="text-align: center;">Comportamiento Vehicular por Categorias</h5>
+              
+            <div class="row">
+              <div class= "col">
+                <canvas height="50" width="80" id = "veh-liv-linechart"></canvas>
+              </div>
+              <div class="col">
+                <canvas height = "50" width="80" id="veh-2y3-linechart"></canvas>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <canvas height="50" width="80" id = "veh-4y5-linechart"></canvas>
+              </div>
+              <div class="col">
+                <canvas height="50" width="80" id = "veh-ejes-linechart"></canvas>
+              </div>
+            </div>
+
+            
+            <h5 style="text-align: center;">Comportamiento Recaudo por Categorias</h5>
+             
+            <div class="row">
+              <div class= "col">
+                <canvas height="50" width="80" id = "rec-liv-linechart"></canvas>
+              </div>
+              <div class="col">
+                <canvas height = "50" width="80" id="rec-2y3-linechart"></canvas>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <canvas height="50" width="80" id = "rec-4y5-linechart"></canvas>
+              </div>
+              <div class="col">
+                <canvas height="50" width="80" id = "rec-ejes-linechart"></canvas>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/app/app-reporte.js"></script>
+
+{% endblock javascripts %}

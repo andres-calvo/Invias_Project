@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Components {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle">Blog Posts</span>
+      <h3 class="page-title">Analisis</h3>
+    </div>
+  </div>
+
+  <div class="card card-small mb-4">
+    <div class="card-body">
+      <form  action =" " method="POST" class="post-form" >{% csrf_token %}
+        <div class="" style="max-width: 350px;">
+          {{ dateform.startdate|as_crispy_field }}
+          {{ dateform.enddate|as_crispy_field }}
+          <span class="input-group-append">
+            <span class="input-group-text">
+              <i class="material-icons"></i>
+            </span>
+          </span>
+        </div>
+        <div class="row">
+          <div class="col">
+          {{ dateform.categorias|as_crispy_field }}
+          </div>
+          <div class="col">
+            {{ dateform.dataChose|as_crispy_field }}
+          </div>
+        </div>
+        <button type="submit" class="save btn btn-default">Save</button>
+    </div>
+  </div>
+
+  <div class="card card-small mb-4">
+    <div class="card-body">
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/app/app-analisis.js"></script>
+
+{% endblock javascripts %}
