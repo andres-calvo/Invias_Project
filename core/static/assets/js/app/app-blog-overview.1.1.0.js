@@ -15,25 +15,19 @@
     //
     // Small Stats
     //
-    var endpoint = '/veh-liv-chart'
-    var rec =[]
-    var veh =[]
-    var veh_liv =[]
-    var rec_liv =[]
-    var veh_com =[]
-    var rec_previa =[]
-    var fechas = [];
+    
     $.ajax({
       method:'GET',
-      url: endpoint,
+      url: '/index-data',
       success: function (data) {
-        rec = data.carta1
-        veh = data.carta2
-        veh_liv = data.carta3
-        rec_liv = data.carta4
-        veh_com = data.carta5
-        rec_previa = data.semPrev
-        fechas = data.labels
+        console.log(data)
+        var rec = data.Semana_Vigente
+        var veh = data.veh_total
+        var veh_liv = data.veh_liv
+        var rec_liv = data.rec_liv
+        var veh_com = data.veh_com
+        var rec_previa = data.Semana_Previa
+        var fechas = data.fechas
     
       var boSmallStatsDatasets = [
         {
@@ -129,19 +123,19 @@
         });
       });
       //Codigo para actualizar valores de las tarjetas
-      document.getElementById("rec-total").textContent = (rec.slice(-1)[0]/1000000).toFixed(1)+''+'M'
-      document.getElementById("veh-total").textContent = veh.slice(-1)[0]
-      document.getElementById("rec-liv").textContent = (rec_liv.slice(-1)[0]/1000000).toFixed(1)+''+'M'
-      document.getElementById("veh-liv").textContent = veh_liv.slice(-1)[0]
-      document.getElementById("veh-com").textContent = veh_com.slice(-1)[0]
+      document.getElementById("rec-total").textContent = (rec.slice(0)[0]/1000000).toFixed(1)+''+'M'
+      document.getElementById("veh-total").textContent = veh.slice(0)[0]
+      document.getElementById("rec-liv").textContent = (rec_liv.slice(0)[0]/1000000).toFixed(1)+''+'M'
+      document.getElementById("veh-liv").textContent = veh_liv.slice(0)[0]
+      document.getElementById("veh-com").textContent = veh_com.slice(0)[0]
 
       // Codigo para actualizar porcentajes 
       var rec_pct,veh_pct,rec_liv_pct,veh_liv_pct,veh_com_pct
-        rec_pct = ((rec.slice(-1)[0]* 100 /rec.slice(-2)[0]) - 100).toFixed(1)
-        veh_pct = ((veh.slice(-1)[0]* 100 /veh.slice(-2)[0]) - 100).toFixed(1)
-        rec_liv_pct = ((rec_liv.slice(-1)[0]* 100 /rec_liv.slice(-2)[0]) - 100).toFixed(1)
-        veh_liv_pct = ((veh_liv.slice(-1)[0]* 100 /veh_liv.slice(-2)[0]) - 100).toFixed(1)
-        veh_com_pct = ((veh_com.slice(-1)[0]* 100 /veh_com.slice(-2)[0]) - 100).toFixed(1)
+        rec_pct = ((rec.slice(0)[0]* 100 /rec.slice(1)[0]) - 100).toFixed(1)
+        veh_pct = ((veh.slice(0)[0]* 100 /veh.slice(1)[0]) - 100).toFixed(1)
+        rec_liv_pct = ((rec_liv.slice(0)[0]* 100 /rec_liv.slice(1)[0]) - 100).toFixed(1)
+        veh_liv_pct = ((veh_liv.slice(0)[0]* 100 /veh_liv.slice(1)[0]) - 100).toFixed(1)
+        veh_com_pct = ((veh_com.slice(0)[0]* 100 /veh_com.slice(1)[0]) - 100).toFixed(1)
 
         if (rec_pct >= 0) {
           document.getElementById("rec-total-%").textContent = rec_pct+ ''+ '%'

@@ -10,10 +10,37 @@ from .forms import vehiculoForm,analisisDate,tableForm,reporteForm
 from datetime import datetime
 import json
 
-analisis_dataset ={}
+
 @login_required(login_url="/login/")
 def index(request):
     return render(request, "index.html")
+
+@login_required(login_url="/login/")
+def index_data(request):
+    rec = list(recaudo.objects.values().order_by('-fecha')[:14])
+    veh = vehiculo.objects.values().order_by('-fecha')[:7]
+    dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',4:'Viernes',5:'Sabado',6:'Domingo'}
+    datos = {}
+    
+    for entry in rec[:7]:
+        value_liv = entry['i'] + entry['ieb']
+        datos.setdefault('rec_liv',[]).append(value_liv)
+        a = dias[entry['fecha'].weekday()]
+        datos.setdefault('fechas',[]).append(a)
+        datos.setdefault('Semana_Vigente',[]).append(entry['total'])
+        
+    for entry in veh:
+        value_liv = entry['i'] + entry['ieb']
+        value_com = entry['ii'] + entry['iii'] + entry['iv'] + entry['v']
+        datos.setdefault('veh_liv',[]).append(value_liv)
+        datos.setdefault('veh_com',[]).append(value_com)
+        datos.setdefault('veh_total',[]).append(entry['total'])
+    
+    for entry in rec[7:14][::-1]:
+        datos.setdefault('Semana_Previa',[]).append(entry['total'])
+    
+    print(datos)
+    return JsonResponse(datos)
 
 
 # ingresar datos 
