@@ -23,54 +23,182 @@
         {% csrf_token %}
         <div class="form-row">
           <div class="col-4">
-            <label>Fecha</label>
-            <input type="date" class="form-control" id="date" placeholder="Fecha">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-4">
-            <label>Categoria I</label>
-            <input type="number" class="form-control" id="cat_i" placeholder="No. Vehiculos">
-          </div>
-          <div class="col-4">
-            <label>Categoria IEB</label>
-            <input type="number" class="form-control" id="cat_ieb" placeholder="No. Vehiculos">
-          </div>
-          <div class="col-4">
-            <label>Categoria II</label>
-            <input type="number" class="form-control" id="cat_ii" placeholder="No. Vehiculos">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-4">
-            <label>Categoria III</label>
-            <input type="number" class="form-control" id="cat_iii" placeholder="No. Vehiculos">
-          </div>
-          
-          <div class="col-4">
-            <label>Categoria IV</label>
-            <input type="number" class="form-control" id="cat_iv" placeholder="No. Vehiculos">
-          </div>
-          <div class="col-4">
-            <label>Categoria V</label>
-            <input type="number" class="form-control" id="cat_v" placeholder="No. Vehiculos">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-4">
-            <label>Eje EG</label>
-            <input type="number" class="form-control" id="eje_eg" placeholder="No. Vehiculos">
-          </div>
-          <div class="col-4">
-            <label>Eje EA</label>
-            <input type="number" class="form-control" id="eje_ea" placeholder="No. Vehiculos">
-          </div>
-          <div class="col-4">
-            <label>Eje ER</label>
-            <input type="number" class="form-control" id="eje_er" placeholder="No. Vehiculos">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Fecha</span>
+              </div>
+              <input type="date" class="form-control" id="fecha">
+            </div>
           </div>
         </div>
 
+
+        <div class="form-row">
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">I</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="I">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_I" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_I">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">IEB</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="IEB">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_IEB" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_IEB">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">II</span>
+              </div>
+              <input type="number" class="form-control"  placeholder="No. Vehiculos" id="II">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_II" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_II">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">III</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="III">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_III" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_III">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">IV</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="IV">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_IV" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_IV">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">V</span>
+              </div>
+              <input type="number" class="form-control"  placeholder="No. Vehiculos" id="V">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_V" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_V">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">EG</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="eg">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_EG" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_EG">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">ER</span>
+              </div>
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="er">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_ER" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_ER">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">EA</span>
+              </div>
+              <input type="number" class="form-control"  placeholder="No. Vehiculos" id="EA">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="exento_EA" name="exentos" class="custom-control-input">
+                    <label class="custom-control-label" for="exento_EA">Exento</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </form>
     </div>
   </div>
