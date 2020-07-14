@@ -44,7 +44,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_I" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_I" name="exentos" value="I" class="custom-control-input">
                     <label class="custom-control-label" for="exento_I">Exento</label>
                   </div>
                 </span>
@@ -61,7 +61,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_IEB" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_IEB" name="exentos" value="IEB" class="custom-control-input">
                     <label class="custom-control-label" for="exento_IEB">Exento</label>
                   </div>
                 </span>
@@ -78,7 +78,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_II" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_II" name="exentos" value="II" class="custom-control-input">
                     <label class="custom-control-label" for="exento_II">Exento</label>
                   </div>
                 </span>
@@ -100,7 +100,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_III" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_III" name="exentos" value="III" class="custom-control-input">
                     <label class="custom-control-label" for="exento_III">Exento</label>
                   </div>
                 </span>
@@ -117,7 +117,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_IV" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_IV" name="exentos" value="IV" class="custom-control-input">
                     <label class="custom-control-label" for="exento_IV">Exento</label>
                   </div>
                 </span>
@@ -134,7 +134,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_V" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_V" name="exentos" value="V" class="custom-control-input">
                     <label class="custom-control-label" for="exento_V">Exento</label>
                   </div>
                 </span>
@@ -152,11 +152,11 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">EG</span>
               </div>
-              <input type="number" class="form-control" placeholder="No. Vehiculos" id="eg">
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="EG">
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_EG" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_EG" name="exentos" value="EG" class="custom-control-input">
                     <label class="custom-control-label" for="exento_EG">Exento</label>
                   </div>
                 </span>
@@ -169,11 +169,11 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">ER</span>
               </div>
-              <input type="number" class="form-control" placeholder="No. Vehiculos" id="er">
+              <input type="number" class="form-control" placeholder="No. Vehiculos" id="ER">
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_ER" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_ER" name="exentos" value="ER" class="custom-control-input">
                     <label class="custom-control-label" for="exento_ER">Exento</label>
                   </div>
                 </span>
@@ -190,7 +190,7 @@
               <div class="input-group-append">
                 <span class="input-group-text">
                   <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="exento_EA" name="exentos" class="custom-control-input">
+                    <input type="checkbox" id="exento_EA" name="exentos" value="EA" class="custom-control-input">
                     <label class="custom-control-label" for="exento_EA">Exento</label>
                   </div>
                 </span>
@@ -199,11 +199,16 @@
           </div>
 
         </div>
+        <button type="Submit" class="btn btn-primary">Submit</button>
       </form>
+      
     </div>
   </div>
 </div>  
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+  <script src="/static/assets/js/app/app-ingresar-datos.js"></script>
+
+{% endblock javascripts %}

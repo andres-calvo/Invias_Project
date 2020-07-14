@@ -46,20 +46,36 @@ def index_data(request):
 # ingresar datos 
 @login_required(login_url="/login")
 def ingresar_datos(request):
-    
-    form = vehiculoForm()
-    context = {'form':form}
-    if request.method == "POST":
-        form = vehiculoForm(request.POST)
-        if form.is_valid():
-            form_entry = form.save(commit=False)
-            form_entry.total = form['pagaron'] + form['exentos'] + form['evasores']
-            form_entry.save()
+    tarifas = {'I':1000,'IEB':2000,'II':3000,'III':4000,'IV':5000,'V':6000,'EG':7000,'ER':8000,'EA':9000}
+    vehiculos = {}
+    aporte = {}
+    print('Aqui estoy')
+    if request.POST.get('action') == 'post':
+        print('Aqui sigo')
+        exentos = request.POST.get('exentos')
+        vehiculos['I'] = int(request.POST.get('I'))
+        vehiculos['IEB'] = int(request.POST.get('IEB'))
+        vehiculos['II'] = int(request.POST.get('II'))
+        vehiculos['III'] = int(request.POST.get('III'))
+        vehiculos['IV'] = int(request.POST.get('IV'))
+        vehiculos['V'] = int(request.POST.get('V'))
+        vehiculos['EG'] = int(request.POST.get('EG'))
+        vehiculos['ER'] = int(request.POST.get('ER'))
+        vehiculos['EA'] = int(request.POST.get('EA'))
+        print(exentos)
+
+        for key in tarifas.keys():
+            if key in exentos:
+                aporte[key] = 0
+            else:
+                aporte[key] = vehiculos[key] * tarifas[key]
+        print('Estos son los vehiculos ',vehiculos)
+        print('Estos son los vehiculos exentos ',exentos)
+        print('Este es el aporte ', aporte)
+
+    return render(request,"ingresar-datos.html")
 
 
-    return render(request,"ingresar-datos.html",context)
-
-# 
 
 # Analisis grafico de los datos
 @login_required(login_url= "/login")
