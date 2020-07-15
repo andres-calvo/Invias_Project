@@ -23,6 +23,21 @@ class Tarifas (models.Model):
     def __str__ (self):
         return self.fecha
 
+class Exentos (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField(default='NO')
+    ieb= models.IntegerField(default='NO')
+    ii= models.IntegerField(default='NO')
+    iii= models.IntegerField(default='NO')
+    iv= models.IntegerField(default='NO')
+    v= models.IntegerField(default='NO')
+    eg= models.IntegerField(default='NO')
+    er= models.IntegerField(default='NO')
+    ea= models.IntegerField(default='NO')
+
+    def __str__ (self):
+        return self.fecha
+
 class vehiculo (models.Model):
     fecha= models.DateField(primary_key = True)
     i= models.IntegerField()

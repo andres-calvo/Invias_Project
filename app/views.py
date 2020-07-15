@@ -52,7 +52,8 @@ def ingresar_datos(request):
     print('Aqui estoy')
     if request.POST.get('action') == 'post':
         print('Aqui sigo')
-        exentos = request.POST.get('exentos')
+        exentos = request.POST.getlist('exentos[]')
+        fecha = request.POST.get('fecha')
         vehiculos['I'] = int(request.POST.get('I'))
         vehiculos['IEB'] = int(request.POST.get('IEB'))
         vehiculos['II'] = int(request.POST.get('II'))
@@ -62,16 +63,19 @@ def ingresar_datos(request):
         vehiculos['EG'] = int(request.POST.get('EG'))
         vehiculos['ER'] = int(request.POST.get('ER'))
         vehiculos['EA'] = int(request.POST.get('EA'))
-        print(exentos)
-
+        veh_total = vehiculos['I'] + vehiculos['IEB'] + vehiculos['II'] + vehiculos['III'] + vehiculos['IV'] + vehiculos['V']
         for key in tarifas.keys():
-            if key in exentos:
-                aporte[key] = 0
-            else:
-                aporte[key] = vehiculos[key] * tarifas[key]
-        print('Estos son los vehiculos ',vehiculos)
-        print('Estos son los vehiculos exentos ',exentos)
-        print('Este es el aporte ', aporte)
+            
+            aporte['aporte_'+key] = vehiculos[key] * tarifas[key]
+            
+            for key_exento in exentos:
+                if(key_exento == key):
+                    aporte['aporte_'+key] =0
+                
+        
+        aporte_total = sum(aporte.values())
+        datos ={**aporte,**vehiculos,'fecha':fecha,'veh_total':veh_total,'aporte_total':aporte_total}
+        return JsonResponse(datos)
 
     return render(request,"ingresar-datos.html")
 

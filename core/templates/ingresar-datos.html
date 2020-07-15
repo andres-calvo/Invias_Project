@@ -17,6 +17,47 @@
       <h3 class="page-title">Introducir Datos</h3>
     </div>
   </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="Modal_1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Error</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Recuerda que debes presionar el boton de agregar datos para añadir una fila.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="Modal_confirm">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Por favor confirme que los datos suministrados se encuentren correctos antes de enviarlos. 
+            Si estan correctos presione el boton de guardar cambios, de lo contrario presione el boton de cerrar.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Guardar Cambios</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card card-big mb-3">
     <div class="card-body">
       <form method="POST" id="post-form">
@@ -27,7 +68,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Fecha</span>
               </div>
-              <input type="date" class="form-control" id="fecha">
+              <input type="text" class = "form-control" id="fecha">
             </div>
           </div>
         </div>
@@ -199,9 +240,67 @@
           </div>
 
         </div>
-        <button type="Submit" class="btn btn-primary">Submit</button>
+        <div class="row">
+          <div class="col-2"><button type="Submit" class="btn btn-success">Agregar datos</button></div>
+          <div class="col-2"><button type="button" class="btn btn-primary" onclick="enviar_datos()">Enviar</button></div>
+        </div>
       </form>
       
+    </div>
+  </div>
+
+  <div class="card card-small mb-4">
+    <div class="card-header border-bottom">
+      <h6 class="m-0">Vehiculos</h6>
+    </div>
+    <div class="card-body p-0 pb-3 text-center">
+      <table class="table mb-0 table-hover" id="veh_table">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col" class="border-0" on>Fecha</th>
+            <th scope="col" class="border-0">I</th>
+            <th scope="col" class="border-0">IEB</th>
+            <th scope="col" class="border-0">II</th>
+            <th scope="col" class="border-0">III</th>
+            <th scope="col" class="border-0">IV</th>
+            <th scope="col" class="border-0">V</th>
+            <th scope="col" class="border-0">EG</th>
+            <th scope="col" class="border-0">ER</th>
+            <th scope="col" class="border-0">EA</th>
+            <th scope="col" class="border-0">Total</th>
+            <th scope="col" class="border-0">Opciones</th>
+          </tr>
+        </thead>
+        <tbody id="table_body1"> 
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card card-small mb-4">
+    <div class="card-header border-bottom">
+      <h6 class="m-0">Recaudo</h6>
+    </div>
+    <div class="card-body p-0 pb-3 text-center">
+      <table class="table mb-0 table-hover" id="rec_table">
+        <thead class="bg-light">
+          <tr>
+            <th scope="col" class="border-0">Fecha</th>
+            <th scope="col" class="border-0">I</th>
+            <th scope="col" class="border-0">IEB</th>
+            <th scope="col" class="border-0">II</th>
+            <th scope="col" class="border-0">III</th>
+            <th scope="col" class="border-0">IV</th>
+            <th scope="col" class="border-0">V</th>
+            <th scope="col" class="border-0">EG</th>
+            <th scope="col" class="border-0">ER</th>
+            <th scope="col" class="border-0">EA</th>
+            <th scope="col" class="border-0">Total</th>
+          </tr>
+        </thead>
+        <tbody id="table_body2"> 
+        </tbody>
+      </table>
     </div>
   </div>
 </div>  
