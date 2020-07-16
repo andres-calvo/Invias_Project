@@ -49,9 +49,6 @@ class vehiculo (models.Model):
     eg= models.IntegerField()
     er= models.IntegerField()
     ea= models.IntegerField()
-    pagaron= models.IntegerField()
-    evasores= models.IntegerField()
-    exentos= models.IntegerField()
     total= models.IntegerField()
     
     def __str__(self):

@@ -59,3 +59,15 @@ $(document).on('submit', '#post-form',function(e){
     });
     
 });
+
+$('#send_database_button').click(function(){
+    $('#Modal_confirm').modal('hide');
+    $.ajax({
+        type: 'POST',
+        url : '/ingresar-datos.html',
+        data: {
+            estado:'enviar',
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        }
+    })
+});
