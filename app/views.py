@@ -5,7 +5,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from django.http import JsonResponse
-from .models import vehiculo,recaudo
+from .models import vehiculo,recaudo,Exentos
 from .forms import vehiculoForm,analisisDate,tableForm,reporteForm
 from datetime import datetime
 import json

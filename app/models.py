@@ -25,15 +25,15 @@ class Tarifas (models.Model):
 
 class Exentos (models.Model):
     fecha= models.DateField(primary_key = True)
-    i= models.IntegerField(default='NO')
-    ieb= models.IntegerField(default='NO')
-    ii= models.IntegerField(default='NO')
-    iii= models.IntegerField(default='NO')
-    iv= models.IntegerField(default='NO')
-    v= models.IntegerField(default='NO')
-    eg= models.IntegerField(default='NO')
-    er= models.IntegerField(default='NO')
-    ea= models.IntegerField(default='NO')
+    i= models.TextField(default='NO')
+    ieb= models.TextField(default='NO')
+    ii= models.TextField(default='NO')
+    iii= models.TextField(default='NO')
+    iv= models.TextField(default='NO')
+    v= models.TextField(default='NO')
+    eg= models.TextField(default='NO')
+    er= models.TextField(default='NO')
+    ea= models.TextField(default='NO')
 
     def __str__ (self):
         return self.fecha
