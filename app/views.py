@@ -49,6 +49,7 @@ def ingresar_datos(request):
     tarifas = {'I':1000,'IEB':2000,'II':3000,'III':4000,'IV':5000,'V':6000,'EG':7000,'ER':8000,'EA':9000}
     vehiculos = {}
     aporte = {}
+    exento_dict = {}
     print('Aqui estoy')
     if request.POST.get('action') == 'post':
         print('Aqui sigo')
@@ -67,14 +68,18 @@ def ingresar_datos(request):
         for key in tarifas.keys():
             
             aporte['aporte_'+key] = vehiculos[key] * tarifas[key]
+            exento_dict['exento_'+key] ='NO'
             
             for key_exento in exentos:
                 if(key_exento == key):
                     aporte['aporte_'+key] =0
+                    exento_dict['exento_'+key] ='SI'
+                
+                    
                 
         
         aporte_total = sum(aporte.values())
-        datos ={**aporte,**vehiculos,'fecha':fecha,'veh_total':veh_total,'aporte_total':aporte_total}
+        datos ={**aporte,**vehiculos,**exento_dict,'fecha':fecha,'veh_total':veh_total,'aporte_total':aporte_total}
         return JsonResponse(datos)
 
     return render(request,"ingresar-datos.html")
