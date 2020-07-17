@@ -9,8 +9,7 @@
 (function ($) {
   $(document).ready(function () {
 
-    // Blog overview date range init.
-    $('#blog-overview-date-range').datepicker({});
+    
 
     //
     // Small Stats
@@ -28,6 +27,13 @@
         var veh_com = data.veh_com
         var rec_previa = data.Semana_Previa
         var fechas = data.fechas
+        var pie_I=data.pie_I
+        var pie_IEB=data.pie_IEB
+        var pie_II=data.pie_II
+        var pie_III=data.pie_III
+        var pie_IV=data.pie_IV
+        var pie_V=data.pie_V
+        
     
       var boSmallStatsDatasets = [
         {
@@ -277,19 +283,20 @@
       //
       // Users by device pie chart
       //
-
+      var I = pie_I.slice(0,7).reduce((a, b) => a + b, 0)
+      var IEB = pie_IEB.slice(0,7).reduce((a, b) => a + b, 0)
+      var II = pie_II.slice(0,7).reduce((a, b) => a + b, 0)
+      var III = pie_III.slice(0,7).reduce((a, b) => a + b, 0)
+      var IV = pie_IV.slice(0,7).reduce((a, b) => a + b, 0)
+      var V = pie_V.slice(0,7).reduce((a, b) => a + b, 0)
       // Data
       var ubdData = {
         datasets: [{
           hoverBorderColor: '#ffffff',
-          data: [68.3, 24.2, 7.5],
-          backgroundColor: [
-            'rgba(0,123,255,0.9)',
-            'rgba(0,123,255,0.5)',
-            'rgba(0,123,255,0.3)'
-          ]
+          data: [I,IEB,II,III,IV,V],
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","rgba(255,221,50,1)"],
         }],
-        labels: ["Desktop", "Tablet", "Mobile"]
+        labels: ["Cat.I","Cat.IEB","Cat.II","Cat.III","Cat.IV","Cat.V"]
       };
 
       // Options
@@ -324,3 +331,5 @@
   });
 
 })(jQuery);
+
+

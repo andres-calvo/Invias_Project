@@ -18,7 +18,7 @@ def index(request):
 @login_required(login_url="/login/")
 def index_data(request):
     rec = list(recaudo.objects.values().order_by('-fecha')[:14])
-    veh = vehiculo.objects.values().order_by('-fecha')[:7]
+    veh = vehiculo.objects.values().order_by('-fecha')[:14]
     dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',4:'Viernes',5:'Sabado',6:'Domingo'}
     datos = {}
     
@@ -29,12 +29,20 @@ def index_data(request):
         datos.setdefault('fechas',[]).append(a)
         datos.setdefault('Semana_Vigente',[]).append(entry['total'])
         
-    for entry in veh:
+    for entry in veh[:7]:
         value_liv = entry['i'] + entry['ieb']
         value_com = entry['ii'] + entry['iii'] + entry['iv'] + entry['v']
         datos.setdefault('veh_liv',[]).append(value_liv)
         datos.setdefault('veh_com',[]).append(value_com)
         datos.setdefault('veh_total',[]).append(entry['total'])
+    
+    for entry in veh:
+        datos.setdefault('pie_I',[]).append(entry['i'])
+        datos.setdefault('pie_IEB',[]).append(entry['ieb'])
+        datos.setdefault('pie_II',[]).append(entry['ii'])
+        datos.setdefault('pie_III',[]).append(entry['iii'])
+        datos.setdefault('pie_IV',[]).append(entry['iv'])
+        datos.setdefault('pie_V',[]).append(entry['v'])
     
     for entry in rec[7:14][::-1]:
         datos.setdefault('Semana_Previa',[]).append(entry['total'])
