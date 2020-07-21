@@ -34,7 +34,7 @@
         var pie_IV=data.pie_IV
         var pie_V=data.pie_V
         
-    
+        console.log(typeof rec)
       var boSmallStatsDatasets = [
         {
           backgroundColor: 'rgba(0, 184, 216, 0.1)',

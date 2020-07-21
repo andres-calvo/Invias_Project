@@ -5,7 +5,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from django.http import JsonResponse
-from .models import vehiculo,recaudo,Exentos
+from .models import vehiculo,recaudo,Exentos,recaudo_real
 from .forms import vehiculoForm,analisisDate,tableForm,reporteForm
 from datetime import datetime
 import json
@@ -109,16 +109,29 @@ def ingresar_datos(request):
 # Analisis grafico de los datos
 @login_required(login_url= "/login")
 def analisis_page(request):
-    dateform = analisisDate()
-    context = {'dateform':dateform}
-    if request.method == "POST":
-        dateform = analisisDate(request.POST)
-        if dateform.is_valid():
-            print(dateform['startdate'])
-            print(dateform.enddate)
-            print(dateform.categorias)
-            print(dateform.dataChose)
-    return render(request,"analisis.html",context)
+    datos={}
+    if request.POST.get('action') == 'post':
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
+        fields = ['i','ieb','ii','iii','iv','v','eg','er','ea']
+        rec_ideal_query = recaudo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+        rec_real_query =recaudo_real.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+        veh_query = vehiculo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+        fecha_query =vehiculo.objects.filter(fecha__range=[startdate,enddate]).values('fecha').order_by('fecha')
+        
+        for field in fields:
+            for entry in rec_ideal_query:
+                datos.setdefault('rec_ideal_'+field,[]).append(entry[field])
+            for entry in rec_real_query:
+                datos.setdefault('rec_real_'+field,[]).append(entry[field])
+            for entry in veh_query:
+                datos.setdefault('veh_'+field,[]).append(entry[field])
+        for entry in fecha_query:
+            datos.setdefault('fechas',[]).append(entry['fecha'])
+
+        
+        return JsonResponse(datos,safe=False)
+    return render(request,"analisis.html")
 
 @login_required(login_url="/login")
 def tablas_page(request):

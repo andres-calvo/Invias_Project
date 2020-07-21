@@ -5,7 +5,7 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
-{% load crispy_forms_tags %}
+
 
 {% block content %}
 
@@ -20,30 +20,243 @@
 
   <div class="card card-small mb-4">
     <div class="card-body">
-      <form  action =" " method="POST" class="post-form" >{% csrf_token %}
-        <div class="" style="max-width: 350px;">
-          {{ dateform.startdate|as_crispy_field }}
-          {{ dateform.enddate|as_crispy_field }}
-          <span class="input-group-append">
-            <span class="input-group-text">
-              <i class="material-icons"></i>
-            </span>
-          </span>
-        </div>
-        <div class="row">
-          <div class="col">
-          {{ dateform.categorias|as_crispy_field }}
+      <form  action =" " method="POST" id="post-form" >{% csrf_token %}
+        <div class="form-row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Fecha Inicial</span>
+              </div>
+              <input type="text" class = "form-control" id="fecha_inicial" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
+            </div>
           </div>
-          <div class="col">
-            {{ dateform.dataChose|as_crispy_field }}
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Fecha Final</span>
+              </div>
+              <input type="text" class = "form-control" id="fecha_final" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
+            </div>
           </div>
         </div>
-        <button type="submit" class="save btn btn-default">Save</button>
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_I" name="checkboxes" value="i" class="custom-control-input">
+              <label class="custom-control-label" for="check_I">I</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_IEB" name="checkboxes" value="ieb" class="custom-control-input">
+              <label class="custom-control-label" for="check_IEB">IEB</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_II" name="checkboxes" value="ii" class="custom-control-input">
+              <label class="custom-control-label" for="check_II">II</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_III" name="checkboxes" value="iii" class="custom-control-input">
+              <label class="custom-control-label" for="check_III">III</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_IV" name="checkboxes" value="iv" class="custom-control-input">
+              <label class="custom-control-label" for="check_IV">IV</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_V" name="checkboxes" value="v" class="custom-control-input">
+              <label class="custom-control-label" for="check_V">V</label>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" id="analisis_button" class="btn btn-primary">Guardar</button>
+      </form>
     </div>
   </div>
 
-  <div class="card card-small mb-4">
-    <div class="card-body">
+  <div class="card card-small mb-4" id="card-main-2" style="display: none;">
+    <div class="card-body" id="main-body-2">
+
+      <canvas height="50" width="80" id = "line-chart-i"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-i" 
+        data-toggle="collapse" data-target="#collapseContent-i"
+       aria-expanded="false" aria-controls="collapseContent-i">Mas detalles</button>
+       <div class="collapse" id="collapseContent-i">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-i">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-i">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-i">Promedio</li>
+            <li class="list-group-item" id="li-4-i">Min</li>
+            <li class="list-group-item" id="li-5-i">Max</li>
+            <li class="list-group-item" id="li-6-i">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <canvas height="50" width="80" id = "line-chart-ieb"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ieb" 
+        data-toggle="collapse" data-target="#collapseContent-ieb"
+       aria-expanded="false" aria-controls="collapseContent-ieb">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ieb">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-ieb">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-ieb">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-ieb">Promedio</li>
+            <li class="list-group-item" id="li-4-ieb">Min</li>
+            <li class="list-group-item" id="li-5-ieb">Max</li>
+            <li class="list-group-item" id="li-6-ieb">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-ii"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ii" 
+        data-toggle="collapse" data-target="#collapseContent-ii"
+       aria-expanded="false" aria-controls="collapseContent-ii">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ii">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-ii">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-ii">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-ii">Promedio</li>
+            <li class="list-group-item" id="li-4-ii">Min</li>
+            <li class="list-group-item" id="li-5-ii">Max</li>
+            <li class="list-group-item" id="li-6-ii">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-iii"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iii" 
+        data-toggle="collapse" data-target="#collapseContent-iii"
+       aria-expanded="false" aria-controls="collapseContent-iii">Mas detalles</button>
+       <div class="collapse" id="collapseContent-iii">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-iii">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-iii">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-iii">Promedio</li>
+            <li class="list-group-item" id="li-4-iii">Min</li>
+            <li class="list-group-item" id="li-5-iii">Max</li>
+            <li class="list-group-item" id="li-6-iii">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-iv"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iv" 
+        data-toggle="collapse" data-target="#collapseContent-iv"
+       aria-expanded="false" aria-controls="collapseContent-iv">Mas detalles</button>
+       <div class="collapse" id="collapseContent-iv">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-iv">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-iv">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-iv">Promedio</li>
+            <li class="list-group-item" id="li-4-iv">Min</li>
+            <li class="list-group-item" id="li-5-iv">Max</li>
+            <li class="list-group-item" id="li-6-iv">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-v"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-v" 
+        data-toggle="collapse" data-target="#collapseContent-v"
+       aria-expanded="false" aria-controls="collapseContent-v">Mas detalles</button>
+       <div class="collapse" id="collapseContent-v">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-v">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-v">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-v">Promedio</li>
+            <li class="list-group-item" id="li-4-v">Min</li>
+            <li class="list-group-item" id="li-5-v">Max</li>
+            <li class="list-group-item" id="li-6-v">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-eg"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-eg" 
+        data-toggle="collapse" data-target="#collapseContent-eg"
+       aria-expanded="false" aria-controls="collapseContent-eg">Mas detalles</button>
+       <div class="collapse" id="collapseContent-eg">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-eg">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-eg">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-eg">Promedio</li>
+            <li class="list-group-item" id="li-4-eg">Min</li>
+            <li class="list-group-item" id="li-5-eg">Max</li>
+            <li class="list-group-item" id="li-6-eg">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-er"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-er" 
+        data-toggle="collapse" data-target="#collapseContent-er"
+       aria-expanded="false" aria-controls="collapseContent-er">Mas detalles</button>
+       <div class="collapse" id="collapseContent-er">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-er">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-er">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-er">Promedio</li>
+            <li class="list-group-item" id="li-4-er">Min</li>
+            <li class="list-group-item" id="li-5-er">Max</li>
+            <li class="list-group-item" id="li-6-er">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-ea"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ea" 
+        data-toggle="collapse" data-target="#collapseContent-ea"
+       aria-expanded="false" aria-controls="collapseContent-ea">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ea">
+        <div class="card card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="li-1-ea">Tiempo en dias</li>
+            <li class="list-group-item" id="li-2-ea">Total Recaudo</li>
+            <li class="list-group-item" id="li-3-ea">Promedio</li>
+            <li class="list-group-item" id="li-4-ea">Min</li>
+            <li class="list-group-item" id="li-5-ea">Max</li>
+            <li class="list-group-item" id="li-6-ea">Desviacion estandar</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
