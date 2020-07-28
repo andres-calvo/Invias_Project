@@ -11,7 +11,7 @@
       <!-- Page Header -->
       <div class="page-header row no-gutters py-4">
         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-          <h3 class="page-title">Register</h3>
+          <h3 class="page-title">Registro</h3>
         </div>
       </div>
       <!-- End Page Header -->
@@ -26,7 +26,7 @@
                 {% if msg %}
                   {{ msg | safe }}
                 {% else %}
-                Add your credentials or <a href={% url 'login' %} >authenticate</a> with an existing account.
+                Utiliza tus credenciales <a href={% url 'login' %} >para autenticarte</a> con una cuenta existente.
                 {% endif %}  
 
               </h6>
@@ -39,7 +39,7 @@
                     {% if success %}
 
                       <p>
-                        Please <a href={% url 'login' %}>authenticate</a> using the new account.
+                        Porfavor <a href={% url 'login' %}> inicia sesion</a> usando tu nueva cuenta.
                       </p>  
 
                     {% else %}
@@ -50,7 +50,7 @@
 
                         <div class="form-row">
                           <div class="form-group col-md-6">
-                            <label for="feFirstName">Username</label>
+                            <label for="feFirstName">Usuario</label>
                             {{ form.username }}
                           </div>
                         </div>
@@ -66,7 +66,7 @@
 
                         <div class="form-row">
                           <div class="form-group col-md-6">
-                            <label for="feEmailAddress">Password</label>
+                            <label for="feEmailAddress">Contraseña</label>
                             {{ form.password1 }}
                           </div>
                         </div>
@@ -74,15 +74,15 @@
 
                         <div class="form-row">
                           <div class="form-group col-md-6">
-                            <label for="feEmailAddress">Password</label>
+                            <label for="feEmailAddress">Contraseña</label>
                             {{ form.password2 }}
                           </div>
                         </div>
                         <span class="text-danger">{{ form.password2.errors }}</span>
                         
-                        <button type="submit" name="register" class="btn btn-accent">Register</button>
+                        <button type="submit" name="register" class="btn btn-accent">Registrarse</button>
                         &nbsp; &nbsp; 
-                        Have an account? <a href={% url 'login' %} class="text-primary">Login</a>
+                        ¿Tienes una cuenta? <a href={% url 'login' %} class="text-primary">Iniciar Sesion</a>
                       </form>
 
                     {% endif %}

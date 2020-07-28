@@ -1,4 +1,14 @@
+$('#startdate').datepicker({dateFormat: "yyyy-mm-dd"});
+$('#enddate').datepicker({dateFormat: "yyyy-mm-dd"});
+
+
 $(document).on('submit', '#post-form',function(e){
+  var main_div =document.getElementById('big-main-card-2');
+  main_div.style.display= "block"
+  $('#table_veh').DataTable().clear();
+  $('#table_veh').DataTable().destroy();
+  $('#table_rec').DataTable().clear();
+  $('#table_rec').DataTable().destroy();
   e.preventDefault();
   $.ajax({
       type:'POST',
@@ -19,7 +29,7 @@ $(document).on('submit', '#post-form',function(e){
       },
       success:function(json){
           console.log(json)
-
+          console.log(json.fechas.length)
           //Sustituir valores del reporte con los digitados en el formulario
           document.getElementById("rep-e-peaje").textContent = 'Estacion de peaje: '+json.e_peaje;
           document.getElementById("rep-ruta").textContent = 'Ruta: '+ json.ruta;
@@ -91,6 +101,9 @@ $(document).on('submit', '#post-form',function(e){
                 title: {
                   display: true,
                   text: 'Recaudo Total por Categoria'
+                },
+                tooltips: {
+                  mode: 'x'
                 }
               }
             });
@@ -117,6 +130,9 @@ $(document).on('submit', '#post-form',function(e){
                 title: {
                   display: true,
                   text: 'Distribucion Recaudo'
+                },
+                tooltips: {
+                  mode: 'x'
                 }
               }
           });
@@ -144,6 +160,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Vehiculos livianos'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -169,6 +188,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Vehiculos Categorias II y III'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -194,6 +216,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Vehiculos Categorias III y IV'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -205,18 +230,18 @@ $(document).on('submit', '#post-form',function(e){
               datasets: [{ 
                   data: json.veh_ea,
                   label: "Eje EA",
-                  borderColor: "#3e95cd",
+                  borderColor: '#323232',
                   fill: false
                 }, { 
                   data: json.veh_eg,
                   label: "Eje EG",
-                  borderColor: "#8e5ea2",
+                  borderColor: "#99CCFF",
                   fill: false
                 },
                 { 
                   data: json.veh_er,
                   label: "Eje ER",
-                  borderColor: "#8e5ea2",
+                  borderColor: "#F37636",
                   fill: false
                 }, 
               ]
@@ -225,6 +250,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Ejes adicionales vehiculares'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -252,6 +280,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Recaudo Vehiculos livianos'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -277,6 +308,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Recaudo Vehiculos Categorias II y III'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -302,6 +336,9 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Recaudo Vehiculos Categorias IV y V'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
@@ -313,18 +350,18 @@ $(document).on('submit', '#post-form',function(e){
               datasets: [{ 
                   data: json.rec_ea,
                   label: "Eje EA",
-                  borderColor: "#3e95cd",
+                  borderColor: '#323232',
                   fill: false
                 }, { 
                   data: json.rec_eg,
                   label: "Eje EG",
-                  borderColor: "#8e5ea2",
+                  borderColor: "#99CCFF",
                   fill: false
                 },
                 { 
                   data: json.rec_er,
                   label: "Eje ER",
-                  borderColor: "#8e5ea2",
+                  borderColor: "#F37636",
                   fill: false
                 }, 
               ]
@@ -333,9 +370,71 @@ $(document).on('submit', '#post-form',function(e){
               title: {
                 display: true,
                 text: 'Recaudo por Ejes Adicionales Vehiculares'
+              },
+              tooltips: {
+                mode: 'x'
               }
             }
           });
+
+          var table_veh = document.getElementById("table_veh");
+          var table_rec = document.getElementById("table_rec");
+          var iterator_veh = 0;
+          var iterator_rec = 0;
+
+          while(iterator_veh<json.fechas.length){
+            var row =table_veh.insertRow(-1)
+            var celda_fecha = row.insertCell(0)
+            var celda_i = row.insertCell(1)
+            var celda_ieb = row.insertCell(2)
+            var celda_ii = row.insertCell(3)
+            var celda_iii = row.insertCell(4)
+            var celda_iv = row.insertCell(5)
+            var celda_v = row.insertCell(6)
+            var celda_eg = row.insertCell(7)
+            var celda_er = row.insertCell(8)
+            var celda_ea = row.insertCell(9)
+            var celda_total = row.insertCell(10)
+            celda_fecha.innerHTML =json.fechas[iterator_veh]
+            celda_i.innerHTML =json.veh_i[iterator_veh]
+            celda_ieb.innerHTML =json.veh_ieb[iterator_veh]
+            celda_ii.innerHTML =json.veh_ii[iterator_veh]
+            celda_iii.innerHTML =json.veh_iii[iterator_veh]
+            celda_iv.innerHTML =json.veh_iv[iterator_veh]
+            celda_v.innerHTML =json.veh_v[iterator_veh]
+            celda_eg.innerHTML =json.veh_eg[iterator_veh]
+            celda_er.innerHTML =json.veh_er[iterator_veh]
+            celda_ea.innerHTML =json.veh_ea[iterator_veh]
+            celda_total.innerHTML =json.Total_vehiculo[iterator_veh]
+            iterator_veh++
+          }
+
+          while(iterator_rec<json.fechas.length){
+            var row_rec =table_rec.insertRow(-1)
+            var celda_fecha = row_rec.insertCell(0)
+            var celda_i = row_rec.insertCell(1)
+            var celda_ieb = row_rec.insertCell(2)
+            var celda_ii = row_rec.insertCell(3)
+            var celda_iii = row_rec.insertCell(4)
+            var celda_iv = row_rec.insertCell(5)
+            var celda_v = row_rec.insertCell(6)
+            var celda_eg = row_rec.insertCell(7)
+            var celda_er = row_rec.insertCell(8)
+            var celda_ea = row_rec.insertCell(9)
+            var celda_total = row_rec.insertCell(10)
+            celda_fecha.innerHTML =json.fechas[iterator_rec]
+            celda_i.innerHTML =json.rec_i[iterator_rec]
+            celda_ieb.innerHTML =json.rec_ieb[iterator_rec]
+            celda_ii.innerHTML =json.rec_ii[iterator_rec]
+            celda_iii.innerHTML =json.rec_iii[iterator_rec]
+            celda_iv.innerHTML =json.rec_iv[iterator_rec]
+            celda_v.innerHTML =json.rec_v[iterator_rec]
+            celda_eg.innerHTML =json.rec_eg[iterator_rec]
+            celda_er.innerHTML =json.rec_er[iterator_rec]
+            celda_ea.innerHTML =json.rec_ea[iterator_rec]
+            celda_total.innerHTML =json.Total_recaudo[iterator_rec]
+            iterator_rec++
+          }
           
       },
       error : function(xhr,errmsg,err) {

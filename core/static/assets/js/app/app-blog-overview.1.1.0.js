@@ -129,9 +129,9 @@
         });
       });
       //Codigo para actualizar valores de las tarjetas
-      document.getElementById("rec-total").textContent = (rec.slice(0)[0]/1000000).toFixed(1)+''+'M'
+      document.getElementById("rec-total").textContent = (rec.slice(0)[0]/1000000).toFixed(1)+''
       document.getElementById("veh-total").textContent = veh.slice(0)[0]
-      document.getElementById("rec-liv").textContent = (rec_liv.slice(0)[0]/1000000).toFixed(1)+''+'M'
+      document.getElementById("rec-liv").textContent = (rec_liv.slice(0)[0]/1000000).toFixed(1)+''
       document.getElementById("veh-liv").textContent = veh_liv.slice(0)[0]
       document.getElementById("veh-com").textContent = veh_com.slice(0)[0]
 
@@ -244,6 +244,9 @@
           }],
           yAxes: [{
             ticks: {
+              callback: function(label, index, labels) {
+                return label.toLocaleString('de-DE');
+              },
               suggestedMax: 45,
               padding: 25
             },
@@ -260,7 +263,17 @@
         tooltips: {
           custom: false,
           mode: 'nearest',
-          intersect: false
+          intersect: false,
+          callbacks: {
+            label: function(tooltipItem, myData) {
+              var label = myData.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += parseFloat(tooltipItem.value).toLocaleString('de-DE');
+              return label;
+            }
+          }
         }
       };
 

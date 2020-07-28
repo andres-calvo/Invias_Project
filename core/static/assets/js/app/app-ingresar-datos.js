@@ -46,6 +46,12 @@ $(document).on('submit', '#post-form',function(e){
             action: 'post',
         },
         success:function(json){
+            var x =document.getElementsByClassName("card card-small mb-4")
+            var i;
+            for (i = 0; i < x.length; i++) {
+            x[i].style.display= "block";
+            }
+            
             console.log(json)
             var tabla_veh ="<tr><td>"+json.fecha+"</td><td>"+json.I+"</td><td>"+json.IEB+"</td><td>"+json.II+"</td><td>"+json.III+"</td><td>"+json.IV+"</td><td>"+json.V+"</td><td>"+json.EG+"</td><td>"+json.ER+"</td><td>"+json.EA+"</td><td>"+json.veh_total+"</td><td  class='text-danger' onclick='eliminar_fila(this)'>Eliminar</td></tr>"
             $("#table_body1").append(tabla_veh);

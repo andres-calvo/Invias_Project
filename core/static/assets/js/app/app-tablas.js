@@ -1,8 +1,17 @@
 
 $(document).on('submit', '#post-form-2',function(e){
+    
     $('#example').DataTable().clear();
     $('#example').DataTable().destroy();
     e.preventDefault();
+    var main_div =document.getElementById("table-card")
+        main_div.style.display= "block"
+    
+    
+    var startdate = $('#startdate2').val();
+    var enddate =$('#enddate2').val();
+
+    
     $.ajax({
         type:'POST',
         url:'tablas.html',

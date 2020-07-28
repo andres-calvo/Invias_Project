@@ -201,7 +201,10 @@ def reporte_page(request):
         for f in fields:
             datos['Total_Veh_'+f] = sum(datos['veh_'+f])
             datos['Total_Rec_'+f] = sum(datos['rec_'+f])
-            
+        
+        datos['Total_vehiculo']= datos['veh_i']+datos['veh_ieb']+datos['veh_ii']+datos['veh_iii']+datos['veh_iv']+datos['veh_v']
+        datos['Total_recaudo']= datos['rec_i']+datos['rec_ieb']+datos['rec_ii']+datos['rec_iii']+datos['rec_iv']+datos['rec_v']+datos['rec_eg']+datos['rec_er']+datos['rec_ea']
+           
         return JsonResponse(datos)
     
     return render (request,"reporte.html",context)

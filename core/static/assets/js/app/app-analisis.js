@@ -52,30 +52,112 @@ $(document).on('submit', '#post-form',function(e){
             function Charts_create (value) {
                 var ctx =document.getElementById("line-chart-"+value)
                 ctx.style.display= "block"
-                new Chart(ctx, {
-                    type: 'LineWithLine',
-                    data: {
-                      labels: fecha,
-                      datasets: [{
-                          data: dict_real[value],
-                          label: "Recaudo Real",
-                          borderColor: "#3e95cd",
-                          fill: false
-                        }, {
-                          data: dict_ideal[value],
-                          label: "Recaudo Ideal",
-                          borderColor: "#8e5ea2",
-                          fill: false
-                        },
-                      ]
+                var cfg = {
+                  data: {
+                    labels: fecha,
+                    datasets: [{
+                      label: 'Recaudo Real',
+                      borderColor: "#3e95cd",
+                      data: dict_real[value],
+                      type: 'line',
+                      pointRadius: 0,
+                      fill: false,
+                      lineTension: 0,
+                      borderWidth: 2
+                      },
+                      {
+                      label: 'Recaudo Esperado',
+                      borderColor: "#8e5ea2",
+                      data: dict_ideal[value],
+                      type: 'line',
+                      pointRadius: 0,
+                      fill: false,
+                      lineTension: 0,
+                      borderWidth: 2
+                    }]
+                        
+                  },
+                  options: {
+                    title: {
+                      display: true,
+                      text:'Recaudo Real vs Esperado Categoria '+value.toUpperCase()
                     },
-                    options: {
-                      title: {
-                        display: true,
-                        text: 'Grafica de Recaudo Categoria '+value.toUpperCase()
+                    scales: {
+                      xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+                        offset: true,
+                        ticks: {
+                          major: {
+                            enabled: true,
+                            fontStyle: 'bold'
+                          },
+                          source: 'data',
+                          autoSkip: true,
+                          autoSkipPadding: 75,
+                          maxRotation: 0,
+                          sampleSize: 100
+                        },
+                        afterBuildTicks: function(scale, ticks) {
+                          var majorUnit = scale._majorUnit;
+                          var firstTick = ticks[0];
+                          var i, ilen, val, tick, currMajor, lastMajor;
+            
+                          val = moment(ticks[0].value);
+                          if ((majorUnit === 'minute' && val.second() === 0)
+                              || (majorUnit === 'hour' && val.minute() === 0)
+                              || (majorUnit === 'day' && val.hour() === 9)
+                              || (majorUnit === 'month' && val.date() <= 3 && val.isoWeekday() === 1)
+                              || (majorUnit === 'year' && val.month() === 0)) {
+                            firstTick.major = true;
+                          } else {
+                            firstTick.major = false;
+                          }
+                          lastMajor = val.get(majorUnit);
+            
+                          for (i = 1, ilen = ticks.length; i < ilen; i++) {
+                            tick = ticks[i];
+                            val = moment(tick.value);
+                            currMajor = val.get(majorUnit);
+                            tick.major = currMajor !== lastMajor;
+                            lastMajor = currMajor;
+                          }
+                          return ticks;
+                        }
+                      }],
+                      yAxes: [{
+                        gridLines: {
+                          drawBorder: false
+                        },
+                        ticks:{
+                          callback: function(label, index, labels) {
+                            return label.toLocaleString('de-DE');
+                          }
+                        },
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Recaudo ($)'
+                        }
+                      }]
+                    },
+                    tooltips: {
+                      intersect: false,
+                      mode: 'index',
+                      callbacks: {
+                        label: function(tooltipItem, myData) {
+                          var label = myData.datasets[tooltipItem.datasetIndex].label || '';
+                          if (label) {
+                            label += ': ';
+                          }
+                          label += parseFloat(tooltipItem.value).toLocaleString('de-DE');
+                          return label;
+                        }
                       }
                     }
-                  });
+                  }
+                };
+            
+                var chart = new Chart(ctx, cfg);
                 
 
                 var buttons =document.getElementById('buttons-'+value);
@@ -100,13 +182,24 @@ $(document).on('submit', '#post-form',function(e){
                 var std_real = Math.sqrt(dict_real[value].map(x => Math.pow(x-prom_real,2)).reduce((a,b) => a+b)/tiempo_dias);
 
                 // Replace the above variable data into html text of <li> tag
+                var contenido_real =[tot_rec_real,prom_real,maximum_value_real,minimum_value_real,std_real]
+                var contenido_esperado =[tot_rec_ideal,prom_ideal,maximum_value_ideal,minimum_value_ideal,std_ideal]
+                var estadisticas = ["Recaudo Total","Promedio","Valor Maximo","Valor Minimo","Desviacion Estandar"]
+               
                 
-                $('#li-1-'+value).text('El periodo graficado corresponde a '+tiempo_dias+' dias');
-                $('#li-2-'+value).text('El recaudo total real corresponde a '+tot_rec_real.toLocaleString('de-DE', { style: 'currency', currency: 'COP' })+' , mientras que el recaudo total ideal corresponde a '+tot_rec_ideal.toLocaleString('de-DE', { style: 'currency', currency: 'COP' }));
-                $('#li-3-'+value).text('El promedio real corresponde a '+prom_real.toLocaleString('de-DE', { style: 'currency', currency: 'COP' })+' , mientras que el promedio ideal corresponde a '+prom_ideal.toLocaleString('de-DE', { style: 'currency', currency: 'COP' }));
-                $('#li-4-'+value).text('El valor minimo real corresponde a '+minimum_value_real.toLocaleString('de-DE', { style: 'currency', currency: 'COP' })+' ,mientras que el valor minimo ideal corresponde a '+minimum_value_ideal.toLocaleString('de-DE', { style: 'currency', currency: 'COP' }));
-                $('#li-5-'+value).text('El valor maximo real corresponde a '+maximum_value_real.toLocaleString('de-DE', { style: 'currency', currency: 'COP' })+' ,mientras que el valor maximo ideal corresponde a '+maximum_value_ideal.toLocaleString('de-DE', { style: 'currency', currency: 'COP' }));
-                $('#li-6-'+value).text('La desviacion estandar real corresponde a '+std_real.toLocaleString('de-DE', { style: 'currency', currency: 'COP' })+' ,mientras que la desviacion estandar ideal corresponde a '+std_ideal.toLocaleString('de-DE', { style: 'currency', currency: 'COP' }));
+
+                var iterator = 0;
+                while(iterator<contenido_real.length){
+                  var table = document.getElementById("table-"+value);
+                  var row = table.insertRow(-1);
+                  var celda_estadisticas = row.insertCell(0)
+                  var celda_real = row.insertCell(1);
+                  var celda_esperada = row.insertCell(2);
+                  celda_estadisticas.innerHTML = estadisticas[iterator]
+                  celda_real.innerHTML = '$ '+contenido_real[iterator].toLocaleString('de-DE')
+                  celda_esperada.innerHTML = '$ '+contenido_esperado[iterator].toLocaleString('de-DE')
+                  iterator++
+                }
                 
 
             };
