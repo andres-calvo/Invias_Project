@@ -307,7 +307,7 @@
         datasets: [{
           hoverBorderColor: '#ffffff',
           data: [I,IEB,II,III,IV,V],
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","rgba(255,221,50,1)"],
+          backgroundColor: ["rgb(0, 184, 216)", "rgb(23,198,113)","rgb(255,180,0)","rgb(255,65,105)","rgb(0,123,255)","rgb(113, 23, 198)"],
         }],
         labels: ["Cat.I","Cat.IEB","Cat.II","Cat.III","Cat.IV","Cat.V"]
       };

@@ -1,4 +1,4 @@
-$('#fecha').datepicker({dateFormat: "yy-mm-dd"});
+
 function eliminar_fila(x){
     var index = $(x).closest("tr").index() + 1
     document.getElementById("veh_table").deleteRow(index)

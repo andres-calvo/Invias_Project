@@ -25,5 +25,8 @@
   "contributors": [
     "AppSeed Support <support@appseed.us>"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pdfmake": "^0.1.67"
+  }
 }

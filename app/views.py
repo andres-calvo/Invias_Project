@@ -9,6 +9,9 @@ from .models import vehiculo,recaudo,Exentos,recaudo_real
 from .forms import vehiculoForm,analisisDate,tableForm,reporteForm
 from datetime import datetime
 import json
+import base64
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 
 
 @login_required(login_url="/login/")
@@ -206,6 +209,9 @@ def reporte_page(request):
         datos['Total_recaudo']= datos['rec_i']+datos['rec_ieb']+datos['rec_ii']+datos['rec_iii']+datos['rec_iv']+datos['rec_v']+datos['rec_eg']+datos['rec_er']+datos['rec_ea']
            
         return JsonResponse(datos)
+
+    
+                
     
     return render (request,"reporte.html",context)
 

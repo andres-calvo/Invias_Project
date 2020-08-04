@@ -168,8 +168,8 @@ $(document).on('submit', '#post-form',function(e){
                 var tot_rec_ideal = dict_ideal[value].reduce((a, b) => a + b, 0);
                 var tot_rec_real = dict_real[value].reduce((a, b) => a + b, 0);
 
-                var prom_ideal =tot_rec_ideal/tiempo_dias
-                var prom_real =tot_rec_real/tiempo_dias
+                var prom_ideal =Math.round(tot_rec_ideal/tiempo_dias);
+                var prom_real =Math.round(tot_rec_real/tiempo_dias);
 
                 var maximum_value_ideal = Math.max(...dict_ideal[value]);
                 var maximum_value_real = Math.max(...dict_real[value]);
@@ -178,13 +178,13 @@ $(document).on('submit', '#post-form',function(e){
 
                 
 
-                var std_ideal = Math.sqrt(dict_ideal[value].map(x => Math.pow(x-prom_ideal,2)).reduce((a,b) => a+b)/tiempo_dias);
-                var std_real = Math.sqrt(dict_real[value].map(x => Math.pow(x-prom_real,2)).reduce((a,b) => a+b)/tiempo_dias);
+                var std_ideal = Math.round(Math.sqrt(dict_ideal[value].map(x => Math.pow(x-prom_ideal,2)).reduce((a,b) => a+b)/tiempo_dias));
+                var std_real = Math.round(Math.sqrt(dict_real[value].map(x => Math.pow(x-prom_real,2)).reduce((a,b) => a+b)/tiempo_dias));
 
                 // Replace the above variable data into html text of <li> tag
-                var contenido_real =[tot_rec_real,prom_real,maximum_value_real,minimum_value_real,std_real]
-                var contenido_esperado =[tot_rec_ideal,prom_ideal,maximum_value_ideal,minimum_value_ideal,std_ideal]
-                var estadisticas = ["Recaudo Total","Promedio","Valor Maximo","Valor Minimo","Desviacion Estandar"]
+                var contenido_real =[tot_rec_real,prom_real,maximum_value_real,minimum_value_real,std_real];
+                var contenido_esperado =[tot_rec_ideal,prom_ideal,maximum_value_ideal,minimum_value_ideal,std_ideal];
+                var estadisticas = ["Recaudo Total","Promedio","Valor Maximo","Valor Minimo","Desviacion Estandar"];
                
                 
 
@@ -192,7 +192,7 @@ $(document).on('submit', '#post-form',function(e){
                 while(iterator<contenido_real.length){
                   var table = document.getElementById("table-"+value);
                   var row = table.insertRow(-1);
-                  var celda_estadisticas = row.insertCell(0)
+                  var celda_estadisticas = row.insertCell(0);
                   var celda_real = row.insertCell(1);
                   var celda_esperada = row.insertCell(2);
                   celda_estadisticas.innerHTML = estadisticas[iterator]
