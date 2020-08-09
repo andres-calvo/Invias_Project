@@ -20,7 +20,7 @@ def index(request):
 
 @login_required(login_url="/login/")
 def index_data(request):
-    rec = list(recaudo.objects.values().order_by('-fecha')[:14])
+    rec = list(recaudo_real.objects.values().order_by('-fecha')[:14])
     veh = vehiculo.objects.values().order_by('-fecha')[:14]
     dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',4:'Viernes',5:'Sabado',6:'Domingo'}
     datos = {}
@@ -76,7 +76,7 @@ def ingresar_datos(request):
         vehiculos['ER'] = int(request.POST.get('ER'))
         vehiculos['EA'] = int(request.POST.get('EA'))
         veh_total = vehiculos['I'] + vehiculos['IEB'] + vehiculos['II'] + vehiculos['III'] + vehiculos['IV'] + vehiculos['V']
-
+        
         
 
         for key in tarifas.keys():
@@ -97,10 +97,17 @@ def ingresar_datos(request):
         return JsonResponse(datos)
 
     if request.POST.get('estado') == 'enviar':
-        entry_aporte = recaudo(fecha=fecha,i=datos['aporte_I'],ii=datos['aporte_II'],iii =datos['aporte_III'],iv =datos['aporte_IV'],v=datos['aporte_V'],eg =datos['aporte_EG'],er=datos['aporte_ER'],ea=datos['aporte_EA'],total=datos['aporte_total'])
-        entry_veh = vehiculo(fecha=fecha,i=datos['I'],ii=datos['II'],iii =datos['III'],iv =datos['IV'],v=datos['V'],eg=datos['eg'],er=datos['er'],ea=datos['ea'],total=datos['veh_total'])
+        aporte_ideal ={}
+        for key in tarifas.keys():
+            aporte_ideal[key] = vehiculos[key]*tarifas[key]
+            aporte_ideal['TOTAL'] = aporte_ideal['TOTAL']+aporte_ideal[key]
+
+        entry_aporte_ideal =recaudo(fecha=fecha,i=aporte_ideal['I'],ii=aporte_ideal['II'],iii =aporte_ideal['III'],iv =aporte_ideal['IV'],v=aporte_ideal['V'],eg=aporte_ideal['EG'],er=aporte_ideal['ER'],ea=aporte_ideal['EA'],total=aporte_ideal['TOTAL'])
+        entry_aporte = recaudo_real(fecha=fecha,i=datos['aporte_I'],ii=datos['aporte_II'],iii =datos['aporte_III'],iv =datos['aporte_IV'],v=datos['aporte_V'],eg =datos['aporte_EG'],er=datos['aporte_ER'],ea=datos['aporte_EA'],total=datos['aporte_total'])
+        entry_veh = vehiculo(fecha=fecha,i=datos['I'],ii=datos['II'],iii =datos['III'],iv =datos['IV'],v=datos['V'],eg=datos['EG'],er=datos['ER'],ea=datos['EA'],total=datos['veh_total'])
         entry_exentos = Exentos(fecha=fecha,i=datos['exento_I'],ii=datos['exento_II'],iii=datos['exento_III'],iv=datos['exento_IV'],v=datos['exento_V'],eg=datos['exento_EG'],er=datos['exento_ER'],ea=datos['exento_EA'])
 
+        entry_aporte_ideal.save()
         entry_aporte.save()
         entry_veh.save()
         entry_exentos.save()
@@ -144,7 +151,7 @@ def tablas_page(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         if request.POST.get('radiovalue') == 'Recaudo':
-            query = recaudo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+            query = recaudo_real.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
             for entry in query:
                 #Converting date objects into strings format(yyyy-mm-dd)
                 entry['fecha'] = entry['fecha'].strftime('%Y-%m-%d')
@@ -177,7 +184,7 @@ def reporte_page(request):
         datos = {}
 
         veh = vehiculo.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
-        rec = recaudo.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
+        rec = recaudo_real.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
         fechas = vehiculo.objects.filter(fecha__range = [startdate,enddate]).values('fecha').order_by('fecha')
         datos['startdate']=startdate
         datos['enddate']=enddate
@@ -206,7 +213,7 @@ def reporte_page(request):
             datos['Total_Rec_'+f] = sum(datos['rec_'+f])
         
         datos['Total_vehiculo']= datos['veh_i']+datos['veh_ieb']+datos['veh_ii']+datos['veh_iii']+datos['veh_iv']+datos['veh_v']
-        datos['Total_recaudo']= datos['rec_i']+datos['rec_ieb']+datos['rec_ii']+datos['rec_iii']+datos['rec_iv']+datos['rec_v']+datos['rec_eg']+datos['rec_er']+datos['rec_ea']
+        datos['Total_recaudo_real']= datos['rec_i']+datos['rec_ieb']+datos['rec_ii']+datos['rec_iii']+datos['rec_iv']+datos['rec_v']+datos['rec_eg']+datos['rec_er']+datos['rec_ea']
            
         return JsonResponse(datos)
 
