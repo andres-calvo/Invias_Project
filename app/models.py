@@ -85,3 +85,104 @@ class recaudo_real (models.Model):
     
     def __str__(self):
         return self.fecha
+### Santa_Ana Empieza Aqui
+class veh_Santa_Ana (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+class rec_Santa_Ana (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+class rec_ideal_Santa_Ana (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+###Santa Ana Termina Aqui
+
+###Gamarra
+class veh_Gamarra (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+class rec_Gamarra (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+class rec_ideal_Gamarra (models.Model):
+    fecha= models.DateField(primary_key = True)
+    i= models.IntegerField()
+    ieb= models.IntegerField()
+    ii= models.IntegerField()
+    iii= models.IntegerField()
+    iv= models.IntegerField()
+    v= models.IntegerField()
+    eg= models.IntegerField()
+    er= models.IntegerField()
+    ea= models.IntegerField()
+    total= models.IntegerField()
+    
+    def __str__(self):
+        return self.fecha
+
+###Gamarra Termina

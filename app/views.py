@@ -54,65 +54,7 @@ def index_data(request):
     return JsonResponse(datos)
 
 
-# ingresar datos 
-@login_required(login_url="/login")
-def ingresar_datos(request):
-    tarifas = {'I':1000,'IEB':2000,'II':3000,'III':4000,'IV':5000,'V':6000,'EG':7000,'ER':8000,'EA':9000}
-    vehiculos = {}
-    aporte = {}
-    exento_dict = {}
-    print('Aqui estoy')
-    if request.POST.get('action') == 'post':
-        print('Aqui sigo')
-        exentos = request.POST.getlist('exentos[]')
-        fecha = request.POST.get('fecha')
-        vehiculos['I'] = int(request.POST.get('I'))
-        vehiculos['IEB'] = int(request.POST.get('IEB'))
-        vehiculos['II'] = int(request.POST.get('II'))
-        vehiculos['III'] = int(request.POST.get('III'))
-        vehiculos['IV'] = int(request.POST.get('IV'))
-        vehiculos['V'] = int(request.POST.get('V'))
-        vehiculos['EG'] = int(request.POST.get('EG'))
-        vehiculos['ER'] = int(request.POST.get('ER'))
-        vehiculos['EA'] = int(request.POST.get('EA'))
-        veh_total = vehiculos['I'] + vehiculos['IEB'] + vehiculos['II'] + vehiculos['III'] + vehiculos['IV'] + vehiculos['V']
-        
-        
 
-        for key in tarifas.keys():
-            
-            aporte['aporte_'+key] = vehiculos[key] * tarifas[key]
-            exento_dict['exento_'+key] ='NO'
-            
-            for key_exento in exentos:
-                if(key_exento == key):
-                    aporte['aporte_'+key] = 0
-                    exento_dict['exento_'+key] ='SI'
-                
-                    
-                
-        
-        aporte_total = sum(aporte.values())
-        datos ={**aporte,**vehiculos,**exento_dict,'fecha':fecha,'veh_total':veh_total,'aporte_total':aporte_total}
-        return JsonResponse(datos)
-
-    if request.POST.get('estado') == 'enviar':
-        aporte_ideal ={}
-        for key in tarifas.keys():
-            aporte_ideal[key] = vehiculos[key]*tarifas[key]
-            aporte_ideal['TOTAL'] = aporte_ideal['TOTAL']+aporte_ideal[key]
-
-        entry_aporte_ideal =recaudo(fecha=fecha,i=aporte_ideal['I'],ii=aporte_ideal['II'],iii =aporte_ideal['III'],iv =aporte_ideal['IV'],v=aporte_ideal['V'],eg=aporte_ideal['EG'],er=aporte_ideal['ER'],ea=aporte_ideal['EA'],total=aporte_ideal['TOTAL'])
-        entry_aporte = recaudo_real(fecha=fecha,i=datos['aporte_I'],ii=datos['aporte_II'],iii =datos['aporte_III'],iv =datos['aporte_IV'],v=datos['aporte_V'],eg =datos['aporte_EG'],er=datos['aporte_ER'],ea=datos['aporte_EA'],total=datos['aporte_total'])
-        entry_veh = vehiculo(fecha=fecha,i=datos['I'],ii=datos['II'],iii =datos['III'],iv =datos['IV'],v=datos['V'],eg=datos['EG'],er=datos['ER'],ea=datos['EA'],total=datos['veh_total'])
-        entry_exentos = Exentos(fecha=fecha,i=datos['exento_I'],ii=datos['exento_II'],iii=datos['exento_III'],iv=datos['exento_IV'],v=datos['exento_V'],eg=datos['exento_EG'],er=datos['exento_ER'],ea=datos['exento_EA'])
-
-        entry_aporte_ideal.save()
-        entry_aporte.save()
-        entry_veh.save()
-        entry_exentos.save()
-
-    return render(request,"ingresar-datos.html")
 
 
 
