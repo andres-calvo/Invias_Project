@@ -115,8 +115,7 @@ def tablas_page(request):
 
 @login_required(login_url="/login/")
 def reporte_page(request):
-    form = reporteForm()
-    context = {'form': form}
+    
     if request.POST.get('action') == 'post':
         
         startdate= request.POST.get('startdate')
@@ -159,10 +158,7 @@ def reporte_page(request):
            
         return JsonResponse(datos)
 
-    
-                
-    
-    return render (request,"reporte.html",context)
+    return render (request,"reporte.html")
 
    
 

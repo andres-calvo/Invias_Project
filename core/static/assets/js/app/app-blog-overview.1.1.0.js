@@ -18,6 +18,9 @@
     $.ajax({
       method:'GET',
       url: '/index-data',
+      data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
       success: function (data) {
         console.log(data)
         var rec = data.Semana_Vigente;
