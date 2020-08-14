@@ -5,8 +5,8 @@ from django.template import loader
 from django.http import HttpResponse
 from django import template
 from django.http import JsonResponse
-from .models import vehiculo,recaudo,Exentos,recaudo_real
-from .forms import vehiculoForm,analisisDate,tableForm,reporteForm
+from .models import veh_San_Juan,rec_ideal_San_Juan,Exentos,rec_San_Juan
+
 from datetime import datetime
 import json
 import base64
@@ -20,8 +20,8 @@ def index(request):
 
 @login_required(login_url="/login/")
 def index_data(request):
-    rec = list(recaudo_real.objects.values().order_by('-fecha')[:14])
-    veh = vehiculo.objects.values().order_by('-fecha')[:14]
+    rec = list(rec_San_Juan.objects.values().order_by('-fecha')[:14])
+    veh = veh_San_Juan.objects.values().order_by('-fecha')[:14]
     dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',4:'Viernes',5:'Sabado',6:'Domingo'}
     datos = {}
     
@@ -67,9 +67,9 @@ def analisis_page(request):
         enddate = request.POST.get('enddate')
         fields = ['i','ieb','ii','iii','iv','v','eg','er','ea']
         rec_ideal_query = recaudo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
-        rec_real_query =recaudo_real.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
-        veh_query = vehiculo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
-        fecha_query =vehiculo.objects.filter(fecha__range=[startdate,enddate]).values('fecha').order_by('fecha')
+        rec_real_query =rec_San_Juan.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+        veh_query = veh_San_Juan.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+        fecha_query =veh_San_Juan.objects.filter(fecha__range=[startdate,enddate]).values('fecha').order_by('fecha')
         
         for field in fields:
             for entry in rec_ideal_query:
@@ -93,7 +93,7 @@ def tablas_page(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         if request.POST.get('radiovalue') == 'Recaudo':
-            query = recaudo_real.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+            query = rec_San_Juan.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
             for entry in query:
                 #Converting date objects into strings format(yyyy-mm-dd)
                 entry['fecha'] = entry['fecha'].strftime('%Y-%m-%d')
@@ -102,7 +102,7 @@ def tablas_page(request):
             return JsonResponse(table_data,safe=False)
             
         else:
-            query = vehiculo.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
+            query = veh_San_Juan.objects.filter(fecha__range=[startdate,enddate]).values(*fields).order_by('fecha')
             for entry in query:
                 #Converting date objects into strings format(yyyy-mm-dd)
                 entry['fecha'] = entry['fecha'].strftime('%Y-%m-%d')
@@ -125,9 +125,9 @@ def reporte_page(request):
         print(startdate,enddate)
         datos = {}
 
-        veh = vehiculo.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
-        rec = recaudo_real.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
-        fechas = vehiculo.objects.filter(fecha__range = [startdate,enddate]).values('fecha').order_by('fecha')
+        veh = veh_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
+        rec = rec_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
+        fechas = veh_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values('fecha').order_by('fecha')
         datos['startdate']=startdate
         datos['enddate']=enddate
         datos['contratista']= request.POST.get('contratista')

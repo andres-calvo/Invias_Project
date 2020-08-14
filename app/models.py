@@ -38,7 +38,7 @@ class Exentos (models.Model):
     def __str__ (self):
         return self.fecha
 
-class vehiculo (models.Model):
+class veh_San_Juan (models.Model):
     fecha= models.DateField(primary_key = True)
     i= models.IntegerField()
     ieb= models.IntegerField()
@@ -54,7 +54,7 @@ class vehiculo (models.Model):
     def __str__(self):
         return self.fecha
 
-class recaudo (models.Model):
+class rec_ideal_San_Juan (models.Model):
     fecha= models.DateField(primary_key = True)
     i= models.IntegerField()
     ieb= models.IntegerField()
@@ -70,7 +70,7 @@ class recaudo (models.Model):
     def __str__(self):
         return self.fecha
 
-class recaudo_real (models.Model):
+class rec_San_Juan (models.Model):
     fecha= models.DateField(primary_key = True)
     i= models.IntegerField()
     ieb= models.IntegerField()
