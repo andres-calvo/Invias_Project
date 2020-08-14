@@ -10,4 +10,16 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+.select2-container .select2-selection--single{
+  height: 60px;
+}
+.select2-container--default .select2-selection--single{
+  border: 0px; 
+}
+.select2-selection__rendered{
+  padding-top: 15px;
   
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+  top:15px;
+}

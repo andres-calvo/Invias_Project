@@ -20,19 +20,19 @@
       url: '/index-data',
       success: function (data) {
         console.log(data)
-        var rec = data.Semana_Vigente
-        var veh = data.veh_total
-        var veh_liv = data.veh_liv
-        var rec_liv = data.rec_liv
-        var veh_com = data.veh_com
-        var rec_previa = data.Semana_Previa
-        var fechas = data.fechas
-        var pie_I=data.pie_I
-        var pie_IEB=data.pie_IEB
-        var pie_II=data.pie_II
-        var pie_III=data.pie_III
-        var pie_IV=data.pie_IV
-        var pie_V=data.pie_V
+        var rec = data.Semana_Vigente;
+        var veh = data.veh_total;
+        var veh_liv = data.veh_liv;
+        var rec_liv = data.rec_liv;
+        var veh_com = data.veh_com;
+        var rec_previa = data.Semana_Previa;
+        var fechas = data.fechas;
+        var pie_I=data.pie_I;
+        var pie_IEB=data.pie_IEB;
+        var pie_II=data.pie_II;
+        var pie_III=data.pie_III;
+        var pie_IV=data.pie_IV;
+        var pie_V=data.pie_V;
         
         console.log(typeof rec)
       var boSmallStatsDatasets = [

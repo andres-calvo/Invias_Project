@@ -50,7 +50,7 @@ def index_data(request):
     for entry in rec[7:14][::-1]:
         datos.setdefault('Semana_Previa',[]).append(entry['total'])
     
-    print(datos)
+   
     return JsonResponse(datos)
 
 
