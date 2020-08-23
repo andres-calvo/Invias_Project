@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django import template
 from django.http import JsonResponse
 from .models import veh_San_Juan,rec_ideal_San_Juan,Exentos,rec_San_Juan
+#Importlib is to dynamic importing modules with strings its very important
+import importlib
 
 from datetime import datetime
 import json
@@ -13,10 +15,26 @@ import base64
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 
-
+#-------------------------------------------
+# Home
+# ------------------------------------------ 
 @login_required(login_url="/login/")
 def index(request):
-    return render(request, "index.html")
+    return render (request,"Estadistica_Peaje.html")
+#-------------------------------------------
+# Estadisticas
+# ------------------------------------------ 
+@login_required(login_url="/login/")
+def estadistica_general(request):
+    return render (request,"Estadistica_General.html")
+
+@login_required(login_url="/login/")
+def estadistica_departamental(request):
+    return render (request,"Estadistica_Departamental.html")
+
+@login_required(login_url="/login/")
+def estadistica_peaje(request):
+    return render (request,"Estadistica_Peaje.html")
 
 @login_required(login_url="/login/")
 def index_data(request):
@@ -54,13 +72,19 @@ def index_data(request):
     return JsonResponse(datos)
 
 
-
-
-
-
-# Analisis grafico de los datos
+#-------------------------------------------
+# Analisis
+# ------------------------------------------
 @login_required(login_url= "/login")
-def analisis_page(request):
+def analisis_general(request):
+    return render (request,"Analisis_General.html") 
+
+@login_required(login_url= "/login")
+def analisis_departamental(request):
+    return render(request,"Analisis_Departamental.html")
+
+@login_required(login_url= "/login")
+def analisis_peaje(request):
     datos={}
     if request.POST.get('action') == 'post':
         startdate = request.POST.get('startdate')
@@ -85,8 +109,21 @@ def analisis_page(request):
         return JsonResponse(datos,safe=False)
     return render(request,"analisis.html")
 
+
+
+#-------------------------------------------
+# Tablas
+# ------------------------------------------ 
 @login_required(login_url="/login")
-def tablas_page(request):
+def tablas_general(request):
+    return render(request,"Tablas_General.html")
+    
+@login_required(login_url="/login")
+def tablas_departamental(request):
+    return render(request,"Tablas_Departamental.html")
+
+@login_required(login_url="/login")
+def tablas_peaje(request):
     fields = ['fecha','i','ieb','ii','iii','iv','v','eg','ea','er','total']
     print('Aqui voys')
     if request.POST.get('action') == 'post':
@@ -113,8 +150,21 @@ def tablas_page(request):
     
     return render (request,"tablas.html",)
 
+
+
+#-------------------------------------------
+# Reporte
+# ------------------------------------------ 
 @login_required(login_url="/login/")
-def reporte_page(request):
+def reporte_general(request):
+    return render(request,"Reporte_General.html")
+
+@login_required(login_url="/login/")
+def reporte_departamental(request):
+    return render(request,"Reporte_Departamental.html")
+
+@login_required(login_url="/login/")
+def reporte_peaje(request):
     
     if request.POST.get('action') == 'post':
         

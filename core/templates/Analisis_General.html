@@ -1,0 +1,301 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Components {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+
+<div class="main-content-container container-fluid px-4">
+  <!-- Page Header -->
+  <div class="page-header row no-gutters py-4">
+    <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+      <span class="text-uppercase page-subtitle" id="peaje-name">Peaje San Juan del Cesar</span>
+      <h3 class="page-title">Análisis</h3>
+    </div>
+    <div class="col-12 col-sm-4 ml-auto" >
+      <img  style="max-height: 50px;" src="/static/assets/img/logos_join.png" alt="Invias">
+    </div>
+  </div>
+
+  <div class="card card-small mb-4">
+    <div class="card-body">
+      <form  action =" " method="POST" id="post-form" >{% csrf_token %}
+        <div class="form-row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Fecha Inicial</span>
+              </div>
+              <input type="text" class = "form-control" id="fecha_inicial" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Fecha Final</span>
+              </div>
+              <input type="text" class = "form-control" id="fecha_final" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_I" name="checkboxes" value="i" class="custom-control-input">
+              <label class="custom-control-label" for="check_I">I</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_IEB" name="checkboxes" value="ieb" class="custom-control-input">
+              <label class="custom-control-label" for="check_IEB">IEB</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_II" name="checkboxes" value="ii" class="custom-control-input">
+              <label class="custom-control-label" for="check_II">II</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_III" name="checkboxes" value="iii" class="custom-control-input">
+              <label class="custom-control-label" for="check_III">III</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_IV" name="checkboxes" value="iv" class="custom-control-input">
+              <label class="custom-control-label" for="check_IV">IV</label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+              <input type="checkbox" id="check_V" name="checkboxes" value="v" class="custom-control-input">
+              <label class="custom-control-label" for="check_V">V</label>
+            </div>
+          </div>
+        </div>
+        
+        <button type="submit" id="analisis_button" class="btn btn-primary">Mostrar</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card card-small mb-4" id="card-main-2" style="display: none;">
+    <div class="card-body" id="main-body-2">
+
+      <canvas height="50" width="80" id = "line-chart-i"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-i" 
+        data-toggle="collapse" data-target="#collapseContent-i"
+       aria-expanded="false" aria-controls="collapseContent-i">Mas detalles</button>
+       <div class="collapse" id="collapseContent-i">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-i" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <canvas height="50" width="80" id = "line-chart-ieb"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ieb" 
+        data-toggle="collapse" data-target="#collapseContent-ieb"
+       aria-expanded="false" aria-controls="collapseContent-ieb">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ieb">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-ieb" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-ii"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ii" 
+        data-toggle="collapse" data-target="#collapseContent-ii"
+       aria-expanded="false" aria-controls="collapseContent-ii">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ii">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-ii" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-iii"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iii" 
+        data-toggle="collapse" data-target="#collapseContent-iii"
+       aria-expanded="false" aria-controls="collapseContent-iii">Mas detalles</button>
+       <div class="collapse" id="collapseContent-iii">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-iii" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-iv"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iv" 
+        data-toggle="collapse" data-target="#collapseContent-iv"
+       aria-expanded="false" aria-controls="collapseContent-iv">Mas detalles</button>
+       <div class="collapse" id="collapseContent-iv">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-iv" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-v"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-v" 
+        data-toggle="collapse" data-target="#collapseContent-v"
+       aria-expanded="false" aria-controls="collapseContent-v">Mas detalles</button>
+       <div class="collapse" id="collapseContent-v">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-v" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-eg"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-eg" 
+        data-toggle="collapse" data-target="#collapseContent-eg"
+       aria-expanded="false" aria-controls="collapseContent-eg">Mas detalles</button>
+       <div class="collapse" id="collapseContent-eg">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-eg" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-er"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-er" 
+        data-toggle="collapse" data-target="#collapseContent-er"
+       aria-expanded="false" aria-controls="collapseContent-er">Mas detalles</button>
+       <div class="collapse" id="collapseContent-er">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-er" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <canvas height="50" width="80" id = "line-chart-ea"style="display: none;"></canvas>
+      <br>
+      <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ea" 
+        data-toggle="collapse" data-target="#collapseContent-ea"
+       aria-expanded="false" aria-controls="collapseContent-ea">Mas detalles</button>
+       <div class="collapse" id="collapseContent-ea">
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table id="table-ea" class="table table-striped" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Real</th>
+                  <th scope="col">Esperado</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/app/app-analisis.js"></script>
+
+{% endblock javascripts %}
+<script src='static/assets/js/app/analisis/analisis_general.js'></script>
