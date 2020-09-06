@@ -1,10 +1,9 @@
 
           <div class="main-navbar sticky-top bg-white">
               <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
-                <form action="#" class=" w-100 d-none d-md-flex d-lg-flex" id="form-search">
-                  
-                    
-                    <select class="w-100 js-example-basic-single" id="peaje-selected">
+                <form  class=" w-100 d-none d-md-flex d-lg-flex" id="form-search">
+                    <select class="js-example-basic-single"  id="peaje-selected" >
+                      {% if 'estadistica/peaje' in request.path %}
                       <option value="San_Juan">Guajira-San Juan del Cesar</option>
                       <option value="Lobo_Guerrero">Valle Del Cauca-Lobo Guerrero</option>
                       <option value="Rincon_Hondo">Cesar-Rincon Hondo</option>
@@ -34,10 +33,22 @@
                       <option value="Oiba">Santander-Oiba</option>
                       <option value="Curm">Santander-Curm</option>
                       <option value="Los_Curos">Santander-Los Curos</option>
+                      {% elif 'estadistica/departamental' in request.path %}
+                      <option value="Guajira">Guajira</option>
+                      <option value="Valle_Del_Cauca">Valle Del Cauca</option>
+                      <option value="Cesar">Cesar</option>
+                      <option value="Antioquia">Antioquia</option>
+                      <option value="Magdalena">Magdalena</option>
+                      <option value="Cauca">Cauca</option>
+                      <option value="Santander">Santander</option>
+                      <option value="Cundinamarca">Cundinamarca</option>
+                      <option value="Boyaca">Boyaca</option>
+                      {% elif 'estadistica/general' in request.path %}
+                      <option value="General">Funcionalidad desabilitada en Estadistica General de Peajes</option>
+                      
+                      {% endif %}
                     </select>
                     
-                    
-                    <input type="submit" class="btn btn-default">
                 </form>
                 
                 {% if user.is_authenticated %}

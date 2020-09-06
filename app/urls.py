@@ -37,7 +37,7 @@ urlpatterns = [
     path('reporte/general',views.reporte_general,name='reporte_general'),
     path('reporte/departamental',views.reporte_departamental,name='reporte_departamental'),
     path('reporte/peaje',views.reporte_peaje,name='reporte_peaje'),
-    path('index-data',views.index_data),
+
     
     
 
