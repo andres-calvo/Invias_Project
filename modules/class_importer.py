@@ -4,10 +4,12 @@ from datetime import datetime
 def Dynamic_Import_Class(peaje):
     veh_module ='veh_'+peaje
     rec_module= 'rec_'+peaje
+    rec_ideal_module = 'rec_ideal_'+peaje
     veh_class = getattr(import_module('app.models'), veh_module)
     rec_class = getattr(import_module('app.models'), rec_module)
+    rec_ideal_class = getattr(import_module('app.models'), rec_ideal_module)
 
-    return (veh_class,rec_class)
+    return (veh_class,rec_class,rec_ideal_class)
 
 
 
@@ -34,13 +36,15 @@ def getQuerysetsData(listofpeajes,startdate,enddate):
     fields = ['i','ieb','ii','iii','iv','v','eg','er','ea','total']
     vehiculo_data = {}
     recaudo_data = {}
+    recaudo_ideal_data ={}
     _,dias,meses=getDictionary()
     for peaje_index,peaje in enumerate(listofpeajes):
-        vehiculo,recaudo= Dynamic_Import_Class(peaje)
+        vehiculo,recaudo,recaudo_ideal= Dynamic_Import_Class(peaje)
         recaudo_data.setdefault("peajes",[]).append(peaje)
         
         veh_query_array = list(vehiculo.objects.filter(fecha__range=[startdate,enddate]).values().order_by('-fecha'))
         rec_query_array = list(recaudo.objects.filter(fecha__range=[startdate,enddate]).values().order_by('-fecha'))
+        rec_ideal_query_array = list(recaudo_ideal.objects.filter(fecha__range=[startdate,enddate]).values().order_by('-fecha'))
 
         if peaje_index == 0:
             for array_index,value in enumerate(veh_query_array):
@@ -50,20 +54,20 @@ def getQuerysetsData(listofpeajes,startdate,enddate):
 
                     recfield = "rec_"+f
                     recaudo_data.setdefault(recfield,[]).append(rec_query_array[array_index][f])
+
+                    rec_ideal_field ="rec_ideal_"+f
+                    recaudo_ideal_data.setdefault(rec_ideal_field,[]).append(rec_ideal_query_array[array_index][f])
+
         else:
             for array_index,value in enumerate(veh_query_array):
                 for f in fields:
                     vehfield = "veh_"+f
                     recfield = "rec_"+f
+                    rec_ideal_field ="rec_ideal_"+f
                     vehiculo_data[vehfield][array_index] += veh_query_array[array_index][f]
                     recaudo_data[recfield][array_index] += rec_query_array[array_index][f]
+                    recaudo_ideal_data[rec_ideal_field][array_index] += rec_ideal_query_array[array_index][f]
 
-        
-
-        # for array_index,value in enumerate(rec_query_array):
-        #     for f in fields:
-        #         field = "rec_"+f
-        #         recaudo_data.setdefault(field,[]).append(recaudo_data[field][array_index] + rec_query_array[array_index][field])
         
         aporte_total_peaje= sum(recaudo_data["rec_total"])
         print(aporte_total_peaje)
@@ -83,12 +87,14 @@ def getQuerysetsData(listofpeajes,startdate,enddate):
         dia_mes = str(date.day) + ' '+str(meses[date.month])
         vehiculo_data.setdefault('Rango_Semana_Previa',[]).append(dia_mes)
         
-    final_data = {**vehiculo_data,**recaudo_data}
+    final_data = {**vehiculo_data,**recaudo_data,**recaudo_ideal_data}
     # Agregando las sumas de los datos de Vehiculos Livianos
     final_data['rec_liv'] = [x + y for x, y in zip(final_data['rec_i'], final_data['rec_ieb'])]
+    final_data['rec_ideal_liv'] = [x + y for x, y in zip(final_data['rec_ideal_i'], final_data['rec_ideal_ieb'])]
     final_data['veh_liv'] = [x + y for x, y in zip(final_data['veh_i'], final_data['veh_ieb'])]
     # Agregando las sumas de los datos de Vehiculos Comerciales
     final_data['rec_com'] = [x + y + z + w for x, y, z, w in zip(final_data['rec_ii'], final_data['rec_iii'],final_data['rec_iv'],final_data['rec_v'])]
+    final_data['rec_ideal_com'] = [x + y + z + w for x, y, z, w in zip(final_data['rec_ideal_ii'], final_data['rec_ideal_iii'],final_data['rec_ideal_iv'],final_data['rec_ideal_v'])]
     final_data['veh_com'] = [x + y + z + w for x, y, z, w in zip(final_data['veh_ii'], final_data['veh_iii'],final_data['veh_iv'],final_data['veh_v'])]
     
     final_data['Semana_Vigente'] = final_data['rec_total'][:-7][::-1]
@@ -126,7 +132,7 @@ def GetTableData(tabletype,choice,startdate,enddate,category):
         fieldtype ="rec_"
     else:
         fieldtype ="veh_"
-    fields =['i','ieb','ii','iii','iv','v','eg','er','ea','total']
+        
     for index,elements in enumerate(datos_iniciales[fieldtype+"i"]): #La columna no importa, debido a que todas tendran la misma cantidad de datos
         valuetoappend = {}
         valuetoappend["fecha"] = datos_iniciales["fechas"][index]
@@ -142,8 +148,9 @@ def GetTableData(tabletype,choice,startdate,enddate,category):
         valuetoappend["total"] = datos_iniciales[fieldtype+"total"][index]
         
         arrayofdicts.append(valuetoappend)
+    peajes_array =datos_iniciales["peajes"]
 
-    return arrayofdicts
+    return (arrayofdicts,peajes_array)
 
       
     

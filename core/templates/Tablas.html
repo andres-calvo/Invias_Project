@@ -16,11 +16,12 @@
         <!-- Page Header -->
         <div class="page-header row  py-4">
           <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-            <span class="text-uppercase page-subtitle" id="peaje-name">Peaje San Juan del Cesar</span>
-            <h3 class="page-title">Tablas</h3>
+            <h3 class="page-title" id="page-title">{% if 'peaje' in request.path %}Tablas{% elif 'departamental' in request.path %}Tablas Departamento{% else %}Tablas General{% endif %}</h3>
+            <span class="text-uppercase page-subtitle" id="peaje-name"></span>
+            
           </div>
-          <div class="col-12 col-sm-4 ml-auto" >
-            <img  style="max-height: 50px;" src="/static/assets/img/logos_join.png" alt="Invias">
+          <div class="col-12 col-sm-3 ml-auto mr-3" >
+            <img  style="object-fit: contain;width: 300px;" src="/static/assets/img/logos_join.png" alt="Invias">
           </div>
           
         </div>
@@ -145,10 +146,11 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-<script src="/static/assets/js/app/app-tablas.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script src="/static/assets/js/app/app-tablas.js"></script>
 
 
 
