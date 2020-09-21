@@ -74,12 +74,11 @@ $(document).ready(function () {
         } else if (pathname.includes("departamental")) {
           $("#page-title").text("Tablas Departamento " + page_choice);
           $("#peaje-name").text("Peaje ");
-          peajeslist.map(AppendPeajesFunction);
-
-          function AppendPeajesFunction(value) {
-            var peaje = value.replace(/_/g, " ");
+          
+          function AppendPeajesFunction(peaje) {
             $("#peaje-name").append(" " + peaje + ",");
           }
+          peajeslist.map(AppendPeajesFunction);
         }
       },
     });

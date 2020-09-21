@@ -13,8 +13,8 @@
       </h3>
       <span class="text-uppercase page-subtitle" id="peaje-name"></span>
     </div>
-    <div class="col-12 col-sm-4 ml-auto">
-      <img style="max-height: 50px" src="/static/assets/img/logos_join.png" alt="Invias" />
+    <div class="col-12 col-sm-3 ml-auto" >
+      <img  style="object-fit: contain;width: 300px;" src="/static/assets/img/logos_join.png" alt="Invias">
     </div>
   </div>
 
@@ -88,10 +88,11 @@
             </select>
           </div>
         </div>
-
-        <button type="submit" id="analisis_button" class="btn btn-primary">
-          Mostrar
-        </button>
+        <div class="form-row">
+          <button type="submit" id="analisis_button" class="btn btn-primary">Mostrar</button>
+          <button type="button" id="PDF_button" class="btn btn-danger" style="display: none;margin-left: 20px;">Ver PDF</button>
+        </div>
+        
       </form>
     </div>
   </div>
@@ -102,10 +103,10 @@
         <h4>Periodo de Analisis <span id="periodoAnalisis"></span></h4>
       </div>
       <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-8">
           <canvas id="recaudoCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-4">
           <div class="table-responsive">
             <table id="recaudoTable" class="table table-striped" style="width: 100%">
             </table>
@@ -114,10 +115,10 @@
       </div>
 
       <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-8">
           <canvas id="recLivComCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-4">
           <div class="table-responsive">
             <table id="recLivComTable" class="table table-striped" style="width: 100%">
               <thead>
@@ -133,10 +134,10 @@
       </div>
 
       <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-8">
           <canvas id="VehiculosCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-4">
           <div class="table-responsive">
             <table id="VehiculosTable" class="table table-striped" style="width: 100%"></table>
           </div>
@@ -149,7 +150,8 @@
 
   <!-- Specific Page JS goes HERE  -->
   {% block javascripts %}
-
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
   <script src="/static/assets/js/app/app-analisis-GeneralYDepartamental.js"></script>
 
   {% endblock javascripts %}

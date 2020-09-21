@@ -35,6 +35,9 @@ $(document).ready(function () {
       },
 
       success: function (json) {
+        var pdfbutton =document.getElementById("PDF_button");
+        pdfbutton.style.display ="block";
+
         console.log(json);
         var peajeslist = json.peajes;
         var main_div = document.getElementById("card-main-2");
@@ -47,13 +50,17 @@ $(document).ready(function () {
         } else if (pathname.includes("departamental")) {
           $("#page-title").text("Analisis Departamento " + page_choice);
           $("#peaje-name").text("Peaje ");
-          peajeslist.map(AppendPeajesFunction);
 
-          function AppendPeajesFunction(value) {
-            var peaje = value.replace(/_/g, " ");
-            $("#peaje-name").append(" " + peaje + ",");
+          function AppendPeajesFunction(peaje) {
+            $("#peaje-name").append("," + peaje );
           }
+          peajeslist.map(AppendPeajesFunction);
+          
         }
+        //Remove first comma ','\
+        var peajes =$("#peaje-name").text().replace(","," ")
+        $("#peaje-name").text(peajes)
+
 
         //Periodo de Analisis
         $("#periodoAnalisis").text(startdate, "-", enddate);
@@ -77,6 +84,7 @@ $(document).ready(function () {
           },
           options: {
             legend: {
+              fontSize:18,
               display: true,
             },
 
@@ -88,6 +96,7 @@ $(document).ready(function () {
                   offset: true,
                   ticks: {
                     major: {
+                      fontSize:18,
                       enabled: true,
                       fontStyle: "bold",
                     },
@@ -135,11 +144,13 @@ $(document).ready(function () {
                     drawBorder: false,
                   },
                   ticks: {
+                    fontSize:18,
                     callback: function (label, index, labels) {
                       return label.toLocaleString("de-DE");
                     },
                   },
                   scaleLabel: {
+                    fontSize:18,
                     display: true,
                     labelString: "Recaudo Total",
                   },
@@ -150,19 +161,14 @@ $(document).ready(function () {
         });
         //First Table
         var recaudo_total = json.rec_total.reduce((a, b) => a + b, 0);
+        var recaudo_promedio = Math.round(recaudo_total / json.rec_total.length).toLocaleString("de-DE");
+        var recaudo_maximo = Math.max(...json.rec_total).toLocaleString("de-DE");
+        var recaudo_minimo = Math.min(...json.rec_total).toLocaleString("de-DE")
         $("#recaudoTable").append(`<tbody>
-          <tr><td>Recaudo Total</td><td>$ ${recaudo_total.toLocaleString(
-          "de-DE"
-        )}</td></tr>
-          <tr><td>Recaudo Promedio</td><td>$ ${Math.round(
-          recaudo_total / json.rec_total.length
-        ).toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Maximo</td><td>$ ${Math.max(
-          ...json.rec_total
-        ).toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Minimo</td><td>$ ${Math.min(
-          ...json.rec_total
-        ).toLocaleString("de-DE")}</td></tr>
+          <tr><td>Recaudo Total</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Recaudo Promedio</td><td>$ ${recaudo_promedio}</td></tr>
+          <tr><td>Recaudo Maximo</td><td>$ ${recaudo_maximo}</td></tr>
+          <tr><td>Recaudo Minimo</td><td>$ ${recaudo_minimo}</td></tr>
         </tbody>`);
 
         //Second Chart
@@ -194,6 +200,7 @@ $(document).ready(function () {
           },
           options: {
             legend: {
+              fontSize:18,
               display: true,
             },
 
@@ -204,6 +211,7 @@ $(document).ready(function () {
                   distribution: "series",
                   offset: true,
                   ticks: {
+                    fontSize:18,
                     major: {
                       enabled: true,
                       fontStyle: "bold",
@@ -255,8 +263,10 @@ $(document).ready(function () {
                     callback: function (label, index, labels) {
                       return label.toLocaleString("de-DE");
                     },
+                    fontSize:18
                   },
                   scaleLabel: {
+                    fontSize:18,
                     display: true,
                     labelString: "Recaudo Total",
                   },
@@ -266,27 +276,19 @@ $(document).ready(function () {
           },
         });
         //Second Table
-        var recaudo_total_liv = json.rec_liv.reduce((a, b) => a + b, 0);
-        var recaudo_total_com = json.rec_com.reduce((a, b) => a + b, 0);
+        var recaudo_total_liv = json.rec_liv.reduce((a, b) => a + b, 0)
+        var recaudo_total_com = json.rec_com.reduce((a, b) => a + b, 0)
+        var recaudo_promedio_liv = Math.round(recaudo_total_liv / json.rec_liv.length).toLocaleString("de-DE");
+        var recaudo_promedio_com = Math.round(recaudo_total_com / json.rec_com.length).toLocaleString("de-DE");
+        var recaudo_maximo_liv = Math.max(...json.rec_liv).toLocaleString("de-DE");
+        var recaudo_maximo_com = Math.max(...json.rec_com).toLocaleString("de-DE");
+        var recaudo_minimo_liv = Math.min(...json.rec_liv).toLocaleString("de-DE");
+        var recaudo_minimo_com = Math.min(...json.rec_com).toLocaleString("de-DE");
         $("#recLivComTable").append(`<tbody>
-          <tr><td>Recaudo Total</td><td>$ ${recaudo_total_liv.toLocaleString(
-          "de-DE"
-        )}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Promedio</td><td>$ ${Math.round(
-          recaudo_total_liv / json.rec_liv.length
-        ).toLocaleString("de-DE")}</td><td>$ ${Math.round(
-          recaudo_total_com / json.rec_com.length
-        ).toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Maximo</td><td>$ ${Math.max(
-          ...json.rec_liv
-        ).toLocaleString("de-DE")}</td><td>$ ${Math.max(
-          ...json.rec_com
-        )}</td></tr>
-          <tr><td>Recaudo Minimo</td><td>$ ${Math.min(
-          ...json.rec_liv
-        ).toLocaleString("de-DE")}</td><td>$ ${Math.min(
-          ...json.rec_com
-        ).toLocaleString("de-DE")}</td></tr>
+          <tr><td>Recaudo Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Recaudo Promedio</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td></tr>
+          <tr><td>Recaudo Maximo</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td></tr>
+          <tr><td>Recaudo Minimo</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td></tr>
         </tbody>`);
         //Third Chart
         new Chart(document.getElementById("VehiculosCanvas").getContext("2d"), {
@@ -307,6 +309,7 @@ $(document).ready(function () {
           },
           options: {
             legend: {
+              fontSize:18,
               display: true,
             },
 
@@ -317,6 +320,7 @@ $(document).ready(function () {
                   distribution: "series",
                   offset: true,
                   ticks: {
+                    fontSize:18,
                     major: {
                       enabled: true,
                       fontStyle: "bold",
@@ -368,8 +372,10 @@ $(document).ready(function () {
                     callback: function (label, index, labels) {
                       return label.toLocaleString("de-DE");
                     },
+                    fontSize:18
                   },
                   scaleLabel: {
+                    fontSize:18,
                     display: true,
                     labelString: "Transito Total",
                   },
@@ -380,20 +386,102 @@ $(document).ready(function () {
         });
         //Third Table
         var vehiculo_total = json.veh_total.reduce((a, b) => a + b, 0);
+        var vehiculo_promedio = Math.round(vehiculo_total / json.veh_total.length).toLocaleString("de-DE");
+        var vehiculo_maximo = Math.max(...json.veh_total).toLocaleString("de-DE");
+        var vehiculo_minimo = Math.min(...json.veh_total).toLocaleString("de-DE")
         $("#VehiculosTable").append(`<tbody>
-          <tr><td>Transito Total</td><td>${vehiculo_total.toLocaleString(
-          "de-DE"
-        )}</td></tr>
-          <tr><td>Transito Promedio</td><td> ${Math.round(
-          vehiculo_total / json.veh_total.length
-        ).toLocaleString("de-DE")}</td></tr>
-          <tr><td>Transito Maximo</td><td> ${Math.max(
-          ...json.veh_total
-        ).toLocaleString("de-DE")}</td></tr>
-          <tr><td>Transito Minimo</td><td> ${Math.min(
-          ...json.veh_total
-        ).toLocaleString("de-DE")}</td></tr>
+          <tr><td>Transito Total</td><td>${vehiculo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Transito Promedio</td><td> ${vehiculo_promedio}</td></tr>
+          <tr><td>Transito Maximo</td><td> ${vehiculo_maximo}</td></tr>
+          <tr><td>Transito Minimo</td><td> ${vehiculo_minimo}</td></tr>
         </tbody>`);
+
+        //PDF Starts Here
+        
+
+        $(document).on('click','#PDF_button',function(){
+          var typepage = (pathname.includes("general"))? "General":"Departamento "+page_choice;
+          var docDefinition = {
+            pageSize: "LETTER",
+    
+            // by default we use portrait, you can change it to landscape if you wish
+            pageOrientation: "portrait",
+    
+            // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+            pageMargins: [20, 40, 20, 40],
+            content: [
+              {text: "Análisis "+typepage+" Periodo: "+startdate+"/"+enddate,alignment:'center'},
+              '\n',
+              {text:(typepage=="General")?" ":$("#peaje-name").text()},
+              '\n','\n',
+              {
+                columns:[
+                  {
+                    image:document.getElementById("recaudoCanvas").toDataURL(),
+                    width:300,
+                    alignment:'left'
+                  },
+                  {
+                    style:'tableExample',
+                    table:{
+                      body:[
+                        [{text:'Recaudo Total',bold:'true',alignment:'center',fontSize:11},{text:"$"+recaudo_total.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Promedio",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_promedio,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Maximo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Minimo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo,alignment:'center',fontSize:9}]
+                      ]
+                    }
+                  }
+                ],columnGap:30
+              },
+              '\n','\n',
+              {
+                columns:[
+                  {
+                    image:document.getElementById("recLivComCanvas").toDataURL(),
+                    width:300,
+                    alignment:'left'
+                  },
+                  {
+                    style:'tableExample',
+                    table:{
+                      body:[
+                        ['',{text:'Livianos',bold:'true',alignment:'center',fontSize:11},{text:'Comerciales',bold:'true',alignment:'center',fontSize:11}],
+                        [{text:'Recaudo Total',bold:'true',alignment:'center',fontSize:11},{text:"$"+recaudo_total_liv.toLocaleString("de-DE"),alignment:'center',fontSize:9},{text:"$"+recaudo_total_com.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Promedio",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_promedio_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_promedio_com,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Maximo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_maximo_com,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Minimo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_minimo_com,alignment:'center',fontSize:9}]
+                      ]
+                    }
+                  }
+                ],
+                columnGap:30
+              },
+              '\n','\n',
+              {
+                columns:[
+                  {
+                    image:document.getElementById("VehiculosCanvas").toDataURL(),
+                    width:300,
+                    alignment:'left'
+                  },
+                  {
+                    style:'tableExample',
+                    table:{
+                      body:[
+                        [{text:'Transito Total',bold:'true',alignment:'center',fontSize:11},{text:vehiculo_total.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
+                        [{text:"Transito Promedio",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_promedio,alignment:'center',fontSize:9}],
+                        [{text:"Transito Maximo",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_maximo,alignment:'center',fontSize:9}],
+                        [{text:"Transito Minimo",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_minimo,alignment:'center',fontSize:9}]
+                      ]
+                    }
+                  }
+                ],columnGap:30
+              }
+            ]
+          };
+          pdfMake.createPdf(docDefinition).open();
+        });
       },
     });
   });

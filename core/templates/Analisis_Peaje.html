@@ -13,11 +13,12 @@
   <!-- Page Header -->
   <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-      <span class="text-uppercase page-subtitle" id="peaje-name">Peaje San Juan del Cesar</span>
       <h3 class="page-title">Análisis</h3>
+      <span class="text-uppercase page-subtitle" id="peaje-name"></span>
+      
     </div>
-    <div class="col-12 col-sm-4 ml-auto" >
-      <img  style="max-height: 50px;" src="/static/assets/img/logos_join.png" alt="Invias">
+    <div class="col-12 col-sm-3 ml-auto" >
+      <img  style="object-fit: contain;width: 300px;" src="/static/assets/img/logos_join.png" alt="Invias">
     </div>
   </div>
 
@@ -26,20 +27,46 @@
       <form  action =" " method="POST" id="post-form" >{% csrf_token %}
         <div class="form-row">
           <div class="col-4">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Fecha Inicial</span>
-              </div>
-              <input type="text" class = "form-control" id="fecha_inicial" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
-            </div>
+            <label> Fecha Inicial </label>
+              <input type="text" class = "form-control calendar" id="startdate" placeholder="Click para seleccionar fecha">
           </div>
           <div class="col-4">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Fecha Final</span>
-              </div>
-              <input type="text" class = "form-control" id="fecha_final" data-date-format='yyyy-mm-dd' placeholder="yyyy-mm-dd">
-            </div>
+            <label> Fecha Final </label>
+              <input type="text" class = "form-control calendar" id="enddate" placeholder="Click para seleccionar fecha">
+          </div>
+          <div class="col-4 mb-3">
+            <label> Peaje </label>
+            <select class="w-100 js-example-basic-single" id="option-selected" >
+              <option value="San_Juan">Guajira-San Juan del Cesar</option>
+              <option value="Lobo_Guerrero">Valle Del Cauca-Lobo Guerrero</option>
+              <option value="Rincon_Hondo">Cesar-Rincon Hondo</option>
+              <option value="San_Diego">Cesar-San Diego</option>
+              <option value="Cocorna_Santuario">Antioquia-Cocorna (Santuario)</option>
+              <option value="Puerto_Triunfo">Antioquia-Puerto Triunfo</option>
+              <option value="Guamal">Magdalena-Guamal</option>
+              <option value="Santa_Ana">Magdalena-Santa Ana</option>
+              <option value="Tunia">Cauca-Tunia</option>
+              <option value="Villa_Rica">Cauca-Villa Rica</option>
+              <option value="Cencar">Valle Del Cauca-Cencar</option>
+              <option value="Cerritos">Valle Del Cauca-Cerritos</option>
+              <option value="Ciat">Valle Del Cauca-Ciat</option>
+              <option value="Estambul">Valle Del Cauca-Estambul</option>
+              <option value="Media_Canoa">Valle Del Cauca-Media Canoa</option>
+              <option value="Paso_De_La_Torre">Valle Del Cauca-Paso De La Torre</option>
+              <option value="Rozo">Valle Del Cauca-Rozo</option>
+              <option value="Gamarra">Cesar-Gamarra</option>
+              <option value="Morrison">Cesar-Morrison</option>
+              <option value="Pailitas">Cesar-Pailitas</option>
+              <option value="Platanal">Cesar-Platanal</option>
+              <option value="Aguas_Negras">Santander-Aguas Negras</option>
+              <option value="La_Gomez">Santander-La Gomez</option>
+              <option value="Zambito">Santander-Zambito</option>
+              <option value="Casablanca">Cundinamarca-Casablanca</option>
+              <option value="Saboya">Boyaca-Saboya</option>
+              <option value="Oiba">Santander-Oiba</option>
+              <option value="Curm">Santander-Curm</option>
+              <option value="Los_Curos">Santander-Los Curos</option>
+            </select>
           </div>
         </div>
 
@@ -98,7 +125,7 @@
   <div class="card card-small mb-4" id="card-main-2" style="display: none;">
     <div class="card-body" id="main-body-2">
 
-      <canvas height="50" width="80" id = "line-chart-i"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-i"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-i" 
         data-toggle="collapse" data-target="#collapseContent-i"
@@ -120,7 +147,7 @@
       </div>
 
 
-      <canvas height="50" width="80" id = "line-chart-ieb"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-ieb"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ieb" 
         data-toggle="collapse" data-target="#collapseContent-ieb"
@@ -141,7 +168,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-ii"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-ii"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ii" 
         data-toggle="collapse" data-target="#collapseContent-ii"
@@ -162,7 +189,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-iii"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-iii"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iii" 
         data-toggle="collapse" data-target="#collapseContent-iii"
@@ -183,7 +210,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-iv"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-iv"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-iv" 
         data-toggle="collapse" data-target="#collapseContent-iv"
@@ -204,7 +231,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-v"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-v"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-v" 
         data-toggle="collapse" data-target="#collapseContent-v"
@@ -225,7 +252,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-eg"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-eg"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-eg" 
         data-toggle="collapse" data-target="#collapseContent-eg"
@@ -246,7 +273,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-er"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-er"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-er" 
         data-toggle="collapse" data-target="#collapseContent-er"
@@ -267,7 +294,7 @@
         </div>
       </div>
 
-      <canvas height="50" width="80" id = "line-chart-ea"style="display: none;"></canvas>
+      <canvas width="800px" id = "line-chart-ea"style="display: none;"></canvas>
       <br>
       <button type="button" class="btn btn-primary"style="display: none;" id="buttons-ea" 
         data-toggle="collapse" data-target="#collapseContent-ea"
@@ -287,6 +314,7 @@
           </div>
         </div>
       </div>
+      <button type="button" class="btn btn-danger" id="PDF_Button">Ver PDF</button>
     </div>
   </div>
  
@@ -294,8 +322,9 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="/static/assets/js/app/app-analisis.js"></script>
-<script src='/static/assets/js/app/analisis/analisis_peaje.js'></script>
+
 
 {% endblock javascripts %}

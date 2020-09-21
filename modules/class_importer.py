@@ -40,7 +40,7 @@ def getQuerysetsData(listofpeajes,startdate,enddate):
     _,dias,meses=getDictionary()
     for peaje_index,peaje in enumerate(listofpeajes):
         vehiculo,recaudo,recaudo_ideal= Dynamic_Import_Class(peaje)
-        recaudo_data.setdefault("peajes",[]).append(peaje)
+        recaudo_data.setdefault("peajes",[]).append(peaje.replace("_"," "))
         
         veh_query_array = list(vehiculo.objects.filter(fecha__range=[startdate,enddate]).values().order_by('-fecha'))
         rec_query_array = list(recaudo.objects.filter(fecha__range=[startdate,enddate]).values().order_by('-fecha'))
@@ -70,7 +70,6 @@ def getQuerysetsData(listofpeajes,startdate,enddate):
 
         
         aporte_total_peaje= sum(recaudo_data["rec_total"])
-        print(aporte_total_peaje)
         recaudo_data.setdefault("aporte_peajes",[]).append(aporte_total_peaje)
 
     for value in veh_query_array:

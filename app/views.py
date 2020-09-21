@@ -107,7 +107,7 @@ def analisis_peaje(request):
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
-    return render(request, "analisis.html")
+    return render(request, "Analisis_Peaje.html")
 
 
 # -------------------------------------------
@@ -163,59 +163,17 @@ def tablas_peaje(request):
 # -------------------------------------------
 # Reporte
 # ------------------------------------------
-@login_required(login_url="/login/")
-def reporte_general(request):
-    return render(request, "Reporte_General.html")
-
-
-@login_required(login_url="/login/")
-def reporte_departamental(request):
-    return render(request, "Reporte_Departamental.html")
-
 
 @login_required(login_url="/login/")
 def reporte_peaje(request):
 
-    # if request.POST.get('action') == 'post':
+    if request.POST.get('action') == 'sending_option':
+        choice = str(request.POST.get('choice'))
+        category = "Peaje"
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
+        datos = getDataFromDatabase(choice, startdate, enddate, category)
 
-    #     startdate= request.POST.get('startdate')
-    #     enddate = request.POST.get('enddate')
-    #     fields = ['i','ieb','ii','iii','iv','v','eg','ea','er']
-    #     print(startdate,enddate)
-    #     datos = {}
+        return JsonResponse(datos)
 
-    #     veh = veh_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
-    #     rec = rec_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values(*fields).order_by('fecha')
-    #     fechas = veh_San_Juan.objects.filter(fecha__range = [startdate,enddate]).values('fecha').order_by('fecha')
-    #     datos['startdate']=startdate
-    #     datos['enddate']=enddate
-    #     datos['contratista']= request.POST.get('contratista')
-    #     datos['e_peaje']= request.POST.get('e_peaje')
-    #     datos['ruta']= request.POST.get('ruta')
-    #     datos['sector'] = request.POST.get('sector')
-    #     datos['localizacion']= request.POST.get('localizacion')
-    #     datos['departamento']= request.POST.get('departamento')
-    #     datos['num_contrato'] = request.POST.get('num_contrato')
-    #     datos['novedades']= request.POST.get('novedades')
-    #     for entry in veh:
-    #         for f in fields :
-    #              datos.setdefault('veh_'+f,[]).append(entry[f])
-
-    #     for entry in rec:
-    #         for f in fields:
-    #             datos.setdefault('rec_'+f,[]).append(entry[f])
-
-    #     for entry in fechas:
-    #         datos.setdefault('fechas',[]).append(entry['fecha'])
-
-    #     #Calcular totales
-    #     for f in fields:
-    #         datos['Total_Veh_'+f] = sum(datos['veh_'+f])
-    #         datos['Total_Rec_'+f] = sum(datos['rec_'+f])
-
-    #     datos['Total_vehiculo']= datos['veh_i']+datos['veh_ieb']+datos['veh_ii']+datos['veh_iii']+datos['veh_iv']+datos['veh_v']
-    #     datos['Total_recaudo_real']= datos['rec_i']+datos['rec_ieb']+datos['rec_ii']+datos['rec_iii']+datos['rec_iv']+datos['rec_v']+datos['rec_eg']+datos['rec_er']+datos['rec_ea']
-
-    #     return JsonResponse(datos)
-
-    return render(request, "reporte.html")
+    return render(request, "Reporte_Peaje.html")
