@@ -13,7 +13,6 @@
       <div class="col-12 col-sm-4 text-center text-sm-left mb-0">{% csrf_token %}
         <h3 class="page-title" style="white-space: nowrap;" id="page-title">{% if 'peaje' in request.path %}Estadística{% elif 'departamental' in request.path %}Estadística Departamento{% else %}Estadística General{% endif %}</h3>
         <span class=" page-subtitle" id="peaje-name"></span>
-        <a href="">Ayuda</a>
       </div>
       <div class="col-12 col-sm-3 ml-auto" >
         <img  style="object-fit: contain;width: 300px;" src="/static/assets/img/logos_join.png" alt="Invias">
@@ -24,17 +23,17 @@
     <div class="row">
       <div class="col-lg col-md-6 col-sm-6 mb-4">
         <div class="stats-small stats-small--1 card card-small">
-          <div class="card-body p-0 d-flex chart-1">
+          <div class="card-body p-0 d-flex chart-1" data-toggle="tooltip" data-placement="left" title="Comportamiento Ultimos 7 dias">
             <div class="d-flex flex-column m-auto">
-              <div class="stats-small__data text-center">
+              <div class="stats-small__data text-center" >
                 <span class="stats-small__label ">RECAUDO (millones)</span>
-                <h6 class="stats-small__value count my-3" id = "rec-total"></h6>
+                <h6 class="stats-small__value count my-3" id = "rec-total" data-toggle="tooltip" data-placement="top" title="Recaudado Ultimo dia"></h6>
               </div>
-              <div class="stats-small__data">
-                <span class="stats-small__percentage stats-small__percentage--increase" id ="rec-total-%"></span>
+              <div class="stats-small__data" >
+                <span class="stats-small__percentage stats-small__percentage--increase" id ="rec-total-%" data-toggle="tooltip" data-placement="right" title="Variacion entre los dos ultimos dias"></span>
               </div>
             </div>
-            <canvas height="120" class="blog-overview-stats-small-1" ></canvas>
+            <canvas height="120" class="blog-overview-stats-small-1"  ></canvas>
           </div>
         </div>
       </div>
@@ -121,7 +120,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
         <div class="card card-small h-100">
           <div class="card-header border-bottom">
-            <h6 class="m-0">Vehículos por Categoría</h6>
+            <h6 class="m-0">Vehículos por Categoría Ultima Semana</h6>
           </div>
           <div class="card-body d-flex py-0" id="vehPorCategoria">
             <canvas height="220" class="blog-users-by-device m-auto"></canvas>

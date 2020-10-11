@@ -1,28 +1,26 @@
 $(document).ready(function () {
-  $("#peaje-selected").select2({
-    /// This is the navbar select
-    width: "100%",
-  });
-  $("#option-selected").select2({
-    width: "100%",
-  });
+  var pathname = window.location.pathname;
+
+  $("#peaje-selected").select2({width: "100%"});/// This is the navbar select,
+  if (pathname.includes("general")) {
+  } else {
+    $("#option-selected").select2({width: "100%"});
+  }
+  
   document.getElementById("peaje-selected").disabled = true; //Disable the upper navigation selects
 
   $(".calendar").datepicker({});
   $(".calendar").attr("readOnly", "true");
 
-  var pathname = window.location.pathname;
+  
 
   $(document).on("submit", "#post-form", function (e) {
     e.preventDefault();
-    var choice = $("#option-selected option:selected").val();
+    var choice = (pathname.includes("general"))? 'General': $("#option-selected option:selected").val()
 
-    var startdate = moment($("#startdate").val(), "MM/DD/YYYY").format(
-      "YYYY-MM-DD"
-    );
-    var enddate = moment($("#enddate").val(), "MM/DD/YYYY").format(
-      "YYYY-MM-DD"
-    );
+    var startdate = moment($("#startdate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
+    var enddate = moment($("#enddate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
+
     $.ajax({
       type: "POST",
       url: pathname,
@@ -37,244 +35,80 @@ $(document).ready(function () {
       success: function (json) {
         var pdfbutton =document.getElementById("PDF_button");
         pdfbutton.style.display ="block";
+        ////////////
+        //RESET ALL CHARTS THIS AVOID ERROR WHEN HOVERING IN A NEW CHART
+        //////////
+        
 
         console.log(json);
         var peajeslist = json.peajes;
         var main_div = document.getElementById("card-main-2");
         main_div.style.display = "block";
 
-        var page_choice = choice.replace(/_/g, " ");
+        $("#card-main2 canvas").remove()///DELETE ALL CANVAS ELEMENTS
+        $('table td #recaudoTable').remove();
+        $('table td #recLivComTable').remove();
+        $('table td #VehiculosTable').remove();
+        
+        $("div.col-12.col-sm-8").eq(0).html('<canvas id="recaudoCanvas" height="130" style="max-width: 100% !important"></canvas>')
+        $("div.col-12.col-sm-8").eq(1).html('<canvas id="recLivComCanvas" height="130" style="max-width: 100% !important"></canvas>')
+        $("div.col-12.col-sm-8").eq(2).html('<canvas id="VehiculosCanvas" height="130" style="max-width: 100% !important"></canvas>')
 
+        var page_choice = choice.replace(/_/g," ");
+        console.log(page_choice)
+        var typepage;
         if (pathname.includes("peaje")) {
-          $("#page-title").text("Analisis Peaje " + page_choice);
+          $("#page-title").text("Analisis Peaje "+page_choice);
+          typepage ="Peaje"
         } else if (pathname.includes("departamental")) {
-          $("#page-title").text("Analisis Departamento " + page_choice);
+          $("#page-title").text("Analisis Departamento "+page_choice);
           $("#peaje-name").text("Peaje ");
+          typepage="Departamento"
 
           function AppendPeajesFunction(peaje) {
             $("#peaje-name").append("," + peaje );
           }
           peajeslist.map(AppendPeajesFunction);
           
-        }
+        } else if (pathname.includes("ruta")) {
+          $("#page-title").text("Analisis Ruta "+choice);
+          $("#peaje-name").text("Peaje ");
+          typepage="Ruta "+choice
+          function AppendPeajesFunction(peaje) {
+            $("#peaje-name").append("," + peaje );
+          }
+          peajeslist.map(AppendPeajesFunction);
+        } else {typepage="General"}
         //Remove first comma ','\
         var peajes =$("#peaje-name").text().replace(","," ")
         $("#peaje-name").text(peajes)
 
 
         //Periodo de Analisis
-        $("#periodoAnalisis").text(startdate, "-", enddate);
+        $("#periodoAnalisis").text(startdate+"/"+enddate);
 
         //Charting starts here
-        new Chart(document.getElementById("recaudoCanvas").getContext("2d"), {
-          data: {
-            labels: json.fechas,
-            datasets: [
-              {
-                type: "line",
-                data: json.rec_total,
-                label: "Recaudo",
-                borderColor: "rgb(255,180,0)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            legend: {
-              fontSize:18,
-              display: true,
-            },
+        //First call this main function ONCE in this JAVASCRIPT FILE
+        //This will send the json data to our costume chart functions in ChartsWebPDF.js 
+        categorias_data(json)
 
-            scales: {
-              xAxes: [
-                {
-                  type: "time",
-                  distribution: "series",
-                  offset: true,
-                  ticks: {
-                    major: {
-                      fontSize:18,
-                      enabled: true,
-                      fontStyle: "bold",
-                    },
-                    source: "data",
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100,
-                  },
-                  afterBuildTicks: function (scale, ticks) {
-                    var majorUnit = scale._majorUnit;
-                    var firstTick = ticks[0];
-                    var i, ilen, val, tick, currMajor, lastMajor;
+        // CreateChart (canvasID,chartType,dataType,title,lineas,labels)
+        categorias_data.CreateChart("recaudoCanvas","Web","rec_data"," ",["TOTAL"],["Recaudo"])
+        categorias_data.CreateChart("recLivComCanvas","Web","rec_data"," ",["LIV","COM"],["Recaudo Veh.Livianos","Recaudo Veh.Comerciales"])
+        categorias_data.CreateChart("VehiculosCanvas","Web","veh_data"," ",["TOTAL"],["Vehiculos"])
 
-                    val = moment(ticks[0].value);
-                    if (
-                      (majorUnit === "minute" && val.second() === 0) ||
-                      (majorUnit === "hour" && val.minute() === 0) ||
-                      (majorUnit === "day" && val.hour() === 9) ||
-                      (majorUnit === "month" &&
-                        val.date() <= 3 &&
-                        val.isoWeekday() === 1) ||
-                      (majorUnit === "year" && val.month() === 0)
-                    ) {
-                      firstTick.major = true;
-                    } else {
-                      firstTick.major = false;
-                    }
-                    lastMajor = val.get(majorUnit);
-
-                    for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                      tick = ticks[i];
-                      val = moment(tick.value);
-                      currMajor = val.get(majorUnit);
-                      tick.major = currMajor !== lastMajor;
-                      lastMajor = currMajor;
-                    }
-                    return ticks;
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    drawBorder: false,
-                  },
-                  ticks: {
-                    fontSize:18,
-                    callback: function (label, index, labels) {
-                      return label.toLocaleString("de-DE");
-                    },
-                  },
-                  scaleLabel: {
-                    fontSize:18,
-                    display: true,
-                    labelString: "Recaudo Total",
-                  },
-                },
-              ],
-            },
-          },
-        });
         //First Table
         var recaudo_total = json.rec_total.reduce((a, b) => a + b, 0);
         var recaudo_promedio = Math.round(recaudo_total / json.rec_total.length).toLocaleString("de-DE");
         var recaudo_maximo = Math.max(...json.rec_total).toLocaleString("de-DE");
         var recaudo_minimo = Math.min(...json.rec_total).toLocaleString("de-DE")
-        $("#recaudoTable").append(`<tbody>
-          <tr><td>Recaudo Total</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Promedio</td><td>$ ${recaudo_promedio}</td></tr>
-          <tr><td>Recaudo Maximo</td><td>$ ${recaudo_maximo}</td></tr>
-          <tr><td>Recaudo Minimo</td><td>$ ${recaudo_minimo}</td></tr>
+        $("#recaudoTable").html(`<tbody>
+          <tr><td>Total</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio}</td></tr>
+          <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo}</td></tr>
+          <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo}</td></tr>
         </tbody>`);
 
-        //Second Chart
-        new Chart(document.getElementById("recLivComCanvas"), {
-          data: {
-            labels: json.fechas,
-            datasets: [
-              {
-                type: "line",
-                data: json.rec_liv,
-                label: "Recaudo Livianos",
-                borderColor: "rgb(0, 184, 216)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-              {
-                type: "line",
-                data: json.rec_com,
-                label: "Recaudo Comerciales",
-                borderColor: "rgb(23,198,113)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            legend: {
-              fontSize:18,
-              display: true,
-            },
-
-            scales: {
-              xAxes: [
-                {
-                  type: "time",
-                  distribution: "series",
-                  offset: true,
-                  ticks: {
-                    fontSize:18,
-                    major: {
-                      enabled: true,
-                      fontStyle: "bold",
-                    },
-                    source: "data",
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100,
-                  },
-                  afterBuildTicks: function (scale, ticks) {
-                    var majorUnit = scale._majorUnit;
-                    var firstTick = ticks[0];
-                    var i, ilen, val, tick, currMajor, lastMajor;
-
-                    val = moment(ticks[0].value);
-                    if (
-                      (majorUnit === "minute" && val.second() === 0) ||
-                      (majorUnit === "hour" && val.minute() === 0) ||
-                      (majorUnit === "day" && val.hour() === 9) ||
-                      (majorUnit === "month" &&
-                        val.date() <= 3 &&
-                        val.isoWeekday() === 1) ||
-                      (majorUnit === "year" && val.month() === 0)
-                    ) {
-                      firstTick.major = true;
-                    } else {
-                      firstTick.major = false;
-                    }
-                    lastMajor = val.get(majorUnit);
-
-                    for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                      tick = ticks[i];
-                      val = moment(tick.value);
-                      currMajor = val.get(majorUnit);
-                      tick.major = currMajor !== lastMajor;
-                      lastMajor = currMajor;
-                    }
-                    return ticks;
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    drawBorder: false,
-                  },
-                  ticks: {
-                    callback: function (label, index, labels) {
-                      return label.toLocaleString("de-DE");
-                    },
-                    fontSize:18
-                  },
-                  scaleLabel: {
-                    fontSize:18,
-                    display: true,
-                    labelString: "Recaudo Total",
-                  },
-                },
-              ],
-            },
-          },
-        });
         //Second Table
         var recaudo_total_liv = json.rec_liv.reduce((a, b) => a + b, 0)
         var recaudo_total_com = json.rec_com.reduce((a, b) => a + b, 0)
@@ -284,123 +118,51 @@ $(document).ready(function () {
         var recaudo_maximo_com = Math.max(...json.rec_com).toLocaleString("de-DE");
         var recaudo_minimo_liv = Math.min(...json.rec_liv).toLocaleString("de-DE");
         var recaudo_minimo_com = Math.min(...json.rec_com).toLocaleString("de-DE");
-        $("#recLivComTable").append(`<tbody>
-          <tr><td>Recaudo Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Recaudo Promedio</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td></tr>
-          <tr><td>Recaudo Maximo</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td></tr>
-          <tr><td>Recaudo Minimo</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td></tr>
+        $("#recLivComTable").html(`<tbody>
+          <tr><td>Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td></tr>
+          <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td></tr>
+          <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td></tr>
         </tbody>`);
-        //Third Chart
-        new Chart(document.getElementById("VehiculosCanvas").getContext("2d"), {
-          data: {
-            labels: json.fechas,
-            datasets: [
-              {
-                type: "line",
-                data: json.veh_total,
-                label: "Vehiculos",
-                borderColor: "rgb(255,180,0)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            legend: {
-              fontSize:18,
-              display: true,
-            },
-
-            scales: {
-              xAxes: [
-                {
-                  type: "time",
-                  distribution: "series",
-                  offset: true,
-                  ticks: {
-                    fontSize:18,
-                    major: {
-                      enabled: true,
-                      fontStyle: "bold",
-                    },
-                    source: "data",
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100,
-                  },
-                  afterBuildTicks: function (scale, ticks) {
-                    var majorUnit = scale._majorUnit;
-                    var firstTick = ticks[0];
-                    var i, ilen, val, tick, currMajor, lastMajor;
-
-                    val = moment(ticks[0].value);
-                    if (
-                      (majorUnit === "minute" && val.second() === 0) ||
-                      (majorUnit === "hour" && val.minute() === 0) ||
-                      (majorUnit === "day" && val.hour() === 9) ||
-                      (majorUnit === "month" &&
-                        val.date() <= 3 &&
-                        val.isoWeekday() === 1) ||
-                      (majorUnit === "year" && val.month() === 0)
-                    ) {
-                      firstTick.major = true;
-                    } else {
-                      firstTick.major = false;
-                    }
-                    lastMajor = val.get(majorUnit);
-
-                    for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                      tick = ticks[i];
-                      val = moment(tick.value);
-                      currMajor = val.get(majorUnit);
-                      tick.major = currMajor !== lastMajor;
-                      lastMajor = currMajor;
-                    }
-                    return ticks;
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    drawBorder: false,
-                  },
-                  ticks: {
-                    callback: function (label, index, labels) {
-                      return label.toLocaleString("de-DE");
-                    },
-                    fontSize:18
-                  },
-                  scaleLabel: {
-                    fontSize:18,
-                    display: true,
-                    labelString: "Transito Total",
-                  },
-                },
-              ],
-            },
-          },
-        });
+        
         //Third Table
         var vehiculo_total = json.veh_total.reduce((a, b) => a + b, 0);
         var vehiculo_promedio = Math.round(vehiculo_total / json.veh_total.length).toLocaleString("de-DE");
         var vehiculo_maximo = Math.max(...json.veh_total).toLocaleString("de-DE");
         var vehiculo_minimo = Math.min(...json.veh_total).toLocaleString("de-DE")
-        $("#VehiculosTable").append(`<tbody>
-          <tr><td>Transito Total</td><td>${vehiculo_total.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Transito Promedio</td><td> ${vehiculo_promedio}</td></tr>
-          <tr><td>Transito Maximo</td><td> ${vehiculo_maximo}</td></tr>
-          <tr><td>Transito Minimo</td><td> ${vehiculo_minimo}</td></tr>
+        $("#VehiculosTable").html(`<tbody>
+          <tr><td>Total Vehicular</td><td>${vehiculo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Promedio Diario Vehicular</td><td> ${vehiculo_promedio}</td></tr>
+          <tr><td>Máximo Diario Vehicular</td><td> ${vehiculo_maximo}</td></tr>
+          <tr><td>Mínimo Diario Vehicular</td><td> ${vehiculo_minimo}</td></tr>
         </tbody>`);
 
         //PDF Starts Here
-        
 
         $(document).on('click','#PDF_button',function(){
-          var typepage = (pathname.includes("general"))? "General":"Departamento "+page_choice;
+          var pdfcanvasdiv = document.getElementById("pdfcanvasdiv")
+          pdfcanvasdiv.style.display="block"
+          Chart.defaults.global.animation = false;
+          $("#card-main2 canvas").remove()///DELETE ALL CANVAS ELEMENTS
+          
+          $("#pdfcanvasdiv").append('<canvas id="recaudoCanvasPDF" height="130" style="max-width: 100% !important"></canvas>')
+          $("#pdfcanvasdiv").append('<canvas id="recLivComCanvasPDF" height="130" style="max-width: 100% !important"></canvas>')
+          $("#pdfcanvasdiv").append('<canvas id="VehiculosCanvasPDF" height="130" style="max-width: 100% !important"></canvas>')
+
+          // In this case the labels are going top because we are in Analisis App, only be rigth if we were in Reporte App
+          categorias_data.CreateChart("recaudoCanvasPDF","PDF","rec_data"," ",["TOTAL"],["Recaudo"])
+          categorias_data.CreateChart("recLivComCanvasPDF","PDF","rec_data"," ",["LIV","COM"],["Recaudo Veh.Livianos","Recaudo Veh.Comerciales"])
+          categorias_data.CreateChart("VehiculosCanvasPDF","PDF","veh_data"," ",["TOTAL"],["Vehiculos"])
+
+          
+          var c = document.createElement('canvas');
+          var img = document.getElementById('invias-pdf');
+          c.height = img.naturalHeight;
+          c.width = img.naturalWidth;
+          var ctx = c.getContext('2d');
+
+          ctx.drawImage(img, 0, 0, c.width, c.height);
+          var invias64 = c.toDataURL();
           var docDefinition = {
             pageSize: "LETTER",
     
@@ -408,7 +170,14 @@ $(document).ready(function () {
             pageOrientation: "portrait",
     
             // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-            pageMargins: [20, 40, 20, 40],
+            pageMargins: [40, 40, 40, 40],
+            header:{
+              image:invias64,
+              width:40,
+              margin: [0,20,20,0],
+              alignment:'right',
+              
+            },
             content: [
               {text: "Análisis "+typepage+" Periodo: "+startdate+"/"+enddate,alignment:'center'},
               '\n',
@@ -417,8 +186,8 @@ $(document).ready(function () {
               {
                 columns:[
                   {
-                    image:document.getElementById("recaudoCanvas").toDataURL(),
-                    width:300,
+                    image:document.getElementById("recaudoCanvasPDF").toDataURL(),
+                    width:350,
                     alignment:'left'
                   },
                   {
@@ -427,8 +196,8 @@ $(document).ready(function () {
                       body:[
                         [{text:'Recaudo Total',bold:'true',alignment:'center',fontSize:11},{text:"$"+recaudo_total.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
                         [{text:"Recaudo Promedio",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_promedio,alignment:'center',fontSize:9}],
-                        [{text:"Recaudo Maximo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo,alignment:'center',fontSize:9}],
-                        [{text:"Recaudo Minimo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo,alignment:'center',fontSize:9}]
+                        [{text:"Recaudo Máximo Diario",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Mínimo Diario",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo,alignment:'center',fontSize:9}]
                       ]
                     }
                   }
@@ -438,7 +207,7 @@ $(document).ready(function () {
               {
                 columns:[
                   {
-                    image:document.getElementById("recLivComCanvas").toDataURL(),
+                    image:document.getElementById("recLivComCanvasPDF").toDataURL(),
                     width:300,
                     alignment:'left'
                   },
@@ -449,30 +218,30 @@ $(document).ready(function () {
                         ['',{text:'Livianos',bold:'true',alignment:'center',fontSize:11},{text:'Comerciales',bold:'true',alignment:'center',fontSize:11}],
                         [{text:'Recaudo Total',bold:'true',alignment:'center',fontSize:11},{text:"$"+recaudo_total_liv.toLocaleString("de-DE"),alignment:'center',fontSize:9},{text:"$"+recaudo_total_com.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
                         [{text:"Recaudo Promedio",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_promedio_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_promedio_com,alignment:'center',fontSize:9}],
-                        [{text:"Recaudo Maximo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_maximo_com,alignment:'center',fontSize:9}],
-                        [{text:"Recaudo Minimo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_minimo_com,alignment:'center',fontSize:9}]
+                        [{text:"Recaudo Máximo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_maximo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_maximo_com,alignment:'center',fontSize:9}],
+                        [{text:"Recaudo Mínimo",bold:"true",alignment:'center',fontSize:11},{text:"$"+recaudo_minimo_liv,alignment:'center',fontSize:9},{text:"$"+recaudo_minimo_com,alignment:'center',fontSize:9}]
                       ]
                     }
                   }
                 ],
-                columnGap:30
+                columnGap:20
               },
               '\n','\n',
               {
                 columns:[
                   {
-                    image:document.getElementById("VehiculosCanvas").toDataURL(),
-                    width:300,
+                    image:document.getElementById("VehiculosCanvasPDF").toDataURL(),
+                    width:350,
                     alignment:'left'
                   },
                   {
                     style:'tableExample',
                     table:{
                       body:[
-                        [{text:'Transito Total',bold:'true',alignment:'center',fontSize:11},{text:vehiculo_total.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
-                        [{text:"Transito Promedio",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_promedio,alignment:'center',fontSize:9}],
-                        [{text:"Transito Maximo",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_maximo,alignment:'center',fontSize:9}],
-                        [{text:"Transito Minimo",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_minimo,alignment:'center',fontSize:9}]
+                        [{text:'Total Vehicular',bold:'true',alignment:'center',fontSize:11},{text:vehiculo_total.toLocaleString("de-DE"),alignment:'center',fontSize:9}],
+                        [{text:"Promedio Diario Vehicular",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_promedio,alignment:'center',fontSize:9}],
+                        [{text:"Máximo Diario Vehicular",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_maximo,alignment:'center',fontSize:9}],
+                        [{text:"Mínimo Diario Vehicular",bold:"true",alignment:'center',fontSize:11},{text:vehiculo_minimo,alignment:'center',fontSize:9}]
                       ]
                     }
                   }
@@ -481,7 +250,9 @@ $(document).ready(function () {
             ]
           };
           pdfMake.createPdf(docDefinition).open();
+          pdfcanvasdiv.style.display="none";
         });
+        
       },
     });
   });

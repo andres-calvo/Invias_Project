@@ -33,7 +33,7 @@ def login_view(request):
         else:
             msg = 'Error validating the form'    
 
-    return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+    return render(request, "accounts/login-new.html", {"form": form, "msg" : msg})
 
 def register_user(request):
 

@@ -1,5 +1,6 @@
 from importlib import import_module
 from datetime import datetime
+from app.models import Peajes
 
 def Dynamic_Import_Class(peaje):
     veh_module ='veh_'+peaje
@@ -117,10 +118,20 @@ def getDataFromDatabase(choice,startdate,enddate,category): # category hace refe
     elif category == "General":
         peajes = ListadePeajes
         datos = getQuerysetsData(peajes, startdate, enddate)
+         
+    
+    elif category == "Ruta":
+        query=Peajes.objects.filter(codigo__startswith=choice).values() ## choice sera la ruta escogida tener en cuenta que son los dos primeros numeros del codigo
+        peajes=[]
+        for p in query:
+            peajes.append(p['peaje'])
+
+        datos = getQuerysetsData(peajes, startdate, enddate)
     
     else:
         peajes = [choice]
         datos = getQuerysetsData(peajes, startdate, enddate)
+        
     
     return datos
 

@@ -8,6 +8,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Peajes (models.Model):
+    peaje = models.TextField()
+    codigo = models.TextField()
+    pr = models.TextField()
+    distancia = models.TextField()
+    administra = models.TextField()
+    territorial = models.TextField()
+    sector = models.TextField()
+    ubicacion = models.TextField()
+
 class Tarifas (models.Model):
     fecha= models.DateField(primary_key = True)
     i= models.IntegerField()

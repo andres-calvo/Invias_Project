@@ -17,7 +17,7 @@ $(document).on('submit', '#post-form',function(e){
     var choice = $("#option-selected option:selected").val();
     var checks = [];
     $.each($("input[name='checkboxes']:checked"), function(){ checks.push($(this).attr('value'));});
-    $("#peaje-name").append(" " + choice.replace("_"," "));
+    $("#peaje-title").append(" " + choice.replace("_"," "));
 
     $.ajax({
         type: 'POST',
@@ -206,7 +206,7 @@ $(document).on('submit', '#post-form',function(e){
             // Replace the above variable data into html text of <li> tag
             var contenido_real =[tot_rec_real,prom_real,maximum_value_real,minimum_value_real,std_real];
             var contenido_esperado =[tot_rec_ideal,prom_ideal,maximum_value_ideal,minimum_value_ideal,std_ideal];
-            var estadisticas = ["Recaudo Total","Promedio","Valor Maximo","Valor Minimo","Desviacion Estandar"];
+            var estadisticas = ["Recaudo Total","Recaudo Promedio Diario","Recaudo Maximo Diario","Recaudo Minimo Diario","Desviacion Estandar"];
             
             
 
@@ -224,6 +224,8 @@ $(document).on('submit', '#post-form',function(e){
             }
           };
           // PDF Starts Here
+          var pdfbutton =document.getElementById("PDF_Button");
+          pdfbutton.style.display ="block";
           $(document).on('click','#PDF_Button',function(){
             var pdfContent =[{text:'Analisis '+json.peajes+' Periodo: '+startdate+'/'+enddate, alignment:'center'},'\n','\n']
             var counter=0
@@ -249,9 +251,9 @@ $(document).on('submit', '#post-form',function(e){
                       body: [
                         ['', {text:"Real",bold: 'true',fontSize: 9, alignment: 'center'},{text:"Esperado",bold: 'true',fontSize: 9, alignment: 'center'}],
                         [{text:"Recaudo Total",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row1.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row1.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Promedio",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Valor Maximo",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Valor Minimo",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                        [{text:"Recaudo Promedio Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                        [{text:"Recaudo Maximo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                        [{text:"Recaudo Minimo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
                         [{text:"Desviación Estandar",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row5.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row5.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}]
                       ]
                     }

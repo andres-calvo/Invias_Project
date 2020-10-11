@@ -13,6 +13,7 @@ import json
 import base64
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
+from .models import Peajes
 
 # -------------------------------------------
 # Home
@@ -83,6 +84,17 @@ def analisis_general(request):
         return JsonResponse(datos)
     return render(request, "Analisis_General_Departamental.html")
 
+@login_required(login_url="/login")
+def analisis_ruta(request):
+    if request.POST.get('action') == 'sending_option':
+        choice = str(request.POST.get('choice'))
+        category = "Ruta"
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
+        datos = getDataFromDatabase(choice, startdate, enddate, category)
+
+        return JsonResponse(datos)
+    return render(request, "Analisis_General_Departamental.html")
 
 @login_required(login_url="/login")
 def analisis_departamental(request):
@@ -173,6 +185,9 @@ def reporte_peaje(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         datos = getDataFromDatabase(choice, startdate, enddate, category)
+        query = Peajes.objects.filter(peaje=choice).values()
+        datos['peaje_data'] = query[0]
+        datos['peaje_data']['territorial'] = datos['peaje_data']['territorial'].title()
 
         return JsonResponse(datos)
 

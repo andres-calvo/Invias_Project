@@ -29,6 +29,7 @@ urlpatterns = [
     # Path de analisis
     #-----------------------------------------------------------------
     path('analisis/general',views.analisis_general,name='analisis_general'),
+    path('analisis/ruta',views.analisis_ruta,name='analisis_ruta'),
     path('analisis/departamental',views.analisis_departamental,name='analisis_departamental'),
     path('analisis/peaje',views.analisis_peaje,name='analisis_peaje'),
     #-----------------------------------------------------------------

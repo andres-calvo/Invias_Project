@@ -4,9 +4,11 @@ $(document).ready(function () {
     /// This is the navbar select
     width: "100%",
   });
-  $("#option-selected").select2({
-    width: "100%",
-  });
+  if (pathname.includes("general")) {
+    $("#option-selected").css('display','none')
+  } else {
+    $("#option-selected").select2({width: "100%"});
+  }
 
   document.getElementById("peaje-selected").disabled = true; //Disable the upper navigation selects
 
@@ -21,12 +23,8 @@ $(document).ready(function () {
 
     var choice = $("#option-selected option:selected").val();
 
-    var startdate = moment($("#startdate").val(), "MM/DD/YYYY").format(
-      "YYYY-MM-DD"
-    );
-    var enddate = moment($("#enddate").val(), "MM/DD/YYYY").format(
-      "YYYY-MM-DD"
-    );
+    var startdate = moment($("#startdate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
+    var enddate = moment($("#enddate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
 
     $.ajax({
       type: "POST",

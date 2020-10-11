@@ -7,9 +7,9 @@
   <!-- Page Header -->
   <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-      <h3 class="page-title">
-        {% if 'peaje' in request.path %}Analisis{% elif 'departamental' in request.path %}Analisis Departamento
-        {% else %}Analisis General{% endif %}
+      <h3 class="page-title" id="page-title" style="white-space: nowrap;">
+        {% if 'peaje' in request.path %}Análisis{% elif 'departamental' in request.path %}Análisis Departamento{% elif 'ruta' in request.path %}Análisis Ruta
+        {% else %}Análisis General{% endif %}
       </h3>
       <span class="text-uppercase page-subtitle" id="peaje-name"></span>
     </div>
@@ -19,6 +19,7 @@
   </div>
 
   <div class="card card-small mb-4">
+    <!-- Hidden Div just for PDF with z-index=-1; and opacity=0;-->
     <div class="card-body">
       <form action=" " method="POST" id="post-form">
         {% csrf_token %}
@@ -31,9 +32,9 @@
             <label>Fecha Final</label>
             <input type="text" class="form-control calendar" id="enddate" placeholder="mm/dd/yyyy" required>
           </div>
-          <div class="col-4 mb-3">
+          <div class="col-4 mb-3" id="select-div" {% if 'general' in request.path %} style="display: none;" {% endif %}>
             <label>{% if 'peaje' in request.path %} Peaje {% elif 'departamental' in request.path %}
-              Departamento{% else %}General {% endif %}</label>
+              Departamento{% elif 'ruta' in request.path %}Ruta {% else %}General {% endif %}</label>
             <select class="w-100 js-example-basic-single" id="option-selected">
               {% if 'peaje' in request.path %}
               <option value="San_Juan">Guajira-San Juan del Cesar</option>
@@ -81,8 +82,14 @@
               <option value="Santander">Santander</option>
               <option value="Cundinamarca">Cundinamarca</option>
               <option value="Boyaca">Boyaca</option>
-              {% elif 'general' in request.path %}
-              <option value="General" selected>General</option>
+              {% elif 'ruta' in request.path %}
+              <option value="23">Ruta 23</option>
+              <option value="40">Ruta 40</option>
+              <option value="45">Ruta 45</option>
+              <option value="49">Ruta 49</option>
+              <option value="60">Ruta 60</option>
+              <option value="66">Ruta 66</option>
+              <option value="70">Ruta 70</option>
 
               {% endif %}
             </select>
@@ -100,15 +107,15 @@
   <div class="card card-small mb-4" id="card-main-2" style="display: none">
     <div class="card-body" id="main-body-2">
       <div>
-        <h4>Periodo de Analisis <span id="periodoAnalisis"></span></h4>
+        <h4>Periodo de Análisis <span id="periodoAnalisis"></span></h4>
       </div>
       <div class="row" style="margin-bottom: 30px;">
         <div class="col-12 col-sm-8">
           <canvas id="recaudoCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-4" style="margin-top: 25px;">
           <div class="table-responsive">
-            <table id="recaudoTable" class="table table-striped" style="width: 100%">
+            <table id="recaudoTable" class="table table-striped" style="width: 100%;white-space:nowrap;">
             </table>
           </div>
         </div>
@@ -118,12 +125,12 @@
         <div class="col-12 col-sm-8">
           <canvas id="recLivComCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-4" style="margin-top: 25px;">
           <div class="table-responsive">
-            <table id="recLivComTable" class="table table-striped" style="width: 100%">
+            <table id="recLivComTable" class="table table-striped" >
               <thead>
                 <tr>
-                  <th scope="col"></th>
+                  <th scope="col">Recaudo</th>
                   <th scope="col">Livianos</th>
                   <th scope="col">Comerciales</th>
                 </tr>
@@ -137,14 +144,27 @@
         <div class="col-12 col-sm-8">
           <canvas id="VehiculosCanvas" height="130" style="max-width: 100% !important"></canvas>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-4" style="margin-top: 25px;">
           <div class="table-responsive">
-            <table id="VehiculosTable" class="table table-striped" style="width: 100%"></table>
+            <table id="VehiculosTable" class="table table-striped" ></table>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- Div for PDF Display-->
+  <div style="display: none" id="pdfcanvasdiv">
+    <img id='invias-pdf' src='/static/assets/img/Invias.png' style="opacity:0;">
+    <canvas id="recaudoCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
+    <canvas id="recLivComCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
+    <canvas id="VehiculosCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
+  </div>
+  <style>
+    table tbody tr td {
+      width: fit-content;
+      font-size: 13px;
+    }
+  </style>
 </div>
   {% endblock content %}
 

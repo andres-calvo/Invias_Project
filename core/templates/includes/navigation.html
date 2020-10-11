@@ -4,8 +4,8 @@
                 <form  class=" w-100 d-none d-md-flex d-lg-flex" id="form-search">
                     <select class="js-example-basic-single"  id="peaje-selected" >
                       {% if 'estadistica/peaje' in request.path %}
-                      <option value="San_Juan">Guajira-San Juan del Cesar</option>
                       <option value="Lobo_Guerrero">Valle Del Cauca-Lobo Guerrero</option>
+                      <option value="San_Juan">Guajira-San Juan del Cesar</option>
                       <option value="Rincon_Hondo">Cesar-Rincon Hondo</option>
                       <option value="San_Diego">Cesar-San Diego</option>
                       <option value="Cocorna_Santuario">Antioquia-Cocorna (Santuario)</option>
@@ -34,9 +34,9 @@
                       <option value="Curm">Santander-Curm</option>
                       <option value="Los_Curos">Santander-Los Curos</option>
                       {% elif 'estadistica/departamental' in request.path %}
+                      <option value="Cesar">Cesar</option>
                       <option value="Guajira">Guajira</option>
                       <option value="Valle_Del_Cauca">Valle Del Cauca</option>
-                      <option value="Cesar">Cesar</option>
                       <option value="Antioquia">Antioquia</option>
                       <option value="Magdalena">Magdalena</option>
                       <option value="Cauca">Cauca</option>

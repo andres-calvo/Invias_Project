@@ -69,21 +69,32 @@ $(document).on("submit", "#post-form", function (e) {
             ],
           },
           options: {
-            legend: { display: false },
+            legend: { display: false, 
+              labels:{
+                fontSize:22,
+              } 
+            },
 
             scales: {
+              xAxes: [
+                {
+                  scaleLabel:{
+                    fontSize:22,
+                  }
+                }
+              ],
               yAxes: [
                 {
                   gridLines: {
                     drawBorder: false,
                   },
-                  ticks: {
+                  ticks: { fontSize:18,
                     callback: function (label, index, labels) {
                       return label.toLocaleString("de-DE");
                     },
                   },
                   scaleLabel: {
-                   fontSize:18,
+                   fontSize:22,
                     display: true,
                     labelString: "No.Vehículos",
                   },
@@ -130,20 +141,25 @@ $(document).on("submit", "#post-form", function (e) {
             ],
           },
           options: {
-            legend: { display: false },
+            legend: { 
+              display: false,
+              labels:{
+                fontSize:22
+              } 
+            },
             scales: {
               yAxes: [
                 {
                   gridLines: {
                     drawBorder: false,
                   },
-                  ticks: {
+                  ticks: { fontSize:18,
                     callback: function (label, index, labels) {
                       return label.toLocaleString("de-DE");
                     },
                   },
                   scaleLabel: {
-                   fontSize:18,
+                   fontSize:22,
                     display: true,
                     labelString: "Recaudo($)",
                   },
@@ -155,862 +171,31 @@ $(document).on("submit", "#post-form", function (e) {
       );
 
       // Graficos del compartamiento vehicular
+      //First call this main function ONCE in this JAVASCRIPT FILE
+      //This will send the json data to our costume chart functions in ChartsWebPDF.js 
+      categorias_data(json)
 
-      var veh_liv_linechart = new Chart(
-        document.getElementById("linechart-0").getContext("2d"),
-        {
-          data: {
-            labels: json.fechas,
-            datasets: [
-              {
-                type: "line",
-                data: json.veh_i,
-                label: "Cat.I",
-                borderColor: "rgb(0, 184, 216)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-              {
-                type: "line",
-                data: json.veh_ieb,
-                label: "Cat.IEB",
-                borderColor: "rgb(23,198,113)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            legend: {
-              display: true,
-            },
+      // CreateChart (canvasID,chartType,dataType,title,lineas,labels)
+      categorias_data.CreateChart("linechart-0","PDF","veh_data","Categoria I vs IEB ",["I","IEB"])
+      categorias_data.CreateChart("linechart-1","PDF","veh_data","Categoria II vs III ",["II","III"])
+      categorias_data.CreateChart("linechart-2","PDF","veh_data","Categoria IV vs V ",["IV","V"])
+      categorias_data.CreateChart("ejes-0","PDF","veh_data"," ",["EG","ER","EA"])
 
-            scales: {
-              xAxes: [
-                {
-                  type: "time",
-                  distribution: "series",
-                  offset: true,
-                  ticks: {
-                    major: {
-                      fontSize:18,
-                      enabled: true,
-                      fontStyle: "bold",
-                    },
-                    source: "data",
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100,
-                  },
-                  afterBuildTicks: function (scale, ticks) {
-                    var majorUnit = scale._majorUnit;
-                    var firstTick = ticks[0];
-                    var i, ilen, val, tick, currMajor, lastMajor;
-
-                    val = moment(ticks[0].value);
-                    if (
-                      (majorUnit === "minute" && val.second() === 0) ||
-                      (majorUnit === "hour" && val.minute() === 0) ||
-                      (majorUnit === "day" && val.hour() === 9) ||
-                      (majorUnit === "month" &&
-                        val.date() <= 3 &&
-                        val.isoWeekday() === 1) ||
-                      (majorUnit === "year" && val.month() === 0)
-                    ) {
-                      firstTick.major = true;
-                    } else {
-                      firstTick.major = false;
-                    }
-                    lastMajor = val.get(majorUnit);
-
-                    for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                      tick = ticks[i];
-                      val = moment(tick.value);
-                      currMajor = val.get(majorUnit);
-                      tick.major = currMajor !== lastMajor;
-                      lastMajor = currMajor;
-                    }
-                    return ticks;
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    drawBorder: false,
-                  },
-                  ticks: {
-                    callback: function (label, index, labels) {
-                      return label.toLocaleString("de-DE");
-                    },
-                  },
-                  scaleLabel: {
-                   fontSize:18,
-                    display: true,
-                    labelString: "No. Vehículos",
-                  },
-                },
-              ],
-            },
-          },
-        }
-      );
-
-      var veh_2y3_linechart = new Chart(
-        document.getElementById("linechart-1").getContext("2d"),
-        {
-          data: {
-            labels: json.fechas,
-            datasets: [
-              {
-                type: "line",
-                data: json.veh_ii,
-                label: "Cat.II",
-                borderColor: "rgb(255,180,0)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-              {
-                type: "line",
-                data: json.veh_iii,
-                label: "Cat.III",
-                borderColor: "rgb(255,65,105)",
-                pointRadius: 0,
-                fill: false,
-                lineTension: 0,
-                borderWidth: 2,
-              },
-            ],
-          },
-          options: {
-            legend: {
-              display: true,
-            },
-
-            scales: {
-              xAxes: [
-                {
-                  type: "time",
-                  distribution: "series",
-                  offset: true,
-                  ticks: {
-                    major: {
-                      fontSize:18,
-                      enabled: true,
-                      fontStyle: "bold",
-                    },
-                    source: "data",
-                    autoSkip: true,
-                    autoSkipPadding: 75,
-                    maxRotation: 0,
-                    sampleSize: 100,
-                  },
-                  afterBuildTicks: function (scale, ticks) {
-                    var majorUnit = scale._majorUnit;
-                    var firstTick = ticks[0];
-                    var i, ilen, val, tick, currMajor, lastMajor;
-
-                    val = moment(ticks[0].value);
-                    if (
-                      (majorUnit === "minute" && val.second() === 0) ||
-                      (majorUnit === "hour" && val.minute() === 0) ||
-                      (majorUnit === "day" && val.hour() === 9) ||
-                      (majorUnit === "month" &&
-                        val.date() <= 3 &&
-                        val.isoWeekday() === 1) ||
-                      (majorUnit === "year" && val.month() === 0)
-                    ) {
-                      firstTick.major = true;
-                    } else {
-                      firstTick.major = false;
-                    }
-                    lastMajor = val.get(majorUnit);
-
-                    for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                      tick = ticks[i];
-                      val = moment(tick.value);
-                      currMajor = val.get(majorUnit);
-                      tick.major = currMajor !== lastMajor;
-                      lastMajor = currMajor;
-                    }
-                    return ticks;
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    drawBorder: false,
-                  },
-                  ticks: {
-                    callback: function (label, index, labels) {
-                      return label.toLocaleString("de-DE");
-                    },
-                  },
-                  scaleLabel: {
-                   fontSize:18,
-                    display: true,
-                    labelString: "No. Vehículos",
-                  },
-                },
-              ],
-            },
-          },
-        }
-      );
-
-      new Chart(document.getElementById("linechart-2").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.veh_iv,
-              label: "Cat.IV",
-              borderColor: "rgb(0,123,255)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.veh_v,
-              label: "Cat.V",
-              borderColor: "rgb(113, 23, 198)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "No. Vehículos",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      new Chart(document.getElementById("ejes-0").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.veh_eg,
-              label: "Eje EG",
-              borderColor: "rgb(145, 136, 105)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.veh_er,
-              label: "Eje ER",
-              borderColor: "rgb(105, 145, 136)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.veh_ea,
-              label: "Eje EA",
-              borderColor: "rgb(23, 23, 23)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "No. Ejes",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      // Graficos del Recaudo
-
-      new Chart(document.getElementById("linechart-3").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.rec_i,
-              label: "Cat.I",
-              borderColor: "rgb(0, 184, 216)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.rec_ieb,
-              label: "Cat.IEB",
-              borderColor: "rgb(23,198,113)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "Recaudo ($)",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      new Chart(document.getElementById("linechart-4").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.rec_ii,
-              label: "Cat.II",
-              borderColor: "rgb(255,180,0)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.rec_iii,
-              label: "Cat.III",
-              borderColor: "rgb(255,65,105)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "Recaudo ($)",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      new Chart(document.getElementById("linechart-5").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.rec_iv,
-              label: "Cat.IV",
-              borderColor: "rgb(0,123,255)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.rec_v,
-              label: "Cat.V",
-              borderColor: "rgb(113, 23, 198)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "Recaudo($)",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      new Chart(document.getElementById("ejes-1").getContext("2d"), {
-        data: {
-          labels: json.fechas,
-          datasets: [
-            {
-              type: "line",
-              data: json.rec_eg,
-              label: "Eje EG",
-              borderColor: "rgb(145, 136, 105)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.rec_er,
-              label: "Eje ER",
-              borderColor: "rgb(105, 145, 136)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              data: json.rec_ea,
-              label: "Eje EA",
-              borderColor: "rgb(23, 23, 23)",
-              pointRadius: 0,
-              fill: false,
-              lineTension: 0,
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: true,
-          },
-
-          scales: {
-            xAxes: [
-              {
-                type: "time",
-                distribution: "series",
-                offset: true,
-                ticks: {
-                  major: {
-                      fontSize:18,
-                    enabled: true,
-                    fontStyle: "bold",
-                  },
-                  source: "data",
-                  autoSkip: true,
-                  autoSkipPadding: 75,
-                  maxRotation: 0,
-                  sampleSize: 100,
-                },
-                afterBuildTicks: function (scale, ticks) {
-                  var majorUnit = scale._majorUnit;
-                  var firstTick = ticks[0];
-                  var i, ilen, val, tick, currMajor, lastMajor;
-
-                  val = moment(ticks[0].value);
-                  if (
-                    (majorUnit === "minute" && val.second() === 0) ||
-                    (majorUnit === "hour" && val.minute() === 0) ||
-                    (majorUnit === "day" && val.hour() === 9) ||
-                    (majorUnit === "month" &&
-                      val.date() <= 3 &&
-                      val.isoWeekday() === 1) ||
-                    (majorUnit === "year" && val.month() === 0)
-                  ) {
-                    firstTick.major = true;
-                  } else {
-                    firstTick.major = false;
-                  }
-                  lastMajor = val.get(majorUnit);
-
-                  for (i = 1, ilen = ticks.length; i < ilen; i++) {
-                    tick = ticks[i];
-                    val = moment(tick.value);
-                    currMajor = val.get(majorUnit);
-                    tick.major = currMajor !== lastMajor;
-                    lastMajor = currMajor;
-                  }
-                  return ticks;
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: function (label, index, labels) {
-                    return label.toLocaleString("de-DE");
-                  },
-                },
-                scaleLabel: {
-                   fontSize:18,
-                  display: true,
-                  labelString: "Recaudo($)",
-                },
-              },
-            ],
-          },
-        },
-      });
-
-      var veh_barras_chart = document.getElementById("total-veh-barchart").toDataURL();
-      var rec_barras_chart = document.getElementById("total-rec-barchart").toDataURL();
-      var linechart_0 = document.getElementById("linechart-0").toDataURL();
-      var linechart_1 = document.getElementById("linechart-1").toDataURL();
-      var linechart_2 = document.getElementById("linechart-2").toDataURL();
-      var linechart_3 = document.getElementById("linechart-3").toDataURL();
-      var linechart_4 = document.getElementById("linechart-4").toDataURL();
-      var linechart_5 = document.getElementById("linechart-5").toDataURL();
-      var ejeschart_0 = document.getElementById("ejes-0").toDataURL();
-      var ejeschart_1 = document.getElementById("ejes-1").toDataURL();
-
+      // CHARTS FOR RECAUDO
+      categorias_data.CreateChart("linechart-3","PDF","rec_data","Categoria I vs IEB ",["I","IEB"])
+      categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria II vs III ",["II","III"])
+      categorias_data.CreateChart("linechart-5","PDF","rec_data","Categoria IV vs V ",["IV","V"])
+      categorias_data.CreateChart("ejes-1","PDF","rec_data"," ",["EG","ER","EA"])
+      
+      var c = document.createElement('canvas');
+      var img = document.getElementById('invias-pdf');
+      c.height = img.naturalHeight;
+      c.width = img.naturalWidth;
+      var ctx = c.getContext('2d');
+      
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      var invias64 = c.toDataURL();
+      
       var docDefinition = {
         pageSize: "LETTER",
 
@@ -1019,6 +204,13 @@ $(document).on("submit", "#post-form", function (e) {
 
         // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
         pageMargins: [40, 60, 40, 40],
+        header:{
+          image:invias64,
+          width:40,
+          margin: [0,20,20,0],
+          alignment:'right',
+          
+        },
         content: [
           "\n",
           {
@@ -1028,22 +220,18 @@ $(document).on("submit", "#post-form", function (e) {
                   { text: "Peaje: ", bold: true },
                   "" + json.peajes,
                   "\n",
-                  { text: "PR: ", bold: true },
-                  "Localización" ,
+                  { text: 'PR ', bold: true },""+json.peaje_data.pr+'+'+json.peaje_data.distancia,
                   "\n",
-                  { text: "Contrato No. ", bold: true },
+                  { text: "Departamento: ", bold: true },""+json.peaje_data.territorial,
                   "\n",
-                  { text: "Contratista: ", bold: true },
-                  "\n",
+                  
                 ],
               },
               {
                 text: [
-                  { text: "Ruta: ", bold: true },
+                  { text: "Ruta: ", bold: true },""+json.peaje_data.codigo.substring(0,2),
                   "\n",
-                  { text: "Sector: ", bold: true },
-                  "\n",
-                  { text: "Departamento: ", bold: true },
+                  { text: "Sector: ", bold:true},""+json.peaje_data.sector,
                   "\n",
                   { text: "Periodo de Reporte: ", bold: true },
                   "" + startdate + "/" + enddate,
@@ -1056,27 +244,27 @@ $(document).on("submit", "#post-form", function (e) {
           "\n",
 
           {
-            text: "Total Vehículo por Categoria",
+            text: "Total Vehicular por Categoria",
             bold: true,
             alignment: "center",
           },
-          "\n",
+          "\n",'\n',
           {
-            image: veh_barras_chart,
+            image: document.getElementById("total-veh-barchart").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
-          "\n",
+          "\n",'\n',
           {
             text: "Total Recaudo por Categoría",
             bold: true,
             alignment: "center",
           },
-          "\n",
+          "\n",'\n',
           {
-            image: rec_barras_chart,
+            image: document.getElementById("total-rec-barchart").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
             pageBreak: "after",
           },
           "\n",
@@ -1085,30 +273,32 @@ $(document).on("submit", "#post-form", function (e) {
             bold: true,
             alignment: "center",
           },
-          "\n",
+          "\n",'\n',
           {
-            image: linechart_0,
+            image: document.getElementById("linechart-0").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
           "\n","\n","\n",
           {
-            image: linechart_1,
+            image: document.getElementById("linechart-1").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
             pageBreak:'after',
           },
-          "\n",
+          "\n",'\n',
           {
-            image: linechart_2,
+            image: document.getElementById("linechart-2").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
           "\n","\n","\n",
+          {text:'Comportamiento No. Ejes Adicionales',bold:true,alignment:'center'},
+          '\n','\n',
           {
-            image: ejeschart_0,
+            image: document.getElementById("ejes-0").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
             pageBreak:'after',
           },
           "\n",
@@ -1117,30 +307,32 @@ $(document).on("submit", "#post-form", function (e) {
             bold: true,
             alignment: "center",
           },
-          "\n",
+          "\n",'\n',
           {
-            image: linechart_3,
+            image: document.getElementById("linechart-3").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
           "\n","\n","\n",
           {
-            image: linechart_4,
+            image: document.getElementById("linechart-4").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
             pageBreak:'after',
           },
-          "\n",
+          "\n",'\n',
           {
-            image: linechart_5,
+            image: document.getElementById("linechart-5").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
           "\n","\n","\n",
+          {text:'Comportamiento Recaudo Ejes Adicionales',bold:true,alignment:'center'},
+          '\n','\n',
           {
-            image: ejeschart_1,
+            image: document.getElementById("ejes-1").toDataURL(),
             alignment: "center",
-            width: 400,
+            width:500,
           },
         ],
       };

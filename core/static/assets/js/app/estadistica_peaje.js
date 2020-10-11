@@ -5,11 +5,15 @@
     $('.js-example-basic-single').select2({
       width:"100%"
     });
+    $('[data-toggle="tooltip"]').tooltip({
+      container:'body',
+      offset:-1,
+    })
     var pathname = window.location.pathname
     if (pathname.includes("peaje")) {
-      GetDataFromDjango("San_Juan")
+      GetDataFromDjango("Lobo_Guerrero")
     } else if (pathname.includes("departamental")) {
-      GetDataFromDjango("Guajira")
+      GetDataFromDjango("Cesar")
     } else {
       GetDataFromDjango("General")
     }
@@ -68,9 +72,9 @@
               console.log(data)
 
               if (pathname.includes("peaje")) {
-                $("#page-title").text("Estadistica Peaje "+page_choice)
+                $("#page-title").text("Estadística Peaje "+page_choice)
               } else if (pathname.includes("departamental")) {
-                $("#page-title").text("Estadistica Departamento "+page_choice)
+                $("#page-title").text("Estadística Departamento "+page_choice)
                 $("#peaje-name").text("Peaje ")
                 peajeslist.map(AppendPeajesFunction)
 
