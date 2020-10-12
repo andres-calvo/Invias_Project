@@ -5,7 +5,13 @@
     font-family: "Heebo", sans-serif;
   }
 
-
+body {
+  background: url('/static/assets/img/Login.png') no-repeat center center fixed;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
 .intro {
   background: white;
   position: fixed;
@@ -17,6 +23,11 @@
   justify-content: center;
   align-items: center;
   animation: fadeOut 1s ease forwards 4s;
+}
+.card {
+  border-radius: 0px;
+  color: black;
+  opacity: 0.5;
 }
  
 #logo path:nth-child(1){
@@ -50,6 +61,7 @@
     animation: line-anim 0.23s ease forwards 1.40s,fill-black 0.5s ease forwards 2.4s;
 }
 
+
 @keyframes line-anim{
     to{
         stroke-dashoffset: 0;
@@ -82,51 +94,4 @@
   }
 }
 
-#slides {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  list-style-type: none;
-}
 
-.slide {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  z-index: 0;
-
-  -webkit-transition: opacity 1s;
-  -moz-transition: opacity 1s;
-  -o-transition: opacity 1s;
-  transition: opacity 1s;
-}
-
-.showing {
-  opacity: 1;
-  z-index: 1;
-}
-
-.slide {
-  padding: 40px;
-  box-sizing: border-box;
-  background: #333;
-  color: #fff;
-}
-
-.slide:nth-of-type(1) {
-  background: url("/static/assets/img/carousel/Slide1.jpg") ;
-}
-.slide:nth-of-type(2) {
-  background: url("/static/assets/img/carousel/Slide2.jpg") ;
-}
-.slide:nth-of-type(3) {
-  background: url("/static/assets/img/carousel/Slide3.jpeg") ;
-}
-.slide:nth-of-type(4) {
-  background: url("/static/assets/img/carousel/Slide4.jpg") ;
-}

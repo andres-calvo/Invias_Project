@@ -1,13 +1,14 @@
 $(document).ready(function () {
   var pathname = window.location.pathname;
 
-  $("#peaje-selected").select2({width: "100%"});/// This is the navbar select,
+  /// This is the navbar select,
   if (pathname.includes("general")) {
+    $("#peaje-selected").remove();
   } else {
+    $("#peaje-selected").select2({width: "100%"});
     $("#option-selected").select2({width: "100%"});
   }
   
-  document.getElementById("peaje-selected").disabled = true; //Disable the upper navigation selects
 
   $(".calendar").datepicker({});
   $(".calendar").attr("readOnly", "true");

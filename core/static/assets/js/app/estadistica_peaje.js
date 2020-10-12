@@ -2,20 +2,21 @@
 
 (function ($) {
   $(document).ready(function () {
-    $('.js-example-basic-single').select2({
-      width:"100%"
-    });
+    
     $('[data-toggle="tooltip"]').tooltip({
       container:'body',
       offset:-1,
     })
-    var pathname = window.location.pathname
+    var pathname = window.location.pathname;
     if (pathname.includes("peaje")) {
-      GetDataFromDjango("Lobo_Guerrero")
+      $('.js-example-basic-single').select2({width:"100%"});
+      GetDataFromDjango("Lobo_Guerrero");
     } else if (pathname.includes("departamental")) {
-      GetDataFromDjango("Cesar")
+      $('.js-example-basic-single').select2({width:"100%"});
+      GetDataFromDjango("Cesar");
     } else {
-      GetDataFromDjango("General")
+      GetDataFromDjango("General");
+      $("#peaje-selected").remove();
     }
     $("#peaje-selected").change(function(){
       var seleccion = $("#peaje-selected option:selected").val();
