@@ -25,11 +25,11 @@
         {% csrf_token %}
         <div class="form-row">
           <div class="col-4 mb-3">
-            <label>Fecha Inicial</label>
+            <label for="startdate">Fecha Inicial</label>
             <input type="text" class="form-control calendar" id="startdate" placeholder="mm/dd/yyyy" required>
           </div>
           <div class="col-4 mb-3">
-            <label>Fecha Final</label>
+            <label for="enddate">Fecha Final</label>
             <input type="text" class="form-control calendar" id="enddate" placeholder="mm/dd/yyyy" required>
           </div>
           <div class="col-4 mb-3" id="select-div" {% if 'general' in request.path %} style="display: none;" {% endif %}>
@@ -96,7 +96,7 @@
           </div>
         </div>
         <div class="form-row">
-          <button type="submit" id="analisis_button" class="btn btn-primary">Mostrar</button>
+          <button type="submit" id="analisis_button" class="btn btn-primary">Resultado</button>
           <button type="button" id="PDF_button" class="btn btn-danger" style="display: none;margin-left: 20px;">Ver PDF</button>
         </div>
         

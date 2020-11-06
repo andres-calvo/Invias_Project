@@ -59,10 +59,10 @@ $(document).ready(function () {
         console.log(page_choice)
         var typepage;
         if (pathname.includes("peaje")) {
-          $("#page-title").text("Analisis Peaje "+page_choice);
+          $("#page-title").text("Análisis Peaje "+page_choice);
           typepage ="Peaje"
         } else if (pathname.includes("departamental")) {
-          $("#page-title").text("Analisis Departamento "+page_choice);
+          $("#page-title").text("Análisis Departamento "+page_choice);
           $("#peaje-name").text("Peaje ");
           typepage="Departamento"
 
@@ -72,7 +72,7 @@ $(document).ready(function () {
           peajeslist.map(AppendPeajesFunction);
           
         } else if (pathname.includes("ruta")) {
-          $("#page-title").text("Analisis Ruta "+choice);
+          $("#page-title").text("Análisis Ruta "+choice);
           $("#peaje-name").text("Peaje ");
           typepage="Ruta "+choice
           function AppendPeajesFunction(peaje) {

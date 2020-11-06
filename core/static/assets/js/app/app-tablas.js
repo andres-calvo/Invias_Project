@@ -7,6 +7,8 @@ $(document).ready(function () {
     $("#peaje-selected").remove();
   } else {
     $("#option-selected").select2({width: "100%"});
+    $("#peaje-selected").remove();
+
   }
 
 
@@ -66,9 +68,9 @@ $(document).ready(function () {
         var page_choice = choice.replace(/_/g, " ");
 
         if (pathname.includes("peaje")) {
-          $("#page-title").text("Tablas Peaje " + page_choice);
+          $("#page-title").text("Base de Datos Peaje " + page_choice);
         } else if (pathname.includes("departamental")) {
-          $("#page-title").text("Tablas Departamento " + page_choice);
+          $("#page-title").text("Base de Datos Departamento " + page_choice);
           $("#peaje-name").text("Peaje ");
           
           function AppendPeajesFunction(peaje) {

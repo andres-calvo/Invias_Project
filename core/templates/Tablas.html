@@ -17,7 +17,7 @@
       <!-- Page Header -->
       <div class="page-header row  py-4">
         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-          <h3 class="page-title" id="page-title" style="white-space: nowrap;">{% if 'peaje' in request.path %}Tablas{% elif 'departamental' in request.path %}Tablas Departamento{% else %}Tablas General{% endif %}</h3>
+          <h3 class="page-title" id="page-title" style="white-space: nowrap;">{% if 'peaje' in request.path %}Base de Datos{% elif 'departamental' in request.path %}Base de Datos Departamento{% else %}Base de Datos General{% endif %}</h3>
           <span class="text-uppercase page-subtitle" id="peaje-name"></span>
             
         </div>
@@ -32,18 +32,14 @@
           <form  action =" " method="POST" id="post-form-2">{% csrf_token %}
               <div class="form-row">
                 <div class="col-4 mb-3">
-                  <label>Fecha Inicial</label>
+                  <label for="startdate">Fecha Inicial</label>
                   <input type="text" class="form-control calendar" id="startdate" placeholder="mm/dd/yyyy" required>
-                  <div>
-                    <h5 id="std_error" style="color: red;"></h5>
-                  </div>
+                  
                 </div>
                 <div class="col-4 mb-3">
-                  <label>Fecha Final</label>
+                  <label for="enddate">Fecha Final</label>
                   <input type="text" class="form-control calendar" id="enddate" placeholder="mm/dd/yyyy" required>
-                  <div>
-                    <h5 id="end_error" style="color: red;"></h5>
-                  </div>
+                  
                 </div>
                 <div class="col-4 mb-3">
                   <label>{% if 'peaje' in request.path %} Peaje {% elif 'departamental' in request.path %} Departamento {% else %}{% endif %}</label>
