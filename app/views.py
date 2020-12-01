@@ -32,8 +32,8 @@ def index(request):
 def estadistica_general(request):
     if request.POST.get('action') == 'sending_option':
         category = "General"
-        startdate = '2020-02-16'
-        enddate = '2020-02-29'
+        startdate = '2020-10-14'
+        enddate = '2020-10-27'
         datos = getDataFromDatabase("General", startdate, enddate, category)
 
         return JsonResponse(datos)
@@ -46,8 +46,8 @@ def estadistica_departamental(request):
     if request.POST.get('action') == 'sending_option':
         departamento = str(request.POST.get('choice'))
         category = "Departamento"
-        startdate = '2020-02-16'
-        enddate = '2020-02-29'
+        startdate = '2020-10-14'
+        enddate = '2020-10-27'
         datos = getDataFromDatabase(departamento, startdate, enddate, category)
 
         return JsonResponse(datos)
@@ -59,14 +59,29 @@ def estadistica_peaje(request):
     if request.POST.get('action') == 'sending_option':
         choice = str(request.POST.get('choice'))
         category = "Peaje"
-        startdate = '2020-02-16'
-        enddate = '2020-02-29'
+        startdate = '2020-10-14'
+        enddate = '2020-10-27'
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
 
     return render(request, "Estadistica.html")
 
+@login_required(login_url="/login/")
+def mapa(request):
+    if request.POST.get('action') == 'sending_option':
+        choice = str(request.POST.get('choice'))
+        category = "General" if choice == "General" else "Departamento"
+        campos=['peaje','latitud','longitud','departamento','codigo_via']
+        if category =="Departamento":
+            datos = list(Peajes.objects.filter(departamento=choice).values(*campos))
+        else:
+            datos= list(Peajes.objects.values(*campos))
+        
+
+        return JsonResponse(datos,safe=False)
+
+    return render(request, "Mapa.html")
 
 
 # -------------------------------------------
@@ -187,7 +202,7 @@ def reporte_peaje(request):
         datos = getDataFromDatabase(choice, startdate, enddate, category)
         query = Peajes.objects.filter(peaje=choice).values()
         datos['peaje_data'] = query[0]
-        datos['peaje_data']['territorial'] = datos['peaje_data']['territorial'].title()
+        datos['peaje_data']['departamento'] = datos['peaje_data']['departamento'].title()
 
         return JsonResponse(datos)
 

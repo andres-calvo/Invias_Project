@@ -20,6 +20,10 @@ urlpatterns = [
     path('estadistica/departamental/',views.estadistica_departamental,name='estadistica_departamental'),
     path('estadistica/peaje/',views.estadistica_peaje,name='estadistica_peaje'),
     #-----------------------------------------------------------------
+    # Path del mapa
+    #-----------------------------------------------------------------
+    path('mapa/',views.mapa,name="mapa_peajes"),
+    #-----------------------------------------------------------------
     # Path de las tablas
     #-----------------------------------------------------------------
     path('tablas/general/',views.tablas_general,name='tablas_general'),

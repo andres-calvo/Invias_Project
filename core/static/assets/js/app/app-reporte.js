@@ -41,7 +41,7 @@ $(document).on("submit", "#post-form", function (e) {
           data: {
             labels: [
               "Cat.I",
-              "Cat.IEB",
+              "Cat.IE",
               "Cat.II",
               "Cat.III",
               "Cat.IV",
@@ -51,7 +51,7 @@ $(document).on("submit", "#post-form", function (e) {
               {
                 data: [
                   json.veh_i.reduce((a, b) => a + b, 0),
-                  json.veh_ieb.reduce((a, b) => a + b, 0),
+                  json.veh_ie.reduce((a, b) => a + b, 0),
                   json.veh_ii.reduce((a, b) => a + b, 0),
                   json.veh_iii.reduce((a, b) => a + b, 0),
                   json.veh_iv.reduce((a, b) => a + b, 0),
@@ -176,13 +176,13 @@ $(document).on("submit", "#post-form", function (e) {
       categorias_data(json)
 
       // CreateChart (canvasID,chartType,dataType,title,lineas,labels)
-      categorias_data.CreateChart("linechart-0","PDF","veh_data","Categoria I vs IEB ",["I","IEB"])
+      categorias_data.CreateChart("linechart-0","PDF","veh_data","Categoria I vs IE ",["I","IE"])
       categorias_data.CreateChart("linechart-1","PDF","veh_data","Categoria II vs III ",["II","III"])
       categorias_data.CreateChart("linechart-2","PDF","veh_data","Categoria IV vs V ",["IV","V"])
       categorias_data.CreateChart("ejes-0","PDF","veh_data"," ",["EG","ER","EA"])
 
       // CHARTS FOR RECAUDO
-      categorias_data.CreateChart("linechart-3","PDF","rec_data","Categoria I vs IEB ",["I","IEB"])
+      categorias_data.CreateChart("linechart-3","PDF","rec_data","Categoria I vs IEB ",["I","IE"])
       categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria II vs III ",["II","III"])
       categorias_data.CreateChart("linechart-5","PDF","rec_data","Categoria IV vs V ",["IV","V"])
       categorias_data.CreateChart("ejes-1","PDF","rec_data"," ",["EG","ER","EA"])

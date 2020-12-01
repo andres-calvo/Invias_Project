@@ -42,23 +42,41 @@ $(document).ready(function () {
         var peajeslist = json.data[1];
 
         var table = $("#example").DataTable({
-          bSort: false,
-          lengthChange: false,
-          buttons: ["copy", "excel", "pdf"],
+          responsive:true,
+          bSort: true,
+          lengthChange: true,
+          buttons: ["copy", "excel"],
           data: json.data[0],
           columns: [
-            { data: "fecha" },
+            { data: "fechas" },
             { data: "i" },
-            { data: "ieb" },
+            { data: "ie" },
+            { data: "iee" },
             { data: "ii" },
+            { data: "iia" },
+            { data: "iie" },
+            { data: "iiee" },
             { data: "iii" },
+            { data: "iiie" },
             { data: "iv" },
+            { data: "ive" },
             { data: "v" },
+            { data: "vab" },
+            { data: "ve" },
+            { data: "vi" },
+            { data: "vii" },
             { data: "eg" },
             { data: "ea" },
             { data: "er" },
             { data: "total" },
           ],
+          columnDefs:[
+            {
+              targets:[2,3,5,6,7,9,11,13,14],
+              visible:false,
+              searchable: false
+            }
+          ]
         });
         table
           .buttons()

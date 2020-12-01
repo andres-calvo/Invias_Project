@@ -151,7 +151,7 @@ function categorias_data(json) {
 						},
 						ticks: {
 							callback: function (label, index, labels) {
-								return label.toLocaleString("de-DE");
+								return label.toLocaleString();
 							},
 							fontSize:fontSize
 						},
@@ -163,6 +163,21 @@ function categorias_data(json) {
 					},
 				],
 			},
+			tooltips: {
+                custom: false,
+                mode: 'nearest',
+                intersect: false,
+                callbacks: {
+                  label: function(tooltipItem, myData) {
+                    var label = myData.datasets[tooltipItem.datasetIndex].label || '';
+                    if (label) {
+                      label += ': ';
+                    }
+                    label += parseFloat(tooltipItem.value).toLocaleString();
+                    return label;
+                  }
+                }
+            }
 		}
 	}
 

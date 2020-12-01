@@ -22,9 +22,15 @@
               <div class="nav-wrapper">
                 <ul class="nav flex-column">
                   <li class="nav-item dropdown">
+                    <a class="nav-link {% if request.path == 'mapa' %} active {% endif %}" href="{% url 'mapa_peajes' %}">
+                      <i class="material-icons" style="color: black;">location_on</i>
+                      <span>Localización de Peajes</span>
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == 'estadistica' %} active {% endif %}" href="#" data-toggle="dropdown">
                       <i class="material-icons" style="color: black;">assessment</i>
-                      <span>Estadística Actual</span>
+                      <span>Estadística</span>
                     </a>
                     <div class="dropdown-menu">
                       <a href="{% url 'estadistica_general' %}" class="dropdown-item {% if request.path == 'estadistica/general' %} active {% endif %}">General</a>
@@ -32,6 +38,7 @@
                       <a href="{% url 'estadistica_peaje' %}" class="dropdown-item {% if request.path == 'estadistica/peaje' %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
+                  
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if request.path == 'tablas' %} active {% endif %}" href="#" data-toggle="dropdown">
                       <i class="material-icons" style="color: black;">table_chart</i>

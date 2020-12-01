@@ -6,7 +6,7 @@
 {% block stylesheets %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css"> 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/r-2.2.6/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/static/assets/css/custom.css">
 
 {% endblock stylesheets %}
@@ -45,45 +45,59 @@
                   <label>{% if 'peaje' in request.path %} Peaje {% elif 'departamental' in request.path %} Departamento {% else %}{% endif %}</label>
                   <select class="w-100 js-example-basic-single" id="option-selected" >
                     {% if 'peaje' in request.path %}
-                    <option value="San_Juan">Guajira-San Juan del Cesar</option>
-                    <option value="Lobo_Guerrero">Valle Del Cauca-Lobo Guerrero</option>
-                    <option value="Rincon_Hondo">Cesar-Rincon Hondo</option>
-                    <option value="San_Diego">Cesar-San Diego</option>
-                    <option value="Cocorna_Santuario">Antioquia-Cocorna (Santuario)</option>
-                    <option value="Puerto_Triunfo">Antioquia-Puerto Triunfo</option>
-                    <option value="Guamal">Magdalena-Guamal</option>
-                    <option value="Santa_Ana">Magdalena-Santa Ana</option>
-                    <option value="Tunia">Cauca-Tunia</option>
-                    <option value="Villa_Rica">Cauca-Villa Rica</option>
-                    <option value="Cencar">Valle Del Cauca-Cencar</option>
-                    <option value="Cerritos">Valle Del Cauca-Cerritos</option>
-                    <option value="Ciat">Valle Del Cauca-Ciat</option>
-                    <option value="Estambul">Valle Del Cauca-Estambul</option>
-                    <option value="Media_Canoa">Valle Del Cauca-Media Canoa</option>
-                    <option value="Paso_De_La_Torre">Valle Del Cauca-Paso De La Torre</option>
-                    <option value="Rozo">Valle Del Cauca-Rozo</option>
-                    <option value="Gamarra">Cesar-Gamarra</option>
-                    <option value="Morrison">Cesar-Morrison</option>
-                    <option value="Pailitas">Cesar-Pailitas</option>
-                    <option value="Platanal">Cesar-Platanal</option>
-                    <option value="Aguas_Negras">Santander-Aguas Negras</option>
-                    <option value="La_Gomez">Santander-La Gomez</option>
-                    <option value="Zambito">Santander-Zambito</option>
-                    <option value="Casablanca">Cundinamarca-Casablanca</option>
-                    <option value="Saboya">Boyaca-Saboya</option>
-                    <option value="Oiba">Santander-Oiba</option>
-                    <option value="Curm">Santander-Curm</option>
-                    <option value="Los_Curos">Santander-Los Curos</option>
-                    {% elif 'departamental' in request.path %}
-                    <option value="Guajira">Guajira</option>
-                    <option value="Valle_Del_Cauca">Valle Del Cauca</option>
-                    <option value="Cesar">Cesar</option>
-                    <option value="Antioquia">Antioquia</option>
-                    <option value="Magdalena">Magdalena</option>
-                    <option value="Cauca">Cauca</option>
-                    <option value="Santander">Santander</option>
-                    <option value="Cundinamarca">Cundinamarca</option>
-                    <option value="Boyaca">Boyaca</option>
+                      <option value="el_bordo">Cauca-El Bordo</option>
+                      <option value="los_llanos">Antioquia-Los Llanos</option>
+                      <option value="taraza">Antioquia-Taraza</option>
+                      <option value="cocorna">Antioquia-Cocorna</option>
+                      <option value="puerto_triunfo">Antioquia-Puerto Triunfo</option>
+                      <option value="rio_frio">Valle Del Cauca-Rio Frio</option>
+                      <option value="toro">Valle Del Cauca-Toro</option>
+                      <option value="cencar">Valle Del Cauca-Cencar</option>
+                      <option value="cerrito">Valle Del Cauca-Cerrito</option>
+                      <option value="ciat">Valle Del Cauca-Ciat</option>
+                      <option value="estambul">Valle Del Cauca-Estambul</option>
+                      <option value="mediacanoa">Valle Del Cauca-Mediacanoa</option>
+                      <option value="paso_de_la_torre">Valle Del Cauca-Paso De La Torre</option>
+                      <option value="rozo">Valle Del Cauca-Rozo</option>
+                      <option value="villarica">Valle Del Cauca-Villarica</option>
+                      <option value="tunia">Valle Del Cauca-Tunia</option>
+                      <option value="loboguerrero">Valle Del Cauca-Loboguerrero</option>
+                      <option value="bicentenario">Cundinamarca-Bicentenario</option>
+                      <option value="casablanca">Cundinamarca-Casablanca</option>
+                      <option value="carimagua">Cordoba-Carimagua</option>
+                      <option value="arcabuco">Boyaca-Arcabuco</option>
+                      <option value="el_crucero">Boyaca-El Crucero</option>
+                      <option value="sachica">Boyaca-Sachica</option>
+                      <option value="saboya">Boyaca-Saboya</option>
+                      <option value="cano">Nariño-Cano</option>
+                      <option value="daza">Nariño-Daza</option>
+                      <option value="platanal">Cesar-Platanal</option>
+                      <option value="san_diego">Cesar-San Diego</option>
+                      <option value="san_juan">Cesar-San Juan</option>
+                      <option value="morrison">Cesar-Morrison</option>
+                      <option value="pailitas">Cesar-Pailitas</option>
+                      <option value="rincon_hondo">Cesar-Rincon Hondo</option>
+                      <option value="zambito">Cesar-Zambito</option>
+                      <option value="cerritos_ii">Risaralda-Cerritos Ii</option>
+                      <option value="rio_blanco">Santander-Rio Blanco</option>
+                      <option value="oiba">Santander-Oiba</option>
+                      <option value="los_curos">Santander-Los Curos</option>
+                      <option value="gamarra">Santander-Gamarra</option>
+                      <option value="la_gomez">Santander-La Gomez</option>
+                      <option value="aguas_negras">Santander-Aguas Negras</option>
+                      <option value="san_clemente">Caldas-San Clemente</option>
+                      {% elif 'departamental' in request.path %}
+                      <option value="CAUCA">Cauca</option>
+                      <option value="ANTIOQUIA">Antioquia</option>
+                      <option value="VALLE DEL CAUCA">Valle Del Cauca</option>
+                      <option value="CUNDINAMARCA">Cundinamarca</option>
+                      <option value="CORDOBA">Cordoba</option>
+                      <option value="BOYACA">Boyaca</option>
+                      <option value="NARIÑO">Nariño</option>
+                      <option value="CESAR">Cesar</option>
+                      <option value="RISARALDA">Risaralda</option>
+                      <option value="SANTANDER">Santander</option>
+                      <option value="CALDAS">Caldas</option>
                     
                     
                     {% endif %}
@@ -110,28 +124,48 @@
           <table id="example"  class="table table-striped table-bordered" style="width:100%;" >
             <thead>
                 <tr>
-                    <th>Fecha</th>
-                    <th>Cat.I</th>
-                    <th>Cat.IEB</th>
-                    <th>Cat.II</th>
-                    <th>Cat.III</th>
-                    <th>Cat.IV</th>
-                    <th>Cat.V</th>
-                    <th>Eje EG</th>
-                    <th>Eje EA</th>
-                    <th>Eje ER</th>
-                    <th>Total</th>
+                  <th>Fechas</th>
+                  <th>Cat.I</th>
+                  <th>Cat.IE</th>
+                  <th>Cat.IEE</th>
+                  <th>Cat.II</th>
+                  <th>Cat.IIA</th>
+                  <th>Cat.IIE</th>
+                  <th>Cat.IIEE</th>
+                  <th>Cat.III</th>
+                  <th>Cat.IIIE</th>
+                  <th>Cat.IV</th>
+                  <th>Cat.IVE</th>
+                  <th>Cat.V</th>
+                  <th>Cat.VAB</th>
+                  <th>Cat.VE</th>
+                  <th>Cat.VI</th>
+                  <th>Cat.VII</th>
+                  <th>Eje EG</th>
+                  <th>Eje EA</th>
+                  <th>Eje ER</th>
+                  <th>Total</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                  <th>Fecha</th>
+                  <th>Fechas</th>
                   <th>Cat.I</th>
-                  <th>Cat.IEB</th>
+                  <th>Cat.IE</th>
+                  <th>Cat.IEE</th>
                   <th>Cat.II</th>
+                  <th>Cat.IIA</th>
+                  <th>Cat.IIE</th>
+                  <th>Cat.IIEE</th>
                   <th>Cat.III</th>
+                  <th>Cat.IIIE</th>
                   <th>Cat.IV</th>
+                  <th>Cat.IVE</th>
                   <th>Cat.V</th>
+                  <th>Cat.VAB</th>
+                  <th>Cat.VE</th>
+                  <th>Cat.VI</th>
+                  <th>Cat.VII</th>
                   <th>Eje EG</th>
                   <th>Eje EA</th>
                   <th>Eje ER</th>
@@ -151,7 +185,7 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/r-2.2.6/datatables.min.js"></script>
 <script src="/static/assets/js/app/app-tablas.js"></script>
 
 

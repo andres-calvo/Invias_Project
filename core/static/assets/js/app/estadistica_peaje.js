@@ -10,7 +10,7 @@
     var pathname = window.location.pathname;
     if (pathname.includes("peaje")) {
       $('.js-example-basic-single').select2({width:"100%"});
-      GetDataFromDjango("Lobo_Guerrero");
+      GetDataFromDjango("El Bordo");
     } else if (pathname.includes("departamental")) {
       $('.js-example-basic-single').select2({width:"100%"});
       GetDataFromDjango("Cesar");
@@ -20,6 +20,7 @@
     }
     $("#peaje-selected").change(function(){
       var seleccion = $("#peaje-selected option:selected").val();
+      console.log(seleccion)
       console.log(typeof(seleccion))
       GetDataFromDjango(seleccion)
     })
@@ -27,10 +28,9 @@
     // Sending User chosed option to server side
     function GetDataFromDjango(selected){
         
-        var choice = selected
+        var choice = selected.replace(/ /g,"_").toLowerCase();
         console.log(typeof(choice))
         
-        var page_choice = choice.replace(/_/g," ")
         
         ////////////
         //RESET ALL CHARTS THIS AVOID ERROR WHEN HOVERING IN A NEW CHART
@@ -63,19 +63,14 @@
               var rec_previa = data.Semana_Previa;
               var rango_sem_previa = data.Rango_Semana_Previa;
               var fechas = data.weekdays;
-              var pie_I=data.veh_i;
-              var pie_IEB=data.veh_ieb;
-              var pie_II=data.veh_ii;
-              var pie_III=data.veh_iii;
-              var pie_IV=data.veh_iv;
-              var pie_V=data.veh_v;
+              
               
               console.log(data)
 
               if (pathname.includes("peaje")) {
-                $("#page-title").text("Estadística Peaje "+page_choice)
+                $("#page-title").text("Estadística Peaje "+selected)
               } else if (pathname.includes("departamental")) {
-                $("#page-title").text("Estadística Departamento "+page_choice)
+                $("#page-title").text("Estadística Departamento "+selected)
                 $("#peaje-name").text("Peaje ")
                 peajeslist.map(AppendPeajesFunction)
 
@@ -182,11 +177,11 @@
                 });
               });
               //Codigo para actualizar valores de las tarjetas
-              document.getElementById("rec-total").textContent = (rec.slice(-1)[0]/1000000).toFixed(1)+''
-              document.getElementById("veh-total").textContent = veh.slice(-1)[0]
-              document.getElementById("rec-liv").textContent = (rec_liv.slice(-1)[0]/1000000).toFixed(1)+''
-              document.getElementById("veh-liv").textContent = veh_liv.slice(-1)[0]
-              document.getElementById("veh-com").textContent = veh_com.slice(-1)[0]
+              document.getElementById("rec-total").textContent = (rec.slice(-1)[0]/1000000).toFixed(1)+''.toLocaleString()
+              document.getElementById("veh-total").textContent = veh.slice(-1)[0].toLocaleString()
+              document.getElementById("rec-liv").textContent = (rec_liv.slice(-1)[0]/1000000).toFixed(1)+''.toLocaleString()
+              document.getElementById("veh-liv").textContent = veh_liv.slice(-1)[0].toLocaleString()
+              document.getElementById("veh-com").textContent = veh_com.slice(-1)[0].toLocaleString()
               // Codigo para actualizar porcentajes 
               var rec_pct,veh_pct,rec_liv_pct,veh_liv_pct,veh_com_pct
               rec_pct = ((rec.slice(-1)[0]* 100 /rec.slice(-2)[0]) - 100).toFixed(1)
@@ -297,7 +292,7 @@
                 yAxes: [{
                   ticks: {
                     callback: function(label, index, labels) {
-                      return label.toLocaleString('de-DE');
+                      return label.toLocaleString();
                     },
                     suggestedMax: 45,
                     padding: 25
@@ -322,7 +317,7 @@
                     if (label) {
                       label += ': ';
                     }
-                    label += parseFloat(tooltipItem.value).toLocaleString('de-DE');
+                    label += parseFloat(tooltipItem.value).toLocaleString();
                     return label;
                   }
                 }
@@ -346,22 +341,22 @@
             window.BlogOverviewUsers.render();
 
             //
-            // Users by device pie chart
+            // Vehiculos por Categoria pie chart
             //
-            var I = pie_I.slice(0,7).reduce((a, b) => a + b, 0)
-            var IEB = pie_IEB.slice(0,7).reduce((a, b) => a + b, 0)
-            var II = pie_II.slice(0,7).reduce((a, b) => a + b, 0)
-            var III = pie_III.slice(0,7).reduce((a, b) => a + b, 0)
-            var IV = pie_IV.slice(0,7).reduce((a, b) => a + b, 0)
-            var V = pie_V.slice(0,7).reduce((a, b) => a + b, 0)
+            // Obtener las 4 categorias con mayor aporte y sumar las restantes exceptuando eg,er,ea,ec,total
+            
+            var piedatos=[data.PieChartData[0][0],data.PieChartData[1][0],data.PieChartData[2][0],data.PieChartData[3]]
             // Data
             var ubdData = {
               datasets: [{
                 hoverBorderColor: '#ffffff',
-                data: [I,IEB,II,III,IV,V],
-                backgroundColor: ["rgb(0, 184, 216)", "rgb(23,198,113)","rgb(255,180,0)","rgb(255,65,105)","rgb(0,123,255)","rgb(113, 23, 198)"],
+                data: piedatos,
+                backgroundColor: ["rgb(0, 184, 216)", "rgb(23,198,113)","rgb(255,180,0)","rgb(255,65,105)"],
               }],
-              labels: ["Cat.I","Cat.IEB","Cat.II","Cat.III","Cat.IV","Cat.V"]
+              labels: ["Cat."+data.PieChartData[0][1].toUpperCase(),
+                      "Cat."+data.PieChartData[1][1].toUpperCase(),
+              "Cat."+data.PieChartData[2][1].toUpperCase(),
+              data.PieChartData[4]]
             };
 
             // Options
@@ -377,9 +372,30 @@
               // Uncomment the following line in order to disable the animations.
               // animation: false,
               tooltips: {
-                custom: false,
-                mode: 'index',
-                position: 'nearest'
+                // custom: false,
+                // mode: 'index',
+                // position: 'nearest',
+                callbacks: {
+                  label: function (tooltipItem, data) {
+                    try {
+                      let label = ' ' + data.labels[tooltipItem.index] || '';
+            
+                      if (label) {
+                        label += ': ';
+                      }
+            
+                      const sum = data.datasets[0].data.reduce((accumulator, curValue) => {
+                        return parseInt(accumulator) + parseInt(curValue);
+                      });
+                      const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            
+                      label += Number((value / sum) * 100).toFixed(2) + '%';
+                      return label;
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }
+                }
               }
             };
 
