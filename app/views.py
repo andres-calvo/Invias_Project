@@ -114,7 +114,7 @@ def analisis_ruta(request):
 @login_required(login_url="/login")
 def analisis_departamental(request):
     if request.POST.get('action') == 'sending_option':
-        choice = str(request.POST.get('choice'))
+        choice = str(request.POST.get('choice')).lower().replace(' ','_')
         category = "Departamento"
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
@@ -127,7 +127,7 @@ def analisis_departamental(request):
 @login_required(login_url="/login")
 def analisis_peaje(request):
     if request.POST.get('action') == 'sending_option':
-        choice = str(request.POST.get('choice'))
+        choice = str(request.POST.get('choice')).lower().replace(' ','_')
         category = "Peaje"
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
@@ -162,7 +162,7 @@ def tablas_departamental(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         tabletype = request.POST.get('radiovalue')
-        choice = request.POST.get('choice')
+        choice = str(request.POST.get('choice')).lower().replace(' ','_')
         category = "Departamento"
         Tabledata = {"data": GetTableData(
             tabletype, choice, startdate, enddate, category)}
@@ -178,7 +178,7 @@ def tablas_peaje(request):
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         tabletype = request.POST.get('radiovalue')
-        choice = str(request.POST.get('choice'))
+        choice = str(request.POST.get('choice')).lower().replace(' ','_')
         category = "Peaje"
         Tabledata = {"data": GetTableData(
             tabletype, choice, startdate, enddate, category)}
@@ -195,7 +195,7 @@ def tablas_peaje(request):
 def reporte_peaje(request):
 
     if request.POST.get('action') == 'sending_option':
-        choice = str(request.POST.get('choice'))
+        choice = str(request.POST.get('choice')).lower().replace(' ','_')
         category = "Peaje"
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')

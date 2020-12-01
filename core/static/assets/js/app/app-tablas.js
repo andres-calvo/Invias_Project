@@ -68,6 +68,7 @@ $(document).ready(function () {
             { data: "eg" },
             { data: "ea" },
             { data: "er" },
+            { data: "ec" },
             { data: "total" },
           ],
           columnDefs:[
@@ -82,6 +83,8 @@ $(document).ready(function () {
           .buttons()
           .container()
           .appendTo("#example_wrapper .col-md-6:eq(0)");
+        
+        $("div.dataTables_wrapper div.dataTables_paginate ul.pagination").css("justify-content","flex-start")
 
         var page_choice = choice.replace(/_/g, " ");
 
