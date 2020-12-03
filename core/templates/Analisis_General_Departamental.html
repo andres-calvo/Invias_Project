@@ -50,10 +50,13 @@
               <option value="Caldas">Caldas</option>
               {% elif 'ruta' in request.path %}
               <option value="23">Ruta 23</option>
+              <option value="25">Ruta 25</option>
               <option value="40">Ruta 40</option>
               <option value="45">Ruta 45</option>
               <option value="49">Ruta 49</option>
+              <option value="50">Ruta 50</option>
               <option value="60">Ruta 60</option>
+              <option value="62">Ruta 62</option>
               <option value="66">Ruta 66</option>
               <option value="70">Ruta 70</option>
 
@@ -69,59 +72,65 @@
       </form>
     </div>
   </div>
+  <div class="main-display" id="card-main-2" style="display: none" >
+    <div class="row">
 
-  <div class="card card-small mb-4" id="card-main-2" style="display: none">
-    <div class="card-body" id="main-body-2">
-      <div>
-        <h4>Periodo de Análisis <span id="periodoAnalisis"></span></h4>
-      </div>
-      <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-8">
-          <canvas id="recaudoCanvas" height="130" style="max-width: 100% !important"></canvas>
-        </div>
-        <div class="col-12 col-sm-4" style="margin-top: 25px;">
-          <div class="table-responsive">
-            <table id="recaudoTable" class="table table-striped" style="width: 100%;white-space:nowrap;">
-            </table>
+      <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+        <div class="card card-small">
+          <div class="card-header border-bottom">
+            <h6 class="m-0">Recaudo ($)</h6>
           </div>
-        </div>
-      </div>
+          <div class="card-body pt-0" id="rec-container" >
+            <canvas id="recLivComCanvas" style="max-width: 100% !important" class="blog-overview-users"></canvas>
+          </div>
+          <!-- Basic dropdown -->
+          <button type="button" class="btn btn-primary" 
+          data-toggle="collapse" data-target="#collapseContent-1"
+          aria-expanded="false" aria-controls="collapseContent-1"onclick="togglebutton(this)">Ver mas</button>
 
-      <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-8">
-          <canvas id="recLivComCanvas" height="130" style="max-width: 100% !important"></canvas>
-        </div>
-        <div class="col-12 col-sm-4" style="margin-top: 25px;">
-          <div class="table-responsive">
-            <table id="recLivComTable" class="table table-striped" >
-              <thead>
-                <tr>
-                  <th scope="col">Recaudo</th>
-                  <th scope="col">Livianos</th>
-                  <th scope="col">Comerciales</th>
-                </tr>
-              </thead>
-            </table>
+          <div class="collapse" id="collapseContent-1">
+            <div class="card card-body">
+              <div class="table-responsive" id="rec-table-container">
+                <table id="recLivComTable" class="table table-striped" style="width: 100%;white-space:nowrap;"></table>
+              </div>
+            </div>
           </div>
+          <!-- Basic dropdown -->
         </div>
       </div>
 
-      <div class="row" style="margin-bottom: 30px;">
-        <div class="col-12 col-sm-8">
-          <canvas id="VehiculosCanvas" height="130" style="max-width: 100% !important"></canvas>
-        </div>
-        <div class="col-12 col-sm-4" style="margin-top: 25px;">
-          <div class="table-responsive">
-            <table id="VehiculosTable" class="table table-striped" ></table>
+      <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+        <div class="card card-small">
+          <div class="card-header border-bottom">
+            <h6 class="m-0">Vehiculos</h6>
           </div>
+          <div class="card-body pt-0" id="veh-container">
+            <canvas id="VehiculosCanvas"  style="max-width: 100% !important" class="blog-overview-users"></canvas>
+          </div>
+          <!-- Basic dropdown -->
+          <button type="button" class="btn btn-primary" 
+          data-toggle="collapse" data-target="#collapseContent-2"
+          aria-expanded="false" aria-controls="collapseContent-2" onclick="togglebutton(this)">Ver mas</button>
+
+          <div class="collapse" id="collapseContent-2">
+            <div class="card card-body">
+              <div class="table-responsive" id="veh-table-container">
+                <table id="VehiculosTable" class="table table-striped" style="width: 100%;white-space:nowrap;"></table>
+              </div>
+            </div>
+          </div>
+          <!-- Basic dropdown -->
         </div>
-      </div>
+      </div>      
+
     </div>
+
   </div>
+  
+  
   <!-- Div for PDF Display-->
   <div style="display: none" id="pdfcanvasdiv">
     <img id='invias-pdf' src='/static/assets/img/Invias.png' style="opacity:0;">
-    <canvas id="recaudoCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
     <canvas id="recLivComCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
     <canvas id="VehiculosCanvasPDF" width="800px" style="max-width: 100% !important"></canvas>
   </div>
@@ -139,5 +148,21 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
   <script src="/static/assets/js/app/app-analisis-GeneralYDepartamental.js"></script>
+  <script>
+    function togglebutton(element) {
+        var para = document.getElementById("p");
+    
+        if(element.classList.contains("btn-primary")) {
+            element.classList.remove("btn-primary");
+            element.classList.add("btn-danger");;
+            element.textContent = 'Ver menos';
+        }
+        else {
+            element.classList.add("btn-primary");
+            element.classList.remove("btn-danger");
+            element.textContent = 'Ver mas';
+        }
+    }
+    </script>
 
   {% endblock javascripts %}

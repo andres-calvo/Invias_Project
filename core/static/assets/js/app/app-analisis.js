@@ -37,44 +37,99 @@ $(document).on('submit', '#post-form',function(e){
           console.log(fields)
           var dict_real ={
               i:Object.values(json.rec_i),
-              ieb:Object.values(json.rec_ieb),
+              ie:Object.values(json.rec_ie),
               ii:Object.values(json.rec_ii),
               iii:Object.values(json.rec_iii),
               iv:Object.values(json.rec_iv),
               v:Object.values(json.rec_v),
-              eg:Object.values(json.rec_eg),
-              er:Object.values(json.rec_er),
-              ea:Object.values(json.rec_ea)
+              vi:Object.values(json.rec_eg),
+              vii:Object.values(json.rec_er)
           };
           var dict_ideal = {
               i:Object.values(json.rec_ideal_i),
-              ieb:Object.values(json.rec_ideal_ieb),
+              ie:Object.values(json.rec_ideal_ie),
               ii:Object.values(json.rec_ideal_ii),
               iii:Object.values(json.rec_ideal_iii),
               iv:Object.values(json.rec_ideal_iv),
               v:Object.values(json.rec_ideal_v),
-              eg:Object.values(json.rec_ideal_eg),
-              er:Object.values(json.rec_ideal_er),
-              ea:Object.values(json.rec_ideal_ea)
+              vi:Object.values(json.rec_ideal_vi),
+              vii:Object.values(json.rec_ideal_vii),
           };
           var fecha =Object.values(json.fechas)
-          var main_div =document.getElementById('card-main-2');
-          main_div.style.display= "block"
+          
+          $('#main-body div').empty()
+          
+          function CreateHtml(item,index){
+            console.log(item,index)
+            var main_content=`
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card card-small mb-4">
+                  <div class="card-body pt-0" id="canvas-container-${item}">
+                    
+                    <button type="button" class="btn btn-primary" id="buttons-${item}" 
+                      data-toggle="collapse" data-target="#collapseContent-${item}"
+                      aria-expanded="false" aria-controls="collapseContent-${item}">Mas detalles</button>
+                    <div class="collapse" id="collapseContent-${item}">
+                      <div class="card card-body">
+                        <div class="table-responsive" id="table-container-${item}">
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `
+            //Esto es para la creacion de filas
+            if ([0,2,4,6].includes(index)){
+              $("#main-body").append(`<div class="row" id="row-${index}"</div>`);
+              $(`#row-${index}`).append(main_content);
+            } else {
+              $(`#row-${index-1}`).append(main_content);
+            }
+            // <canvas id="line-chart-${item} height="130" style="max-width: 100% !important;" 
+            //         class="blog-overview-users"></canvas>
+            var canvas_container =document.getElementById(`canvas-container-${item}`)
+            var canvas= document.createElement('canvas');
+            canvas.id=`line-chart-${item}`
+            canvas.className='blog-overview-users'
+            canvas.style.maxWidth='100% !important'
+            canvas_container.prepend(canvas)
 
-          fields.forEach(Charts_create);
+            var table_container= document.getElementById(`table-container-${item}`);
+            var table= document.createElement('table')
+            table.className='table table-striped'
+            table.style.width='100%'
+            table_container.prepend(table)
+            
           
-          
-          function Charts_create (value) {
-            var ctx =document.getElementById("line-chart-"+value)
-            ctx.style.display= "block"
+            
+            // var iterator = 0;
+            // while(iterator<contenido_real.length){
+            //   var table = document.getElementById("table-"+value);
+            //   var row = table.insertRow(-1);
+            //   var celda_estadisticas = row.insertCell(0);
+            //   var celda_real = row.insertCell(1);
+            //   var celda_esperada = row.insertCell(2);
+            //   celda_estadisticas.innerHTML = estadisticas[iterator]
+            //   celda_real.innerHTML = '$ '+contenido_real[iterator].toLocaleString('de-DE')
+            //   celda_esperada.innerHTML = '$ '+contenido_esperado[iterator].toLocaleString('de-DE')
+            //   iterator++
+            // }
+  
+          };
+          fields.forEach(CreateHtml);
+          function createchartsTable(item){
+            //Creacion de grafica
+            var ctx =document.getElementById("line-chart-"+item)
             var cfg = {
               data: {
                 labels: fecha,
                 datasets: [{
                   label: 'Recaudo Real',
-                  fontSize:18,
+                  fontSize:14,
                   borderColor: "#3e95cd",
-                  data: dict_real[value],
+                  data: dict_real[item],
                   type: 'line',
                   pointRadius: 0,
                   fill: false,
@@ -83,9 +138,9 @@ $(document).on('submit', '#post-form',function(e){
                   },
                   {
                   label: 'Recaudo Esperado',
-                  fontSize:18,
+                  fontSize:14,
                   borderColor: "#8e5ea2",
-                  data: dict_ideal[value],
+                  data: dict_ideal[item],
                   type: 'line',
                   pointRadius: 0,
                   fill: false,
@@ -96,9 +151,9 @@ $(document).on('submit', '#post-form',function(e){
               },
               options: {
                 title: {
-                  fontSize:18,
+                  fontSize:14,
                   display: true,
-                  text:'Recaudo Real vs Esperado Categoria '+value.toUpperCase()
+                  text:'Recaudo Real vs Esperado Categoria '+item.toUpperCase()
                 },
                 scales: {
                   xAxes: [{
@@ -106,7 +161,7 @@ $(document).on('submit', '#post-form',function(e){
                     distribution: 'series',
                     offset: true,
                     ticks: {
-                      fontSize:18,
+                      fontSize:14,
                       major: {
                         enabled: true,
                         fontStyle: 'bold'
@@ -153,10 +208,10 @@ $(document).on('submit', '#post-form',function(e){
                       callback: function(label, index, labels) {
                         return label.toLocaleString('de-DE');
                       },
-                      fontSize:18,
+                      fontSize:14,
                     },
                     scaleLabel: {
-                      fontSize:18,
+                      fontSize:14,
                       display: true,
                       labelString: 'Recaudo ($)'
                     }
@@ -179,108 +234,93 @@ $(document).on('submit', '#post-form',function(e){
               }
             };
         
-            var chart = new Chart(ctx, cfg);
+            new Chart(ctx, cfg);
             
-
-            var buttons =document.getElementById('buttons-'+value);
-            buttons.style.display= "block"
-            
+            // Creacion de la Tabla
             var tiempo_dias = fecha.length;
 
-            var tot_rec_ideal = dict_ideal[value].reduce((a, b) => a + b, 0);
-            var tot_rec_real = dict_real[value].reduce((a, b) => a + b, 0);
+            var tot_rec_ideal = dict_ideal[item].reduce((a, b) => a + b, 0);
+            var tot_rec_real = dict_real[item].reduce((a, b) => a + b, 0);
 
             var prom_ideal =Math.round(tot_rec_ideal/tiempo_dias);
             var prom_real =Math.round(tot_rec_real/tiempo_dias);
 
-            var maximum_value_ideal = Math.max(...dict_ideal[value]);
-            var maximum_value_real = Math.max(...dict_real[value]);
-            var minimum_value_ideal = Math.min(...dict_ideal[value]);
-            var minimum_value_real = Math.min(...dict_real[value]);
+            var max_value_ideal = Math.max(...dict_ideal[item]);
+            var max_value_real = Math.max(...dict_real[item]);
+            var min_value_ideal = Math.min(...dict_ideal[item]);
+            var min_value_real = Math.min(...dict_real[item]);
 
             
+            $(`#table-${item}`).html(`<tbody>
+              <tr><td>Recaudo Total</td><td>${tot_rec_real}</td><td>${tot_rec_ideal}</td></tr>
+              <tr><td>Recaudo Promedio Diario</td><td>${prom_real}</td><td>${prom_ideal}</td></tr>
+              <tr><td>Recaudo Maximo Diario</td><td>${max_value_real}</td><td>${max_value_ideal}</td></tr>
+              <tr><td>Recaudo Minimo Diario</td><td>${min_value_real}</td><td>${min_value_ideal}</td></tr>
 
-            var std_ideal = Math.round(Math.sqrt(dict_ideal[value].map(x => Math.pow(x-prom_ideal,2)).reduce((a,b) => a+b)/tiempo_dias));
-            var std_real = Math.round(Math.sqrt(dict_real[value].map(x => Math.pow(x-prom_real,2)).reduce((a,b) => a+b)/tiempo_dias));
-
-            // Replace the above variable data into html text of <li> tag
-            var contenido_real =[tot_rec_real,prom_real,maximum_value_real,minimum_value_real,std_real];
-            var contenido_esperado =[tot_rec_ideal,prom_ideal,maximum_value_ideal,minimum_value_ideal,std_ideal];
-            var estadisticas = ["Recaudo Total","Recaudo Promedio Diario","Recaudo Maximo Diario","Recaudo Minimo Diario","Desviacion Estandar"];
-            
-            
-
-            var iterator = 0;
-            while(iterator<contenido_real.length){
-              var table = document.getElementById("table-"+value);
-              var row = table.insertRow(-1);
-              var celda_estadisticas = row.insertCell(0);
-              var celda_real = row.insertCell(1);
-              var celda_esperada = row.insertCell(2);
-              celda_estadisticas.innerHTML = estadisticas[iterator]
-              celda_real.innerHTML = '$ '+contenido_real[iterator].toLocaleString('de-DE')
-              celda_esperada.innerHTML = '$ '+contenido_esperado[iterator].toLocaleString('de-DE')
-              iterator++
-            }
-          };
+            `)
+          }
+          for (item of fields){
+            createchartsTable(item)
+          }
+          
           // PDF Starts Here
-          var pdfbutton =document.getElementById("PDF_Button");
-          pdfbutton.style.display ="block";
-          $(document).on('click','#PDF_Button',function(){
-            var pdfContent =[{text:'Analisis '+json.peajes+' Periodo: '+startdate+'/'+enddate, alignment:'center'},'\n','\n']
-            var counter=0
-            function CanvasImageURL(value){
-              var canvas =document.getElementById('line-chart-'+value).toDataURL()
-              var row0 = $("#table-"+value+" tr").eq(0)
-              var row1 = $("#table-"+value+" tr").eq(1)
-              var row2 = $("#table-"+value+" tr").eq(2)
-              var row3 = $("#table-"+value+" tr").eq(3)
-              var row4 = $("#table-"+value+" tr").eq(4)
-              var row5 = $("#table-"+value+" tr").eq(5)
-              var chart_Table_Content = {
-                columns:[
-                  {
-                    image: canvas,
-                    width:300,
-                    alignment: "left",
-                  },
-                  {
-                    style: 'tableExample',
-                    table: {
-                      widths:['*','auto','auto'],
-                      body: [
-                        ['', {text:"Real",bold: 'true',fontSize: 9, alignment: 'center'},{text:"Esperado",bold: 'true',fontSize: 9, alignment: 'center'}],
-                        [{text:"Recaudo Total",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row1.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row1.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Recaudo Promedio Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Recaudo Maximo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Recaudo Minimo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-                        [{text:"Desviación Estandar",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row5.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row5.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}]
-                      ]
-                    }
-                  },
-                ],
-                columnGap:20,
-              }
-              pdfContent.push(chart_Table_Content)
-              pdfContent.push("\n","\n")
-              if (counter == 2 || counter == 5 ) {
-                pdfContent.push({text:'',pageBreak:'after'})
-              }
-              counter = counter+1
-            }
-            checks.map(CanvasImageURL)
-            var docDefinition = {
-              pageSize: "LETTER",
+          // var pdfbutton =document.getElementById("PDF_Button");
+          // pdfbutton.style.display ="block";
+          // $(document).on('click','#PDF_Button',function(){
+          //   var pdfContent =[{text:'Analisis '+json.peajes+' Periodo: '+startdate+'/'+enddate, alignment:'center'},'\n','\n']
+          //   var counter=0
+          //   function CanvasImageURL(value){
+          //     var canvas =document.getElementById('line-chart-'+value).toDataURL()
+          //     var row0 = $("#table-"+value+" tr").eq(0)
+          //     var row1 = $("#table-"+value+" tr").eq(1)
+          //     var row2 = $("#table-"+value+" tr").eq(2)
+          //     var row3 = $("#table-"+value+" tr").eq(3)
+          //     var row4 = $("#table-"+value+" tr").eq(4)
+          //     var row5 = $("#table-"+value+" tr").eq(5)
+          //     var chart_Table_Content = {
+          //       columns:[
+          //         {
+          //           image: canvas,
+          //           width:300,
+          //           alignment: "left",
+          //         },
+          //         {
+          //           style: 'tableExample',
+          //           table: {
+          //             widths:['*','auto','auto'],
+          //             body: [
+          //               ['', {text:"Real",bold: 'true',fontSize: 9, alignment: 'center'},{text:"Esperado",bold: 'true',fontSize: 9, alignment: 'center'}],
+          //               [{text:"Recaudo Total",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row1.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row1.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+          //               [{text:"Recaudo Promedio Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+          //               [{text:"Recaudo Maximo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+          //               [{text:"Recaudo Minimo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+          //               [{text:"Desviación Estandar",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row5.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row5.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}]
+          //             ]
+          //           }
+          //         },
+          //       ],
+          //       columnGap:20,
+          //     }
+          //     pdfContent.push(chart_Table_Content)
+          //     pdfContent.push("\n","\n")
+          //     if (counter == 2 || counter == 5 ) {
+          //       pdfContent.push({text:'',pageBreak:'after'})
+          //     }
+          //     counter = counter+1
+          //   }
+          //   checks.map(CanvasImageURL)
+          //   var docDefinition = {
+          //     pageSize: "LETTER",
       
-              // by default we use portrait, you can change it to landscape if you wish
-              pageOrientation: "portrait",
+          //     // by default we use portrait, you can change it to landscape if you wish
+          //     pageOrientation: "portrait",
       
-              // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-              pageMargins: [20, 40, 20, 40],
-              content: pdfContent
-            };
-            pdfMake.createPdf(docDefinition).open();
-          });
+          //     // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+          //     pageMargins: [20, 40, 20, 40],
+          //     content: pdfContent
+          //   };
+          //   pdfMake.createPdf(docDefinition).open();
+          // });
           
           
           

@@ -175,17 +175,17 @@ $(document).on("submit", "#post-form", function (e) {
       //This will send the json data to our costume chart functions in ChartsWebPDF.js 
       categorias_data(json)
 
-      // CreateChart (canvasID,chartType,dataType,title,lineas,labels)
+      // CreateChart (canvasID,chartType,dataType,title,labels,categorias)
       categorias_data.CreateChart("linechart-0","PDF","veh_data","Categoria I vs IE ",["I","IE"])
       categorias_data.CreateChart("linechart-1","PDF","veh_data","Categoria II vs III ",["II","III"])
       categorias_data.CreateChart("linechart-2","PDF","veh_data","Categoria IV vs V ",["IV","V"])
-      categorias_data.CreateChart("ejes-0","PDF","veh_data"," ",["EG","ER","EA"])
+      categorias_data.CreateChart("linechart-3","PDF","veh_data","Categoria VI vs VII",["VI","VII"])
 
       // CHARTS FOR RECAUDO
-      categorias_data.CreateChart("linechart-3","PDF","rec_data","Categoria I vs IEB ",["I","IE"])
-      categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria II vs III ",["II","III"])
-      categorias_data.CreateChart("linechart-5","PDF","rec_data","Categoria IV vs V ",["IV","V"])
-      categorias_data.CreateChart("ejes-1","PDF","rec_data"," ",["EG","ER","EA"])
+      categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria I vs IEB ",["I","IE"])
+      categorias_data.CreateChart("linechart-5","PDF","rec_data","Categoria II vs III ",["II","III"])
+      categorias_data.CreateChart("linechart-6","PDF","rec_data","Categoria IV vs V ",["IV","V"])
+      categorias_data.CreateChart("linechart-7","PDF","rec_data","Categoria VI vs VII ",["VI","VII"])
       
       var c = document.createElement('canvas');
       var img = document.getElementById('invias-pdf');
@@ -279,7 +279,7 @@ $(document).on("submit", "#post-form", function (e) {
             alignment: "center",
             width:500,
           },
-          "\n","\n","\n",
+          "\n","\n",
           {
             image: document.getElementById("linechart-1").toDataURL(),
             alignment: "center",
@@ -292,11 +292,9 @@ $(document).on("submit", "#post-form", function (e) {
             alignment: "center",
             width:500,
           },
-          "\n","\n","\n",
-          {text:'Comportamiento No. Ejes Adicionales',bold:true,alignment:'center'},
-          '\n','\n',
+          "\n","\n",
           {
-            image: document.getElementById("ejes-0").toDataURL(),
+            image: document.getElementById("linechart-3").toDataURL(),
             alignment: "center",
             width:500,
             pageBreak:'after',
@@ -309,28 +307,26 @@ $(document).on("submit", "#post-form", function (e) {
           },
           "\n",'\n',
           {
-            image: document.getElementById("linechart-3").toDataURL(),
+            image: document.getElementById("linechart-4").toDataURL(),
             alignment: "center",
             width:500,
           },
           "\n","\n","\n",
           {
-            image: document.getElementById("linechart-4").toDataURL(),
+            image: document.getElementById("linechart-5").toDataURL(),
             alignment: "center",
             width:500,
             pageBreak:'after',
           },
           "\n",'\n',
           {
-            image: document.getElementById("linechart-5").toDataURL(),
+            image: document.getElementById("linechart-6").toDataURL(),
             alignment: "center",
             width:500,
           },
-          "\n","\n","\n",
-          {text:'Comportamiento Recaudo Ejes Adicionales',bold:true,alignment:'center'},
-          '\n','\n',
+          "\n","\n",
           {
-            image: document.getElementById("ejes-1").toDataURL(),
+            image: document.getElementById("linechart-7").toDataURL(),
             alignment: "center",
             width:500,
           },

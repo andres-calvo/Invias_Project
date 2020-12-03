@@ -167,7 +167,7 @@ def getDataFromDatabase(choice,startdate,enddate,category): # category hace refe
         query=Peajes.objects.filter(codigo_via__startswith=choice).values() ## choice sera la ruta escogida tener en cuenta que son los dos primeros numeros del codigo
         peajes=[]
         for p in query:
-            peajes.append(p['peaje'])
+            peajes.append(p['peaje'].lower().replace(' ','_'))
 
         datos = getQuerysetsData(peajes, startdate, enddate)
     

@@ -9,11 +9,11 @@ function categorias_data(json) {
 			veh_data:json.veh_i,
 			rec_data: json.rec_i
 		},
-		IEB:{
+		IE:{
 			borderColor: 'rgb(23,198,113)',
-			label:'Cat.IEB',
-			veh_data:json.veh_ieb,
-			rec_data: json.rec_ieb,
+			label:'Cat.IE',
+			veh_data:json.veh_ie,
+			rec_data: json.rec_ie,
 		},
 		II:{
 			borderColor: 'rgb(255,180,0)',
@@ -39,23 +39,17 @@ function categorias_data(json) {
 			veh_data:json.veh_v,
 			rec_data: json.rec_v
 		},
-		EG:{
+		VI:{
 			borderColor: 'rgb(145, 136, 105)',
-			label:'Cat.EG',
-			veh_data:json.veh_eg,
-			rec_data: json.rec_eg
+			label:'Cat.VI',
+			veh_data:json.veh_vi,
+			rec_data: json.rec_vi
 		},
-		ER:{
+		VII:{
 			borderColor: 'rgb(105, 145, 136)',
-			label:'Cat.ER',
-			veh_data:json.veh_er,
-			rec_data: json.rec_er
-		},
-		EA:{
-			borderColor: 'rgb(23, 23, 23)',
-			label:'Cat.EA',
-			veh_data:json.veh_ea,
-			rec_data: json.rec_ea
+			label:'Cat.VII',
+			veh_data:json.veh_vii,
+			rec_data: json.rec_vii
 		},
 		LIV:{
 			borderColor: 'rgb(0, 184, 216)',
@@ -78,7 +72,7 @@ function categorias_data(json) {
 	};
 
 	function MyChartOptions(title,chartType,dataType) {
-		var fontSize=(chartType==='Web')? 16:22 // Web or PDF
+		var fontSize=(chartType==='Web')? 12:22 // Web or PDF
 		var ytitle = (dataType==='rec_data')? 'Recaudo Total':'No.Vehiculos' //dataType = rec_data or veh_data 
 		return {
 			title:{
@@ -157,7 +151,7 @@ function categorias_data(json) {
 						},
 						scaleLabel: {
 							fontSize:fontSize,
-							display: true,
+							display: (chartType==='Web')? false:true,
 							labelString: ytitle,
 						},
 					},

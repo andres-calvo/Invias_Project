@@ -46,47 +46,46 @@ $(document).ready(function () {
         var main_div = document.getElementById("card-main-2");
         main_div.style.display = "block";
 
-        $("#card-main2 canvas").remove()///DELETE ALL CANVAS ELEMENTS
-        $('table td #recaudoTable').remove();
-        $('table td #recLivComTable').remove();
-        $('table td #VehiculosTable').remove();
+        $("#card-main-2 canvas").remove()///DELETE ALL CANVAS ELEMENTS
+        $("#card-main-2 table tr").remove()
         
-        $("div.col-12.col-sm-8").eq(0).html('<canvas id="recaudoCanvas" height="130" style="max-width: 100% !important"></canvas>')
-        $("div.col-12.col-sm-8").eq(1).html('<canvas id="recLivComCanvas" height="130" style="max-width: 100% !important"></canvas>')
-        $("div.col-12.col-sm-8").eq(2).html('<canvas id="VehiculosCanvas" height="130" style="max-width: 100% !important"></canvas>')
+        
+        $("#rec-container").html('<canvas id="recLivComCanvas" style="max-width: 100% !important" class="blog-overview-users"></canvas>')
+        $("#veh-container").html('<canvas id="VehiculosCanvas"  style="max-width: 100% !important" class="blog-overview-users"></canvas>')
 
         var page_choice = choice.replace(/_/g," ");
         console.log(page_choice)
         var typepage;
+        
         if (pathname.includes("peaje")) {
           $("#page-title").text("Análisis Peaje "+page_choice);
           typepage ="Peaje"
         } else if (pathname.includes("departamental")) {
-          $("#page-title").text("Análisis Departamento "+page_choice);
-          $("#peaje-name").text("Peaje ");
-          typepage="Departamento"
+            $("#page-title").text("Análisis Departamento "+page_choice);
+            $("#peaje-name").text("Peaje ");
+            typepage="Departamento"
 
-          function AppendPeajesFunction(peaje) {
-            $("#peaje-name").append("," + peaje );
-          }
-          peajeslist.map(AppendPeajesFunction);
+            function AppendPeajesFunction(peaje) {
+              $("#peaje-name").append("," + peaje );
+            }
+            peajeslist.map(AppendPeajesFunction);
           
         } else if (pathname.includes("ruta")) {
-          $("#page-title").text("Análisis Ruta "+choice);
-          $("#peaje-name").text("Peaje ");
-          typepage="Ruta "+choice
-          function AppendPeajesFunction(peaje) {
-            $("#peaje-name").append("," + peaje );
-          }
-          peajeslist.map(AppendPeajesFunction);
+            $("#page-title").text("Análisis Ruta "+choice);
+            $("#peaje-name").text("Peaje ");
+            typepage="Ruta "+choice
+            function AppendPeajesFunction(peaje) {
+              $("#peaje-name").append("," + peaje );
+            }
+            peajeslist.map(AppendPeajesFunction);
         } else {typepage="General"}
+
         //Remove first comma ','\
         var peajes =$("#peaje-name").text().replace(","," ")
         $("#peaje-name").text(peajes)
 
 
-        //Periodo de Analisis
-        $("#periodoAnalisis").text(startdate+"/"+enddate);
+        
 
         //Charting starts here
         //First call this main function ONCE in this JAVASCRIPT FILE
@@ -94,36 +93,31 @@ $(document).ready(function () {
         categorias_data(json)
 
         // CreateChart (canvasID,chartType,dataType,title,lineas,labels)
-        categorias_data.CreateChart("recaudoCanvas","Web","rec_data"," ",["TOTAL"],["Recaudo"])
         categorias_data.CreateChart("recLivComCanvas","Web","rec_data"," ",["LIV","COM"],["Recaudo Veh.Livianos","Recaudo Veh.Comerciales"])
         categorias_data.CreateChart("VehiculosCanvas","Web","veh_data"," ",["TOTAL"],["Vehiculos"])
 
         //First Table
         var recaudo_total = json.rec_total.reduce((a, b) => a + b, 0);
-        var recaudo_promedio = Math.round(recaudo_total / json.rec_total.length).toLocaleString("de-DE");
-        var recaudo_maximo = Math.max(...json.rec_total).toLocaleString("de-DE");
-        var recaudo_minimo = Math.min(...json.rec_total).toLocaleString("de-DE")
-        $("#recaudoTable").html(`<tbody>
-          <tr><td>Total</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio}</td></tr>
-          <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo}</td></tr>
-          <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo}</td></tr>
-        </tbody>`);
-
-        //Second Table
         var recaudo_total_liv = json.rec_liv.reduce((a, b) => a + b, 0)
         var recaudo_total_com = json.rec_com.reduce((a, b) => a + b, 0)
+
+        var recaudo_promedio = Math.round(recaudo_total / json.rec_total.length).toLocaleString("de-DE");
         var recaudo_promedio_liv = Math.round(recaudo_total_liv / json.rec_liv.length).toLocaleString("de-DE");
         var recaudo_promedio_com = Math.round(recaudo_total_com / json.rec_com.length).toLocaleString("de-DE");
+
+        var recaudo_maximo = Math.max(...json.rec_total).toLocaleString("de-DE");
         var recaudo_maximo_liv = Math.max(...json.rec_liv).toLocaleString("de-DE");
         var recaudo_maximo_com = Math.max(...json.rec_com).toLocaleString("de-DE");
+
+        var recaudo_minimo = Math.min(...json.rec_total).toLocaleString("de-DE")
         var recaudo_minimo_liv = Math.min(...json.rec_liv).toLocaleString("de-DE");
         var recaudo_minimo_com = Math.min(...json.rec_com).toLocaleString("de-DE");
         $("#recLivComTable").html(`<tbody>
-          <tr><td>Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td></tr>
-          <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td></tr>
-          <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td></tr>
-          <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td></tr>
+          <tr><td></td><td>Livianos</td><td>Comerciales</td><td>Total</td></tr>
+          <tr><td>Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td><td>$ ${recaudo_promedio}</td></tr>
+          <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td><td>$ ${recaudo_maximo}</td></tr>
+          <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td><td>$ ${recaudo_minimo}</td></tr>
         </tbody>`);
         
         //Third Table
@@ -151,7 +145,6 @@ $(document).ready(function () {
           $("#pdfcanvasdiv").append('<canvas id="VehiculosCanvasPDF" height="130" style="max-width: 100% !important"></canvas>')
 
           // In this case the labels are going top because we are in Analisis App, only be rigth if we were in Reporte App
-          categorias_data.CreateChart("recaudoCanvasPDF","PDF","rec_data"," ",["TOTAL"],["Recaudo"])
           categorias_data.CreateChart("recLivComCanvasPDF","PDF","rec_data"," ",["LIV","COM"],["Recaudo Veh.Livianos","Recaudo Veh.Comerciales"])
           categorias_data.CreateChart("VehiculosCanvasPDF","PDF","veh_data"," ",["TOTAL"],["Vehiculos"])
 
