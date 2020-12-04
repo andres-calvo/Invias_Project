@@ -195,12 +195,12 @@ def tablas_peaje(request):
 def reporte_peaje(request):
 
     if request.POST.get('action') == 'sending_option':
-        choice = str(request.POST.get('choice')).lower().replace(' ','_')
+        choice = str(request.POST.get('choice'))
         category = "Peaje"
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         datos = getDataFromDatabase(choice, startdate, enddate, category)
-        query = Peajes.objects.filter(peaje=choice).values()
+        query = Peajes.objects.filter(peaje=choice.upper().replace('_',' ')).values()
         datos['peaje_data'] = query[0]
         datos['peaje_data']['departamento'] = datos['peaje_data']['departamento'].title()
 

@@ -113,8 +113,8 @@ $(document).ready(function () {
         var recaudo_minimo_liv = Math.min(...json.rec_liv).toLocaleString("de-DE");
         var recaudo_minimo_com = Math.min(...json.rec_com).toLocaleString("de-DE");
         $("#recLivComTable").html(`<tbody>
-          <tr><td></td><td>Livianos</td><td>Comerciales</td><td>Total</td></tr>
-          <tr><td>Total</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
+          <tr><td></td><td>Livianos</td><td>Comerciales</td><td>Total Periodo</td></tr>
+          <tr><td>Recaudo</td><td>$ ${recaudo_total_liv.toLocaleString("de-DE")}</td><td>$ ${recaudo_total_com.toLocaleString("de-DE")}</td><td>$ ${recaudo_total.toLocaleString("de-DE")}</td></tr>
           <tr><td>Promedio Diario</td><td>$ ${recaudo_promedio_liv}</td><td>$ ${recaudo_promedio_com}</td><td>$ ${recaudo_promedio}</td></tr>
           <tr><td>Máximo Diario</td><td>$ ${recaudo_maximo_liv}</td><td>$ ${recaudo_maximo_com}</td><td>$ ${recaudo_maximo}</td></tr>
           <tr><td>Mínimo Diario</td><td>$ ${recaudo_minimo_liv}</td><td>$ ${recaudo_minimo_com}</td><td>$ ${recaudo_minimo}</td></tr>

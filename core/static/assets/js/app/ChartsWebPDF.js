@@ -4,49 +4,49 @@
 function categorias_data(json) {
 	var categorias_object= {
 		I:{
-			borderColor: 'rgb(0, 184, 216)',
+			borderColor: "rgb(239, 35, 60)",
 			label:'Cat.I',
 			veh_data:json.veh_i,
 			rec_data: json.rec_i
 		},
 		IE:{
-			borderColor: 'rgb(23,198,113)',
+			borderColor: "rgb(23, 163, 152)",
 			label:'Cat.IE',
 			veh_data:json.veh_ie,
 			rec_data: json.rec_ie,
 		},
 		II:{
-			borderColor: 'rgb(255,180,0)',
+			borderColor: "rgb(255, 177, 122)",
 			label:'Cat.II',
 			veh_data:json.veh_ii,
 			rec_data: json.rec_ii,
 		},
 		III:{
-			borderColor: 'rgb(255,65,105)',
+			borderColor: "rgb(176, 219, 67)",
 			label:'Cat.III',
 			veh_data:json.veh_iii,
 			rec_data: json.rec_iii,
 		},
 		IV:{
-			borderColor: 'rgb(0,123,255)',
+			borderColor: "rgb(230, 173, 236)",
 			label:'Cat.IV',
 			veh_data:json.veh_iv,
 			rec_data: json.rec_iv
 		},
 		V:{
-			borderColor: 'rgb(113, 23, 198)',
+			borderColor: "rgb(94, 43, 255)",
 			label:'Cat.V',
 			veh_data:json.veh_v,
 			rec_data: json.rec_v
 		},
 		VI:{
-			borderColor: 'rgb(145, 136, 105)',
+			borderColor: "rgb(0, 159, 183)",
 			label:'Cat.VI',
 			veh_data:json.veh_vi,
 			rec_data: json.rec_vi
 		},
 		VII:{
-			borderColor: 'rgb(105, 145, 136)',
+			borderColor: "rgb(184, 51, 106)",
 			label:'Cat.VII',
 			veh_data:json.veh_vii,
 			rec_data: json.rec_vii
@@ -85,6 +85,7 @@ function categorias_data(json) {
 				position: (chartType==='Web'|| window.location.pathname.includes("analisis"))? 'top':'right',
 				labels:{
 					fontSize:fontSize ,
+					boxWidth:20,
 				}
 			},
 

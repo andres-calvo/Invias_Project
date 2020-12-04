@@ -4,7 +4,7 @@
               <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
                 <a class="navbar-brand w-100 mr-0" 
                    target="_blank"
-                   href="https://appseed.us/admin-dashboards/django-dashboard-shards" style="line-height: 25px;">
+                   href="" style="line-height: 25px;">
                   <div class="d-table m-auto">
                     <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="/static/assets/img/invias.png" alt="Shards Dashboard">
                     <span class="d-none d-md-inline ml-1">INVIAS</span>
@@ -21,14 +21,14 @@
             {% if user.is_authenticated %}
               <div class="nav-wrapper">
                 <ul class="nav flex-column">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link {% if request.path == 'mapa' %} active {% endif %}" href="{% url 'mapa_peajes' %}">
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link {% if request.path == 'mapa' %} active {% endif %}" href="{% url 'mapa_peajes' %}" >
                       <i class="material-icons" style="color: black;">location_on</i>
                       <span>Localización de Peajes</span>
                     </a>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'estadistica' %} active {% endif %}" href="#" data-toggle="dropdown">
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link dropdown-toggle {% if request.path == 'estadistica' %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">assessment</i>
                       <span>Estadística</span>
                     </a>
@@ -39,8 +39,8 @@
                     </div>
                   </li>
                   
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'tablas' %} active {% endif %}" href="#" data-toggle="dropdown">
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link dropdown-toggle {% if request.path == 'tablas' %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">table_chart</i>
                       <span>Base de Datos</span>
                     </a>
@@ -50,8 +50,8 @@
                       <a href="{% url 'tablas_peaje' %}" class="dropdown-item {% if request.path == 'tablas/peaje' %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'analisis' %} active {% endif %}" href="#" data-toggle="dropdown">
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link dropdown-toggle {% if request.path == 'analisis' %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <img src='/static/assets/img/analisis.svg' style="height: 20px;">
                       <span>Análisis</span>
                     </a>
@@ -62,8 +62,8 @@
                       <a href="{% url 'analisis_peaje' %}" class="dropdown-item {% if request.path == 'analisis/peaje' %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if request.path == '/reporte' %} active {% endif %}" href="#" data-toggle="dropdown">
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link dropdown-toggle {% if request.path == '/reporte' %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">note_add</i>
                       <span>Reporte</span>
                     </a>

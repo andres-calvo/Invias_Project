@@ -84,9 +84,9 @@ $(document).ready(function () {
           .container()
           .appendTo("#example_wrapper .col-md-6:eq(0)");
         
-        $("div.dataTables_wrapper div.dataTables_paginate ul.pagination").css("justify-content","flex-start")
+        
 
-        var page_choice = choice.replace(/_/g, " ");
+        var page_choice = (pathname.includes('general'))? 'General': choice.replace(/_/g, " ");
 
         if (pathname.includes("peaje")) {
           $("#page-title").text("Base de Datos Peaje " + page_choice);

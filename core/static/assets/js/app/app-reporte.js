@@ -30,23 +30,19 @@ $(document).on("submit", "#post-form", function (e) {
       action: "sending_option",
     },
     success: function (json) {
-      console.log(json.fechas.length);
+      console.log(json);
 
       Chart.defaults.global.animation = false;
+      var labels=["Cat.I","Cat.IE","Cat.II","Cat.III","Cat.IV","Cat.V","Cat.VI","Cat.VII"]
+      var colors=["rgb(239, 35, 60)","rgb(23, 163, 152)","rgb(255, 177, 122)",
+      "rgb(176, 219, 67)","rgb(230, 173, 236)","rgb(94, 43, 255)","rgb(0, 159, 183)","rgb(184, 51, 106)"]
 
       new Chart(
         document.getElementById("total-veh-barchart").getContext("2d"),
         {
           type: "bar",
           data: {
-            labels: [
-              "Cat.I",
-              "Cat.IE",
-              "Cat.II",
-              "Cat.III",
-              "Cat.IV",
-              "Cat.V",
-            ],
+            labels: labels,
             datasets: [
               {
                 data: [
@@ -56,15 +52,10 @@ $(document).on("submit", "#post-form", function (e) {
                   json.veh_iii.reduce((a, b) => a + b, 0),
                   json.veh_iv.reduce((a, b) => a + b, 0),
                   json.veh_v.reduce((a, b) => a + b, 0),
+                  json.veh_vi.reduce((a, b) => a + b, 0),
+                  json.veh_vii.reduce((a, b) => a + b, 0),
                 ],
-                backgroundColor: [
-                  "rgb(0, 184, 216)",
-                  "rgb(23,198,113)",
-                  "rgb(255,180,0)",
-                  "rgb(255,65,105)",
-                  "rgb(0,123,255)",
-                  "rgb(113, 23, 198)",
-                ],
+                backgroundColor: colors,
               },
             ],
           },
@@ -111,32 +102,20 @@ $(document).on("submit", "#post-form", function (e) {
         {
           type: "bar",
           data: {
-            labels: [
-              "Cat.I",
-              "Cat.IEB",
-              "Cat.II",
-              "Cat.III",
-              "Cat.IV",
-              "Cat.V",
-            ],
+            labels: labels,
             datasets: [
               {
                 data: [
                   json.rec_i.reduce((a, b) => a + b, 0),
-                  json.rec_ieb.reduce((a, b) => a + b, 0),
+                  json.rec_ie.reduce((a, b) => a + b, 0),
                   json.rec_ii.reduce((a, b) => a + b, 0),
                   json.rec_iii.reduce((a, b) => a + b, 0),
                   json.rec_iv.reduce((a, b) => a + b, 0),
                   json.rec_v.reduce((a, b) => a + b, 0),
+                  json.rec_vi.reduce((a, b) => a + b, 0),
+                  json.rec_vii.reduce((a, b) => a + b, 0),
                 ],
-                backgroundColor: [
-                  "rgb(0, 184, 216)",
-                  "rgb(23,198,113)",
-                  "rgb(255,180,0)",
-                  "rgb(255,65,105)",
-                  "rgb(0,123,255)",
-                  "rgb(113, 23, 198)",
-                ],
+                backgroundColor:colors,
               },
             ],
           },
@@ -182,7 +161,7 @@ $(document).on("submit", "#post-form", function (e) {
       categorias_data.CreateChart("linechart-3","PDF","veh_data","Categoria VI vs VII",["VI","VII"])
 
       // CHARTS FOR RECAUDO
-      categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria I vs IEB ",["I","IE"])
+      categorias_data.CreateChart("linechart-4","PDF","rec_data","Categoria I vs IE ",["I","IE"])
       categorias_data.CreateChart("linechart-5","PDF","rec_data","Categoria II vs III ",["II","III"])
       categorias_data.CreateChart("linechart-6","PDF","rec_data","Categoria IV vs V ",["IV","V"])
       categorias_data.CreateChart("linechart-7","PDF","rec_data","Categoria VI vs VII ",["VI","VII"])
@@ -218,21 +197,20 @@ $(document).on("submit", "#post-form", function (e) {
               {
                 text: [
                   { text: "Peaje: ", bold: true },
-                  "" + json.peajes,
+                  "" + json.peaje_data.peaje,
                   "\n",
                   { text: 'PR ', bold: true },""+json.peaje_data.pr+'+'+json.peaje_data.distancia,
                   "\n",
-                  { text: "Departamento: ", bold: true },""+json.peaje_data.territorial,
+                  { text: "Departamento: ", bold: true },""+json.peaje_data.departamento,
                   "\n",
                   
                 ],
               },
               {
                 text: [
-                  { text: "Ruta: ", bold: true },""+json.peaje_data.codigo.substring(0,2),
+                  { text: "Ruta: ", bold: true },""+json.peaje_data.codigo_via.substring(0,2),
                   "\n",
-                  { text: "Sector: ", bold:true},""+json.peaje_data.sector,
-                  "\n",
+                  
                   { text: "Periodo de Reporte: ", bold: true },
                   "" + startdate + "/" + enddate,
                   "\n",

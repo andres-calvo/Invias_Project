@@ -58,6 +58,7 @@ $(document).on('submit', '#post-form',function(e){
           var fecha =Object.values(json.fechas)
           
           $('#main-body div').empty()
+          $('#page-title').text('Analísis Peaje '+json.peajes[0].toUpperCase())
           
           function CreateHtml(item,index){
             console.log(item,index)
@@ -98,24 +99,15 @@ $(document).on('submit', '#post-form',function(e){
 
             var table_container= document.getElementById(`table-container-${item}`);
             var table= document.createElement('table')
+            table.id=`table-${item}`
             table.className='table table-striped'
             table.style.width='100%'
             table_container.prepend(table)
+
+            
             
           
             
-            // var iterator = 0;
-            // while(iterator<contenido_real.length){
-            //   var table = document.getElementById("table-"+value);
-            //   var row = table.insertRow(-1);
-            //   var celda_estadisticas = row.insertCell(0);
-            //   var celda_real = row.insertCell(1);
-            //   var celda_esperada = row.insertCell(2);
-            //   celda_estadisticas.innerHTML = estadisticas[iterator]
-            //   celda_real.innerHTML = '$ '+contenido_real[iterator].toLocaleString('de-DE')
-            //   celda_esperada.innerHTML = '$ '+contenido_esperado[iterator].toLocaleString('de-DE')
-            //   iterator++
-            // }
   
           };
           fields.forEach(CreateHtml);
@@ -251,11 +243,14 @@ $(document).on('submit', '#post-form',function(e){
             var min_value_real = Math.min(...dict_real[item]);
 
             
-            $(`#table-${item}`).html(`<tbody>
-              <tr><td>Recaudo Total</td><td>${tot_rec_real}</td><td>${tot_rec_ideal}</td></tr>
-              <tr><td>Recaudo Promedio Diario</td><td>${prom_real}</td><td>${prom_ideal}</td></tr>
-              <tr><td>Recaudo Maximo Diario</td><td>${max_value_real}</td><td>${max_value_ideal}</td></tr>
-              <tr><td>Recaudo Minimo Diario</td><td>${min_value_real}</td><td>${min_value_ideal}</td></tr>
+            $(`#table-${item}`).html(`
+              <thead><tr><th></th><th>Real</th><th>Esperado</th></tr></thead>
+              <tbody>
+              <tr><td>Recaudo Total</td><td>${tot_rec_real.toLocaleString()}</td><td>${tot_rec_ideal.toLocaleString()}</td></tr>
+              <tr><td>Recaudo Promedio Diario</td><td>${prom_real.toLocaleString()}</td><td>${prom_ideal.toLocaleString()}</td></tr>
+              <tr><td>Recaudo Maximo Diario</td><td>${max_value_real.toLocaleString()}</td><td>${max_value_ideal.toLocaleString()}</td></tr>
+              <tr><td>Recaudo Minimo Diario</td><td>${min_value_real.toLocaleString()}</td><td>${min_value_ideal.toLocaleString()}</td></tr>
+              </tbody>
 
             `)
           }
