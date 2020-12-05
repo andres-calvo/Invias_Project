@@ -1,0 +1,18 @@
+#form-search span.select2-container .select2-selection--single{
+  height: 60px;
+}
+#form-search span.select2-container--default .select2-selection--single{
+  border: 0px; 
+}
+#form-search span.select2-selection__rendered{
+  padding-top: 15px;
+  
+}
+#form-search span.select2-container--default .select2-selection--single .select2-selection__arrow{
+  top:15px;
+}
+
+
+
+
+
