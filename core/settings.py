@@ -17,7 +17,8 @@ PROJECT_DIR = Path(__file__).parent
 SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # config('DEBUG', default=False)
+DEBUG = False
+# config('DEBUG', default=False)
 
 # load production server from .env
 ALLOWED_HOSTS = ['*']#'localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')
@@ -74,17 +75,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'projectv2',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'andres',
-    #     'HOST': 'localhost',
-    #     'PORT': 5432
-    # }
-    'default':dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'projectv2',
+        'USER': 'postgres',
+        'PASSWORD': 'andres',
+        'HOST': 'localhost',
+        'PORT': 5432
+    }
+    # 'default':dj_database_url.config(
+    #     default=config('DATABASE_URL')
+    # )
 }
 
 # Password validation
@@ -126,13 +127,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'core/static')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'core/static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'core/static'),
+# )
 #############################################################
 #############################################################
 STATICFILES_STORAGE= 'whitenoise.storage.CompressedManifestStaticFilesStorage'

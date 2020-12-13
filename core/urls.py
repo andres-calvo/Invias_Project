@@ -13,4 +13,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("authentication.urls")),  # add this
     path("", include("app.urls"))  # add this
-]+ static(settings.STATIC_URL,document_root= settings.STATIC_ROOT)
+]
+# + static(settings.STATIC_URL,document_root= settings.STATIC_ROOT)
+

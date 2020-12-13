@@ -7,10 +7,15 @@ $("#peaje-selected").select2({
 $("#option-selected").select2({
   width: "100%",
 });
+$(".js-example-basic-multiple-limit").select2({
+  width: "100%",
+  maximumSelectionLength: 2
+});
 document.getElementById("peaje-selected").disabled = true; //Disable the upper navigation selects
-
+console.log($("#categorias option:selected").val());
 $(document).on('submit', '#post-form',function(e){
     e.preventDefault();
+    console.log('Aqui estoy')
 
     var startdate = moment($("#startdate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
     var enddate = moment($("#enddate").val(), "MM/DD/YYYY").format("YYYY-MM-DD");
@@ -31,6 +36,16 @@ $(document).on('submit', '#post-form',function(e){
         },
         
         success:function(json){
+          var pdf_button= document.createElement("BUTTON")
+          pdf_button.id="PDF-Button"
+          pdf_button.type="button"
+          console.log('Aqui voy')
+          pdf_button.className='btn btn-danger'
+          pdf_button.style.marginLeft='20px'
+          pdf_button.textContent='Ver PDF' 
+          $(pdf_button).insertAfter($('#analisis_button'))
+          console.log('termine')
+          
           console.log(json)
           var fields =checks 
           Chart.defaults.global.animation = false;
@@ -259,66 +274,63 @@ $(document).on('submit', '#post-form',function(e){
           }
           
           // PDF Starts Here
-          // var pdfbutton =document.getElementById("PDF_Button");
-          // pdfbutton.style.display ="block";
-          // $(document).on('click','#PDF_Button',function(){
-          //   var pdfContent =[{text:'Analisis '+json.peajes+' Periodo: '+startdate+'/'+enddate, alignment:'center'},'\n','\n']
-          //   var counter=0
-          //   function CanvasImageURL(value){
-          //     var canvas =document.getElementById('line-chart-'+value).toDataURL()
-          //     var row0 = $("#table-"+value+" tr").eq(0)
-          //     var row1 = $("#table-"+value+" tr").eq(1)
-          //     var row2 = $("#table-"+value+" tr").eq(2)
-          //     var row3 = $("#table-"+value+" tr").eq(3)
-          //     var row4 = $("#table-"+value+" tr").eq(4)
-          //     var row5 = $("#table-"+value+" tr").eq(5)
-          //     var chart_Table_Content = {
-          //       columns:[
-          //         {
-          //           image: canvas,
-          //           width:300,
-          //           alignment: "left",
-          //         },
-          //         {
-          //           style: 'tableExample',
-          //           table: {
-          //             widths:['*','auto','auto'],
-          //             body: [
-          //               ['', {text:"Real",bold: 'true',fontSize: 9, alignment: 'center'},{text:"Esperado",bold: 'true',fontSize: 9, alignment: 'center'}],
-          //               [{text:"Recaudo Total",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row1.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row1.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-          //               [{text:"Recaudo Promedio Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-          //               [{text:"Recaudo Maximo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-          //               [{text:"Recaudo Minimo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
-          //               [{text:"Desviación Estandar",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row5.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row5.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}]
-          //             ]
-          //           }
-          //         },
-          //       ],
-          //       columnGap:20,
-          //     }
-          //     pdfContent.push(chart_Table_Content)
-          //     pdfContent.push("\n","\n")
-          //     if (counter == 2 || counter == 5 ) {
-          //       pdfContent.push({text:'',pageBreak:'after'})
-          //     }
-          //     counter = counter+1
-          //   }
-          //   checks.map(CanvasImageURL)
-          //   var docDefinition = {
-          //     pageSize: "LETTER",
+          
+          $(document).on('click','#PDF-Button',function(){
+            var pdfContent =[{text:'Analisis '+json.peajes+' Periodo: '+startdate+'/'+enddate, alignment:'center'},'\n','\n']
+            var counter=0
+            function CanvasImageURL(value){
+              var canvas =document.getElementById('line-chart-'+value).toDataURL()
+              var row0 = $("#table-"+value+" tr").eq(0)
+              var row1 = $("#table-"+value+" tr").eq(1)
+              var row2 = $("#table-"+value+" tr").eq(2)
+              var row3 = $("#table-"+value+" tr").eq(3)
+              var row4 = $("#table-"+value+" tr").eq(4)
+              
+              var chart_Content = {
+                image: canvas,
+                width:450,
+                alignment: "left",
+              }
+              var table_Content={
+                style: 'tableExample',
+                table: {
+                  widths:['*','auto','auto'],
+                  body: [
+                    ['', {text:"Real",bold: 'true',fontSize: 9, alignment: 'center'},{text:"Esperado",bold: 'true',fontSize: 9, alignment: 'center'}],
+                    [{text:"Recaudo Total",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row1.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row1.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                    [{text:"Recaudo Promedio Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row2.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row2.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                    [{text:"Recaudo Maximo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row3.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row3.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}],
+                    [{text:"Recaudo Minimo Diario",bold: 'true',fontSize: 9, alignment: 'center'}, {text:row4.find("td").eq(1).text(), fontSize: 9, alignment: 'center'},{text:row4.find("td").eq(2).text(), fontSize: 9, alignment: 'center'}]
+                    
+                  ]
+                }
+              }
+                
+                
+              
+              pdfContent.push(chart_Content)
+              pdfContent.push("\n")
+              pdfContent.push(table_Content)
+              pdfContent.push("\n")
+              if (counter % 2 != 0) {
+                pdfContent.push({text:'',pageBreak:'after'})
+              }
+              counter = counter+1
+            }
+            checks.map(CanvasImageURL)
+            var docDefinition = {
+              pageSize: "LETTER",
       
-          //     // by default we use portrait, you can change it to landscape if you wish
-          //     pageOrientation: "portrait",
+              // by default we use portrait, you can change it to landscape if you wish
+              pageOrientation: "portrait",
       
-          //     // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-          //     pageMargins: [20, 40, 20, 40],
-          //     content: pdfContent
-          //   };
-          //   pdfMake.createPdf(docDefinition).open();
-          // });
-          
-          
-          
+              // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+              
+              content: pdfContent,
+              pageMargins: [20, 40, 20, 40]
+            };
+            pdfMake.createPdf(docDefinition).open();
+          });
         }
     });
 });

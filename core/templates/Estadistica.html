@@ -58,7 +58,7 @@
           <div class="card-body p-0 d-flex chart-3" >
             <div class="d-flex flex-column m-auto">
               <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Vehiculos Livianos</span>
+                <span class="stats-small__label text-uppercase" data-toggle="tooltip" data-placement="top" title="Cat.I,IE">Vehiculos Livianos</span>
                 <h6 class="stats-small__value count my-3" id = "veh-liv"></h6>
               </div>
               <div class="stats-small__data">
@@ -74,7 +74,7 @@
           <div class="card-body p-0 d-flex chart-5" >
             <div class="d-flex flex-column m-auto">
               <div class="stats-small__data text-center">
-                <span class="stats-small__label text-uppercase">Vehiculos Comerciales</span>
+                <span class="stats-small__label text-uppercase" data-toggle="tooltip" data-placement="top" title="Cat.II en adelante">Vehiculos Comerciales</span>
                 <h6 class="stats-small__value count my-3" id = "veh-com"></h6>
               </div>
               <div class="stats-small__data">
@@ -129,7 +129,7 @@
           <div class="card-footer border-top">
             <div class="row">
               <div class="col text-right view-report">
-                <a href="reporte.html">Reporte Completo &rarr;</a>
+                <a href="{% url 'reporte_peaje' %}">Reporte Completo &rarr;</a>
               </div>
             </div>
           </div>
