@@ -3,7 +3,9 @@
 {% block title %} UI Components {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
 
 
 
@@ -13,7 +15,8 @@
   <!-- Page Header -->
   <div class="page-header row no-gutters py-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-      <h3 class="page-title" id="page-title" style="white-space: nowrap;">Análisis  Peaje</h3>
+      <h3 class="page-title" id="page-title" style="white-space: nowrap;">{% if 'peaje' in request.path %}Análisis Peaje{% elif 'departamental' in request.path %}Análisis Departamento{% elif 'ruta' in request.path %}Análisis Ruta
+        {% else %}Análisis General{% endif %}</h3>
       <span class="text-uppercase page-subtitle" id="peaje-name"></span>
       
     </div>
@@ -34,9 +37,34 @@
             <label> Fecha Final </label>
               <input type="text" class = "form-control calendar" id="enddate" placeholder="Click para seleccionar fecha">
           </div>
-          <div class="col-4 mb-3">
-            <label> Peaje </label>
+          <div class="col-4 mb-3" {% if 'general' in request.path %} style="display: none;" {% endif %}>
+            <label>{% if 'peaje' in request.path %} Peaje {% elif 'departamental' in request.path %}
+              Departamento{% elif 'ruta' in request.path %}Ruta {% else %}General {% endif %}</label>
             <select class="w-100 js-example-basic-single" id="option-selected" >
+              {% if 'departamental' in request.path %}
+              <option value="Cesar">Cesar</option>
+              <option value="Cauca">Cauca</option>
+              <option value="Antioquia">Antioquia</option>
+              <option value="Valle del Cauca">Valle Del Cauca</option>
+              <option value="Cundinamarca">Cundinamarca</option>
+              <option value="Cordoba">Cordoba</option>
+              <option value="Boyaca">Boyaca</option>
+              <option value="Nariño">Nariño</option>
+              <option value="Risaralda">Risaralda</option>
+              <option value="Santander">Santander</option>
+              <option value="Caldas">Caldas</option>
+              {% elif 'ruta' in request.path %}
+              <option value="23">Ruta 23</option>
+              <option value="25">Ruta 25</option>
+              <option value="40">Ruta 40</option>
+              <option value="45">Ruta 45</option>
+              <option value="49">Ruta 49</option>
+              <option value="50">Ruta 50</option>
+              <option value="60">Ruta 60</option>
+              <option value="62">Ruta 62</option>
+              <option value="66">Ruta 66</option>
+              <option value="70">Ruta 70</option>
+              {% elif 'peaje' in request.path %}
               <option value="El Bordo">Cauca-El Bordo</option>
               <option value="Los Llanos">Antioquia-Los Llanos</option>
               <option value="Taraza">Antioquia-Taraza</option>
@@ -78,80 +106,65 @@
               <option value="La Gomez">Santander-La Gomez</option>
               <option value="Aguas Negras">Santander-Aguas Negras</option>
               <option value="San Clemente">Caldas-San Clemente</option>
+              {% endif %}
             </select>
           </div>
         </div>
-
         <div class="form-row">
           <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_I" name="checkboxes" value="i" class="custom-control-input">
-              <label class="custom-control-label" for="check_I">I</label>
+            <div class="form-check">
+              <input type="radio" name="TipoCategoria" id="rec_type" value="rec_" class="form-check-input">
+              <label class="form-check-label"  for="rec_type">Recaudo</label>
             </div>
+            
           </div>
           <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_IE" name="checkboxes" value="ie" class="custom-control-input">
-              <label class="custom-control-label" for="check_IEB">IE</label>
+            <div class="form-check">
+              <input type="radio" name="TipoCategoria" id="veh_type" value="veh_" class="form-check-input">
+              <label class="form-check-label"  for="veh_type">Vehiculos</label>
             </div>
+            
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-3">
+            <select class="js-example-basic-multiple-limit" id="categorias">
+              <option value="i">I</option>
+              <option value="ie">IE</option>
+              <option value="ii">II</option>
+              <option value="iii">III</option>
+              <option value="iv">IV</option>
+              <option value="v">V</option>
+              <option value="vi">VI</option>
+              <option value="vii">VII</option>
+            </select>
+          </div>
+          <div class="col-auto">
+            <button type="button" id="add_choice" class="btn btn-success">Añadir</button>
+          </div>
+          <div class="col-auto">
+            <span id="selected-box-store">
+              <ul id="selecciones_analisis"></ul>
+            </span>
+            
           </div>
         </div>
-
-
-        <div class="form-row">
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_II" name="checkboxes" value="ii" class="custom-control-input">
-              <label class="custom-control-label" for="check_II">II</label>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_III" name="checkboxes" value="iii" class="custom-control-input">
-              <label class="custom-control-label" for="check_III">III</label>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="form-row">
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_IV" name="checkboxes" value="iv" class="custom-control-input">
-              <label class="custom-control-label" for="check_IV">IV</label>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_V" name="checkboxes" value="v" class="custom-control-input">
-              <label class="custom-control-label" for="check_V">V</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_VI" name="checkboxes" value="vi" class="custom-control-input">
-              <label class="custom-control-label" for="check_VI">VI</label>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-              <input type="checkbox" id="check_VII" name="checkboxes" value="vii" class="custom-control-input">
-              <label class="custom-control-label" for="check_V">VII</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-            <button type="submit" id="analisis_button" class="btn btn-primary">Resultado</button>
-            <button type="button" class="btn btn-danger" style="display: none; margin-left: 20px;" id="PDF_Button">Ver PDF</button>
+        
+        
+        <div class="form-row mt-3">
+          <button type="submit" id="analisis_button" class="btn btn-primary">Resultado</button>
+          <button type="button" id="PDF-Button" class="btn btn-danger" style="display: none;">Ver PDF</button>
         </div>
         
       </form>
     </div>
   </div>
 
-  <div class="" id="main-body" ></div>
+  <div class="" id="main-body" >
+    
+  </div>
+  <div style="position: absolute;left:-9999px;top:-9999px" id="pdf-body"></div>
 </div>
 
  
@@ -162,6 +175,22 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="/static/assets/js/app/app-analisis.js"></script>
+<script>
+  function togglebutton(element) {
+      var para = document.getElementById("p");
+  
+      if(element.classList.contains("btn-primary")) {
+          element.classList.remove("btn-primary");
+          element.classList.add("btn-danger");;
+          element.textContent = 'Ver menos';
+      }
+      else {
+          element.classList.add("btn-primary");
+          element.classList.remove("btn-danger");
+          element.textContent = 'Ver mas';
+      }
+  }
+  </script>
 
 
 {% endblock javascripts %}

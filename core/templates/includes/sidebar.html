@@ -22,61 +22,58 @@
               <div class="nav-wrapper">
                 <ul class="nav flex-column">
                   <li class="nav-item dropdown" style="color: black;">
-                    <a class="nav-link {% if request.path == 'mapa' %} active {% endif %}" href="{% url 'mapa_peajes' %}" >
+                    <a class="nav-link {% if 'mapa' in request.path  %} active {% endif %}" href="{% url 'mapa_peajes' %}" >
                       <i class="material-icons" style="color: black;">location_on</i>
                       <span>Localización de Peajes</span>
                     </a>
                   </li>
                   <li class="nav-item dropdown" style="color: black;">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'estadistica' %} active {% endif %}" href="#" data-toggle="dropdown" >
+                    <a class="nav-link dropdown-toggle {% if 'estadistica' in request.path  %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">assessment</i>
                       <span>Estadística</span>
                     </a>
                     <div class="dropdown-menu">
-                      <a href="{% url 'estadistica_general' %}" class="dropdown-item {% if request.path == 'estadistica/general' %} active {% endif %}">General</a>
-                      <a href="{% url 'estadistica_departamental' %}" class="dropdown-item {% if request.path == 'estadistica/departamental' %} active {% endif %}">Departamento</a>
-                      <a href="{% url 'estadistica_peaje' %}" class="dropdown-item {% if request.path == 'estadistica/peaje' %} active {% endif %}">Peaje Especifico</a>
+                      <a href="{% url 'estadistica_general' %}" class="dropdown-item {% if 'estadistica/general' in request.path  %} active {% endif %}">General</a>
+                      <a href="{% url 'estadistica_departamental' %}" class="dropdown-item {% if 'estadistica/departamental' in request.path  %} active {% endif %}">Departamento</a>
+                      <a href="{% url 'estadistica_peaje' %}" class="dropdown-item {% if 'estadistica/peaje' in request.path  %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
                   
                   <li class="nav-item dropdown" style="color: black;">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'tablas' %} active {% endif %}" href="#" data-toggle="dropdown" >
+                    <a class="nav-link dropdown-toggle {% if 'tablas' in request.path  %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">table_chart</i>
                       <span>Base de Datos</span>
                     </a>
                     <div class="dropdown-menu">
-                      <a href="{% url 'tablas_general' %}" class="dropdown-item {% if request.path == 'tablas/general' %} active {% endif %}">General</a>
-                      <a href="{% url 'tablas_departamental' %}" class="dropdown-item {% if request.path == 'tablas/departamental' %} active {% endif %}">Departamento</a>
-                      <a href="{% url 'tablas_peaje' %}" class="dropdown-item {% if request.path == 'tablas/peaje' %} active {% endif %}">Peaje Especifico</a>
+                      <a href="{% url 'tablas_general' %}" class="dropdown-item {% if 'tablas/general' in request.path  %} active {% endif %}">General</a>
+                      <a href="{% url 'tablas_departamental' %}" class="dropdown-item {% if 'tablas/departamental' in request.path  %} active {% endif %}">Departamento</a>
+                      <a href="{% url 'tablas_peaje' %}" class="dropdown-item {% if 'tablas/peaje' in request.path  %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
                   <li class="nav-item dropdown" style="color: black;">
-                    <a class="nav-link dropdown-toggle {% if request.path == 'analisis' %} active {% endif %}" href="#" data-toggle="dropdown" >
+                    <a class="nav-link dropdown-toggle {% if 'analisis' in request.path  %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <img src='/static/assets/img/analisis.svg' style="height: 20px;">
                       <span>Análisis</span>
                     </a>
                     <div class="dropdown-menu">
-                      <a href="{% url 'analisis_general' %}" class="dropdown-item {% if request.path == 'analisis/general' %} active {% endif %}">General</a>
-                      <a href="{% url 'analisis_ruta' %}" class="dropdown-item {% if request.path == 'analisis/ruta' %} active {% endif %}">Ruta</a>
-                      <a href="{% url 'analisis_departamental' %}" class="dropdown-item {% if request.path == 'analisis/general' %} active {% endif %}">Departamento</a>
-                      <a href="{% url 'analisis_peaje' %}" class="dropdown-item {% if request.path == 'analisis/peaje' %} active {% endif %}">Peaje Especifico</a>
+                      <a href="{% url 'analisis_general' %}" class="dropdown-item {% if 'analisis/general' in request.path  %} active {% endif %}">General</a>
+                      <a href="{% url 'analisis_ruta' %}" class="dropdown-item {% if 'analisis/ruta' in request.path %} active {% endif %}">Ruta</a>
+                      <a href="{% url 'analisis_departamental' %}" class="dropdown-item {% if 'analisis/general' in request.path  %} active {% endif %}">Departamento</a>
+                      <a href="{% url 'analisis_peaje' %}" class="dropdown-item {% if 'analisis/peaje' in request.path  %} active {% endif %}">Peaje Especifico</a>
                     </div>
                   </li>
-                  <!-- <li class="nav-item dropdown" style="color: black;">
-                    <a class="nav-link dropdown-toggle {% if request.path == '/reporte' %} active {% endif %}" href="#" data-toggle="dropdown" >
+                  <li class="nav-item dropdown" style="color: black;">
+                    <a class="nav-link dropdown-toggle {% if 'reporte' in request.path  %} active {% endif %}" href="#" data-toggle="dropdown" >
                       <i class="material-icons" style="color: black;">note_add</i>
                       <span>Reporte</span>
                     </a>
                     <div class="dropdown-menu">
-                      <a href="{% url 'reporte_peaje' %}" class="dropdown-item {% if request.path == 'reporte/peaje' %} active {% endif %}">Peaje Especifico</a>
+                      <a href="{% url 'reporte_general' %}" class="dropdown-item {% if 'reporte/general' in request.path  %} active {% endif %}">General</a>
+                      <a href="{% url 'reporte_peaje' %}" class="dropdown-item {% if  'reporte/peaje' in request.path  %} active {% endif %}">Peaje Especifico</a>
+                      
                     </div>
-                  </li> -->
-                  <li class="nav-item" >
-                    <a class="nav-link {% if request.path == 'reporte/peaje' %} active {% endif %}" href="{% url 'reporte_peaje' %}" >
-                      <i class="material-icons" style="color: black;">note_add</i>
-                      <span>Reporte</span>
-                    </a>
                   </li>
+                  
                 </ul>
               </div>
             {% endif %}

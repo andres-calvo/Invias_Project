@@ -90,14 +90,14 @@ def mapa(request):
 @login_required(login_url="/login")
 def analisis_general(request):
     if request.POST.get('action') == 'sending_option':
-        choice = str(request.POST.get('choice'))
+        choice = ""
         category = "General"
         startdate = request.POST.get('startdate')
         enddate = request.POST.get('enddate')
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
-    return render(request, "Analisis_General_Departamental.html")
+    return render(request, "Analisis.html")
 
 @login_required(login_url="/login")
 def analisis_ruta(request):
@@ -109,7 +109,7 @@ def analisis_ruta(request):
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
-    return render(request, "Analisis_General_Departamental.html")
+    return render(request, "Analisis.html")
 
 @login_required(login_url="/login")
 def analisis_departamental(request):
@@ -121,7 +121,7 @@ def analisis_departamental(request):
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
-    return render(request, "Analisis_General_Departamental.html")
+    return render(request, "Analisis.html")
 
 
 @login_required(login_url="/login")
@@ -134,7 +134,7 @@ def analisis_peaje(request):
         datos = getDataFromDatabase(choice, startdate, enddate, category)
 
         return JsonResponse(datos)
-    return render(request, "Analisis_Peaje.html")
+    return render(request, "Analisis.html")
 
 
 # -------------------------------------------
@@ -206,4 +206,18 @@ def reporte_peaje(request):
 
         return JsonResponse(datos)
 
-    return render(request, "Reporte_Peaje.html")
+    return render(request, "Reporte.html")
+
+@login_required(login_url="/login/")
+def reporte_general(request):
+
+    if request.POST.get('action') == 'sending_option':
+        choice = ""
+        category = "General"
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
+        datos = getDataFromDatabase(choice, startdate, enddate, category)
+
+        return JsonResponse(datos)
+
+    return render(request, "Reporte.html")

@@ -6,74 +6,74 @@ function categorias_data(json) {
 		I:{
 			borderColor: "rgb(239, 35, 60)",
 			label:'Cat.I',
-			veh_data:json.veh_i,
-			rec_data: json.rec_i
+			veh_:json.veh_i,
+			rec_: json.rec_i
 		},
 		IE:{
 			borderColor: "rgb(23, 163, 152)",
 			label:'Cat.IE',
-			veh_data:json.veh_ie,
-			rec_data: json.rec_ie,
+			veh_:json.veh_ie,
+			rec_: json.rec_ie,
 		},
 		II:{
 			borderColor: "rgb(255, 177, 122)",
 			label:'Cat.II',
-			veh_data:json.veh_ii,
-			rec_data: json.rec_ii,
+			veh_:json.veh_ii,
+			rec_: json.rec_ii,
 		},
 		III:{
 			borderColor: "rgb(176, 219, 67)",
 			label:'Cat.III',
-			veh_data:json.veh_iii,
-			rec_data: json.rec_iii,
+			veh_:json.veh_iii,
+			rec_: json.rec_iii,
 		},
 		IV:{
 			borderColor: "rgb(230, 173, 236)",
 			label:'Cat.IV',
-			veh_data:json.veh_iv,
-			rec_data: json.rec_iv
+			veh_:json.veh_iv,
+			rec_: json.rec_iv
 		},
 		V:{
 			borderColor: "rgb(94, 43, 255)",
 			label:'Cat.V',
-			veh_data:json.veh_v,
-			rec_data: json.rec_v
+			veh_:json.veh_v,
+			rec_: json.rec_v
 		},
 		VI:{
 			borderColor: "rgb(0, 159, 183)",
 			label:'Cat.VI',
-			veh_data:json.veh_vi,
-			rec_data: json.rec_vi
+			veh_:json.veh_vi,
+			rec_: json.rec_vi
 		},
 		VII:{
 			borderColor: "rgb(184, 51, 106)",
 			label:'Cat.VII',
-			veh_data:json.veh_vii,
-			rec_data: json.rec_vii
+			veh_:json.veh_vii,
+			rec_: json.rec_vii
 		},
 		LIV:{
 			borderColor: 'rgb(0, 184, 216)',
 			label:'Veh.Livianos',
-			veh_data:json.veh_liv,
-			rec_data: json.rec_liv,
+			veh_:json.veh_liv,
+			rec_: json.rec_liv,
 		},
 		COM:{
 			borderColor: 'rgb(23,198,113)',
 			label:'Veh.Comerciales',
-			veh_data:json.veh_com,
-			rec_data: json.rec_com,
+			veh_:json.veh_com,
+			rec_: json.rec_com,
 		},
 		TOTAL:{
 			borderColor: 'rgb(255,180,0)',
 			label:'Total',
-			veh_data:json.veh_total,
-			rec_data: json.rec_total,
+			veh_:json.veh_total,
+			rec_: json.rec_total,
 		}
 	};
 
 	function MyChartOptions(title,chartType,dataType) {
-		var fontSize=(chartType==='Web')? 12:22 // Web or PDF
-		var ytitle = (dataType==='rec_data')? 'Recaudo Total':'No.Vehiculos' //dataType = rec_data or veh_data 
+		var fontSize=(chartType==='Web')? 12:25 // Web or PDF
+		var ytitle = (dataType==='rec_')? 'Recaudo Total':'No.Vehiculos' //dataType = rec_data or veh_data 
 		return {
 			title:{
 				display: (title!== '')? true:false,
@@ -82,7 +82,7 @@ function categorias_data(json) {
 			},
 			legend: {
 				display: true,
-				position: (chartType==='Web'|| window.location.pathname.includes("analisis"))? 'top':'right',
+				position: (chartType==='Web')? 'top':'right',
 				labels:{
 					fontSize:fontSize ,
 					boxWidth:20,

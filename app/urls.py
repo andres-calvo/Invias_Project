@@ -40,6 +40,7 @@ urlpatterns = [
     # Path de reporte
     #-----------------------------------------------------------------
     path('reporte/peaje',views.reporte_peaje,name='reporte_peaje'),
+    path('reporte/general',views.reporte_general,name='reporte_general')
 
     
     
